@@ -1,3 +1,3 @@
-@include('layouts/frontend/header')
+@include('layouts/backend/header')
 @yield('main-section')
-@include('layouts/frontend/footer')
+@include('layouts/backend/footer')

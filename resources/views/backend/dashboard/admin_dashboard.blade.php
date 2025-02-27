@@ -1,11 +1,5 @@
-@extends('layouts/frontend/main')
-@section('main-section')
-
-
-<?php include_once "assets/includes/header.php";?>
-
-            
-
+@extends('layouts/backend/main')
+@section('main-section') 
             <!-- ============================================================== -->
             <!-- Start right Content here -->
             <!-- ============================================================== -->
@@ -1575,12 +1569,8 @@
        
 
         
-        <?php include_once "assets/includes/footer.php";?>
-
-
-
-
-
+      
+            
 @section('javascript-section')
         @endsection
 @endsection
