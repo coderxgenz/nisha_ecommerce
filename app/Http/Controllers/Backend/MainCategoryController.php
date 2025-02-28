@@ -14,4 +14,20 @@ class MainCategoryController extends Controller
             return "Something went wrong";
         }
     }
+
+    public function create(){
+        try{
+            return view('backend.main_category.create');
+        }catch(\Exception $e){
+            return "Something went wrong";
+        }
+    }
+
+    public function edit(){
+        try{
+            return view('backend.main_category.edit');
+        }catch(\Exception $e){
+            return "Something went wrong";
+        }
+    }
 }
