@@ -23652,3 +23652,10 @@ body.coming-soon-page .header {
 .color-body {
   color: #222222 !important;
 }
+.user_login_icon{
+  position: relative;
+  cursor: pointer;
+}
+.user_login_dropdown{
+  width: 10.25rem;
+}

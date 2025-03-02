@@ -535,27 +535,44 @@
           </form><!-- /.header-search -->
 
           <div class="header-tools d-flex align-items-center me-0">
-            <div class="header-tools__item hover-container">
-              <a class="header-tools__item js-open-aside" href="#" data-aside="customerForms">
-                <svg class="d-block" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <use href="#icon_user" />
-                </svg>
-              </a>
-            </div>
+    <!-- User Not Logged In -->
+    <div class="header-tools__item hover-container navigation__item user_login_icon user_not_logged_in d-none">
+        <a href="#" data-aside="customerForms">
+            <svg class="d-block" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <use href="#icon_user" />
+            </svg>
+        </a>
+        <ul class="default-menu list-unstyled user_login_dropdown">
+            <li class="sub-menu__item"><a href="login_register.html" class="menu-link menu-link_us-s">Login</a></li>
+            <li class="sub-menu__item"><a href="register.html" class="menu-link menu-link_us-s">Register</a></li>
+        </ul>
+    </div>
 
-            <a class="header-tools__item" href="account_wishlist.html">
-              <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <use href="#icon_heart" />
-              </svg>
-            </a>
+    <!-- User Logged In -->
+    <div class="header-tools__item hover-container navigation__item user_login_icon user_logged_in ">
+        <a href="account_dashboard.html">
+            <img src="user.jpg" alt="User Image" class="user-profile-img">
+        </a>
+        <ul class="default-menu list-unstyled user_login_dropdown">
+            <li class="sub-menu__item"><a href="account_dashboard.html" class="menu-link menu-link_us-s">My Account</a></li>
+            <li class="sub-menu__item"><a href="#" class="menu-link menu-link_us-s logout-btn">Logout</a></li>
+        </ul>
+    </div>
 
-            <a href="#" class="header-tools__item header-tools__cart js-open-aside" data-aside="cartDrawer">
-              <svg class="d-block" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <use href="#icon_cart" />
-              </svg>
-              <span class="cart-amount d-block position-absolute js-cart-items-count">3</span>
-            </a>
-          </div><!-- /.header__tools -->
+    <a class="header-tools__item" href="account_wishlist.html">
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <use href="#icon_heart" />
+        </svg>
+    </a>
+
+    <a href="#" class="header-tools__item header-tools__cart js-open-aside" data-aside="cartDrawer">
+        <svg class="d-block" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <use href="#icon_cart" />
+        </svg>
+        <span class="cart-amount d-block position-absolute js-cart-items-count">3</span>
+    </a>
+</div>
+<!-- /.header__tools -->
         </div>
       </div><!-- /.header-middle -->
 
