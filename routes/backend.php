@@ -28,12 +28,12 @@ Route::middleware(['auth', 'web', 'verified'])->group(function(){
 
      Route::controller(SubCategoryController::class)->group(function(){
         Route::prefix('/admin')->group(function(){
-            Route::get('/sub-category', [SubCategoryController::class, 'index'])->name('backend.main_category.index');
-            Route::get('/sub-category/create', [SubCategoryController::class, 'create'])->name('backend.main_category.create');
-            Route::post('/sub-category/store', [SubCategoryController::class, 'store'])->name('backend.main_category.store');
-            Route::get('/sub-category/edit', [SubCategoryController::class, 'edit'])->name('backend.main_category.edit');
-            Route::post('/sub-category/update/{id}', [SubCategoryController::class, 'update'])->name('backend.main_category.update');
-            Route::get('/sub-category/delete/{id}', [SubCategoryController::class, 'destroy'])->name('backend.main_category.destroy');
+            Route::get('/sub-category', [SubCategoryController::class, 'index'])->name('backend.sub_category.index');
+            Route::get('/sub-category/create', [SubCategoryController::class, 'create'])->name('backend.sub_category.create');
+            Route::post('/sub-category/store', [SubCategoryController::class, 'store'])->name('backend.sub_category.store');
+            Route::get('/sub-category/edit', [SubCategoryController::class, 'edit'])->name('backend.sub_category.edit');
+            Route::post('/sub-category/update/{id}', [SubCategoryController::class, 'update'])->name('backend.sub_category.update');
+            Route::get('/sub-category/delete/{id}', [SubCategoryController::class, 'destroy'])->name('backend.sub_category.destroy');
         });
      });
 

@@ -148,6 +148,9 @@
         <script src="{{url('assets/backend/libs/feather-icons/feather.min.js')}}"></script>
         <!-- pace js -->
         <script src="{{url('assets/backend/libs/pace-js/pace.min.js')}}"></script>
+         <!-- dropzone js -->
+         <script src="{{url('assets/backend/libs/dropzone/min/dropzone.min.js')}}"></script>
+
         
         <!-- choices js -->
         <script src="{{url('assets/backend/libs/choices.js/public/assets/scripts/choices.min.js')}}"></script>
@@ -160,6 +163,12 @@
         <script src="{{url('assets/backend/libs/admin-resources/jquery.vectormap/maps/jquery-jvectormap-world-mill-en.js')}}"></script>
         <!-- dashboard init -->
         <script src="{{url('assets/backend/js/pages/dashboard.init.js')}}"></script>
+        <!-- Sweet Alerts js -->
+        <script src="{{url('assets/backend/libs/sweetalert2/sweetalert2.min.js')}}"></script>
+        <!-- Sweet alert init js-->
+        <!-- <script src="{{url('assets/backend/js/pages/sweetalert.init.js')}}"></script> -->
+
+        
 
         <script src="{{url('assets/backend/js/app.js')}}"></script>
 

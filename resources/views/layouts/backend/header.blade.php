@@ -24,6 +24,10 @@
     <link href="{{url('assets/backend/css/bootstrap.min.css')}}" id="bootstrap-style" rel="stylesheet" type="text/css" />
     <!-- Icons Css -->
     <link href="{{url('assets/backend/css/icons.min.css')}}" rel="stylesheet" type="text/css" />
+  <!-- dropzone css -->
+    <link href="{{url('assets/backend/libs/dropzone/min/dropzone.min.css')}}" rel="stylesheet" type="text/css" />
+    <!-- Sweet Alert-->
+    <link href="{{url('assets/backend/libs/sweetalert2/sweetalert2.min.css')}}" rel="stylesheet" type="text/css" />
     <!-- App Css-->
     <link href="{{url('assets/backend/css/app.min.css')}}" id="app-style" rel="stylesheet" type="text/css" />
 
@@ -254,7 +258,7 @@
         </a>
         <ul class="sub-menu" aria-expanded="false">
             <li><a href="{{ route('backend.main_category.index') }}">Main Category</a></li>
-            <li><a href="sub-category.php">Sub Category</a></li>
+            <li><a href="{{ route('backend.sub_category.index') }}">Sub Category</a></li>
         </ul>
     </li>
 
