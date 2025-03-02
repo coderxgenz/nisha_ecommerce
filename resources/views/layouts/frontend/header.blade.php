@@ -642,19 +642,25 @@
                 <a href="#" class="navigation__link color-body">Lehengas</a>
               </li>
               <li class="navigation__item">
-                <a href="#" class="navigation__link color-body">Dresses</a>
+                <a href="#" class="navigation__link color-body">Draping Dresses</a>
               </li>
               <li class="navigation__item">
-                <a href="#" class="navigation__link color-body">Tunics & Kurtis</a>
+                <a href="#" class="navigation__link color-body">Designer Blouses</a>
               </li>
               <li class="navigation__item">
-                <a href="#" class="navigation__link color-body">Gowns</a>
+                <a href="#" class="navigation__link color-body">Western Outfits</a>
               </li>
               <li class="navigation__item">
-                <a href="#" class="navigation__link color-body">Blouse</a>
+                <a href="#" class="navigation__link color-body">Kaftans</a>
               </li>
               <li class="navigation__item">
-                <a href="#" class="navigation__link color-body">Tops</a>
+                <a href="#" class="navigation__link color-body">Jumpsuits</a>
+              </li>
+              <li class="navigation__item">
+                <a href="#" class="navigation__link color-body">Shirts</a>
+              </li>
+              <li class="navigation__item">
+                <a href="#" class="navigation__link color-body">Sales</a>
               </li>
               <li class="navigation__item">
                 <a href="#" class="navigation__link color-body">Pages</a>
@@ -669,14 +675,6 @@
                   <li class="sub-menu__item"><a href="coming_soon.html" class="menu-link menu-link_us-s">Coming Soon</a></li>
                 </ul>
               </li>
-              <li class="navigation__item">
-                <a href="about.html" class="navigation__link color-body">About</a>
-              </li>
-              <li class="navigation__item">
-                <a href="contact.html" class="navigation__link color-body">Contact</a>
-              </li>
-
-
             </ul><!-- /.navigation__list -->
           </nav><!-- /.navigation -->
         </div>
