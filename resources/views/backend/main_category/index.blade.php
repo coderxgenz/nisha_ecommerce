@@ -26,11 +26,12 @@
             <div class="row">
                 <div class="col-lg-12">
                     <div class="card">
-                        <div class="card-header">
+                        @if(count($main_categories) > 0)
+                        
+                          <div class="card-header">
                             <h4 class="card-title">Enter Details Below</h4>
                             <a href="{{ route('backend.main_category.create') }}" class="btn btn-success waves-effect waves-light" >Add New Category</a>
-                        </div>
-                        <!-- end card header -->
+                        </div> 
 
                         <div class="card-body">
 
@@ -46,26 +47,35 @@
                                     </tr>
                                 </thead>
                                 <tbody>
+                                    @php
+                                    $sn = 1;
+                                    @endphp
+                                    @foreach ($main_categories as $main_category) 
                                     <tr>
-                                        <td>1</td>
-                                        <td>Jewelry</td>
-                                        <td>jewelry</td>
+                                        <td>{{ $sn++ }}</td>
+                                        <td>{{ $main_category->name ?? '' }}</td>
+                                        <td>{{ $main_category->slug ?? '' }}</td>
                                         <td><input type="checkbox" id="switch3" switch="bool" checked />
                                             <label for="switch3" data-on-label="Active" data-off-label="Inactive"></label>
                                         </td>
-                                        <td>2025-02-26</td>
+                                        <td>{{ Carbon\Carbon::parse($main_category->created)->format('d M, Y') }}</td>
                                         <td>
-                                            <a href="{{ route('backend.main_category.edit') }}" class="btn btn-primary btn-sm">Edit</a>
+                                            <a href="{{ route('backend.main_category.edit', [$main_category->id]) }}" class="btn btn-primary btn-sm">Edit</a>
                                             <a href="" class="btn btn-danger btn-sm" id="sa-params">Delete</a>
                                         </td>
                                     </tr>
+                                    @endforeach
                                 </tbody>
                             </table>
                         </div>
                     </div>
-                    <!-- end card -->
-                </div>
-                <!-- end col -->
+
+                    @else
+                    <center> <h3>No Records Available</h3></center>
+                    @endif
+
+                    
+                </div> 
             </div>
 
 
@@ -94,5 +104,15 @@
     </footer>
 </div>
 @section('javascript-section')
+ 
+@if(Session::has('created'))
+<script>
+    Swal.fire({
+  title: "Success!",
+  text: "{{ Session::get('created') }}",
+  icon: "success"
+});
+</script>
+@endif
 @endsection
 @endsection
