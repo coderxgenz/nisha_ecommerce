@@ -14,6 +14,20 @@ class AuthencationController extends Controller
             return "Something went wrong.";
         }
     }
+    public function customerLogin(){
+        try{
+            return view('auth.frontend.login');
+        }catch(\Exception $e){
+            return "Something went wrong.";
+        }
+    }
+    public function customerRegister(){
+        try{
+            return view('auth.frontend.register');
+        }catch(\Exception $e){
+            return "Something went wrong.";
+        }
+    }
 
     public function adminDashboard(){
         try{

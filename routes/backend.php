@@ -8,7 +8,7 @@ Route::middleware(['guest'])->group(function(){
     Route::get('/admin', [AuthencationController::class, 'adminLogin'])->name('backend.admin.login');
 });
 
-Route::middleware(['auth', 'web', 'verified'])->group(function(){
+Route::middleware(['auth', 'web', 'verified', 'admin.check'])->group(function(){
     Route::controller(AuthencationController::class)->group(function(){
         Route::prefix('/admin')->group(function(){
             Route::get('/dashboard', [AuthencationController::class, 'adminDashboard'])->name('backend.admin.dashboard');
