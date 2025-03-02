@@ -50,9 +50,7 @@
                                                                                         <div class="form-group mb-3">
                                                                                                 <label>Order By</label>
                                                                                                 <input type="text" name="order_number" min="1" required class="form-control" value="1" placeholder="Order By" />
-                                                                                                @error('slug')
-                                                                                                <p style="color:red;"><b>{{ $message }}</b></p>
-                                                                                                @enderror 
+                                                                                                 
                                                                                         </div>
                                                                                 </div>
                                                                                 <div class="col-xl-12 py-3">

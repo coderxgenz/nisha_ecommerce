@@ -25,26 +25,35 @@
                                                 </div>
                                                 <div class="card-body">
                                                         <div>
-                                                                <form id="pristine-valid-example" novalidate method="POST" action="{{ route('backend.main_category.update', $main_category->id) }}" enctype="multipart/form-data">
-                                                                        <input type="hidden" />
+                                                                <form id="pristine-valid-example" method="POST" action="{{ route('backend.main_category.update', $main_category->id) }}" enctype="multipart/form-data">
+                                                                        @csrf
                                                                         <div class="row">
                                                                                 
                                                                                 <div class="col-xl-4 col-md-6">
                                                                                         <div class="form-group mb-3">
                                                                                                 <label>Category Name</label>
                                                                                                 <input type="text" name="name" value="{{ $main_category->name ?? '' }}" required class="form-control" placeholder="Category Name" />
+                                                                                                @error('name')
+                                                                                                <p style="color:red;"><b>{{ $message }}</b></p>
+                                                                                                @enderror 
                                                                                         </div>
                                                                                 </div>
                                                                                 <div class="col-xl-4 col-md-6">
                                                                                         <div class="form-group mb-3">
                                                                                                 <label>Slug</label>
                                                                                                 <input type="text" name="slug" value="{{ $main_category->slug ?? '' }}" required class="form-control" placeholder="Slug" />
+                                                                                                @error('slug')
+                                                                                                <p style="color:red;"><b>{{ $message }}</b></p>
+                                                                                                @enderror 
                                                                                         </div>
                                                                                 </div>
                                                                                 <div class="col-xl-4 col-md-6">
                                                                                         <div class="form-group mb-3">
                                                                                                 <label>Order By</label>
                                                                                                 <input type="text" name="order_number" min="1" required class="form-control" value="{{ $main_category->order_number ?? '' }}" placeholder="Order By" />
+                                                                                                @error('order_number')
+                                                                                                <p style="color:red;"><b>{{ $message }}</b></p>
+                                                                                                @enderror 
                                                                                         </div>
                                                                                 </div>
                                                                                 <div class="col-xl-12 py-3">
@@ -59,6 +68,9 @@
                                                                                                         <h5>Drop files here or click to upload.</h5>
                                                                                                 </div>
                                                                                         </div>
+                                                                                        @error('image')
+                                                                                        <p style="color:red;"><b>{{ $message }}</b></p>
+                                                                                        @enderror 
                                                                                 </div>
                                                                         </div> 
                                                                         <div class="form-group">

@@ -1,12 +1,8 @@
 @extends('layouts/backend/main')
 @section('main-section')
-
 <div class="main-content">
-
         <div class="page-content">
-                <div class="container-fluid">
-
-                        <!-- start page title -->
+                <div class="container-fluid"> 
                         <div class="row">
                                 <div class="col-12">
                                         <div class="page-title-box d-sm-flex align-items-center justify-content-between">
@@ -22,63 +18,62 @@
 
                                         </div>
                                 </div>
-                        </div>`
-                        <!-- end page title -->
-
-
-
+                        </div>
                         <div class="row">
                                 <div class="col-lg-12">
                                         <div class="card">
                                                 <div class="card-header">
                                                         <h4 class="card-title">Enter Details Below</h4>
-                                                </div>
-                                                <!-- end card header -->
-
+                                                </div> 
                                                 <div class="card-body">
                                                         <div>
-                                                                <form id="pristine-valid-example" novalidate method="post">
-                                                                        <input type="hidden" />
-                                                                        <div class="row">
-
+                                                                <form id="pristine-valid-example" novalidate method="POST" action="{{ route('backend.sub_category.store') }}" enctype="multipart/form-data"> 
+                                                                        @csrf
+                                                                        <div class="row"> 
                                                                                 <div class="col-xl-6 col-md-6">
                                                                                         <div class="form-group mb-3">
                                                                                                 <label>Category Name</label>
-                                                                                                <input type="text" required data-pristine-required-message="Please Enter a Category Name" class="form-control" placeholder="Category Name" />
+                                                                                                <input type="text" name="name" required class="form-control" placeholder="Category Name" />
+                                                                                                @error('name')
+                                                                                                <p style="color:red;"><b>{{ $message }}</b></p>
+                                                                                                @enderror 
                                                                                         </div>
                                                                                 </div>
                                                                                 <div class="col-xl-6 col-md-6">
                                                                                         <div class="form-group mb-3">
-                                                                                                <label>Parent Category Name</label>
-
-
-                                                                                                <select required class="form-control form-select">
-                                                                                                        <option value="">Select Parent Category</option>
-                                                                                                        <option value="wr">Women</option>
-                                                                                                        <option value="ph">Men</option>
-                                                                                                        <option value="cy">Boy</option>
-                                                                                                        <option value="cy">Girl</option>
-                                                                                                </select>
-
-
+                                                                                                <label>Parent Category Name</label> 
+                                                                                                <select required class="form-control form-select" name="main_category">
+                                                                                                        <option value="">Select Parent Category</option> 
+                                                                                                        @if(count($main_categories) > 0)
+                                                                                                        @foreach($main_categories as $main_category)
+                                                                                                        <option value="{{ $main_category->id }}">{{ $main_category->name }}</option> 
+                                                                                                        @endforeach
+                                                                                                        @endif
+                                                                                                </select> 
+                                                                                                @error('main_category')
+                                                                                                <p style="color:red;"><b>{{ $message }}</b></p>
+                                                                                                @enderror 
                                                                                         </div>
                                                                                 </div>
                                                                                 <div class="col-xl-6 col-md-6">
                                                                                         <div class="form-group mb-3">
                                                                                                 <label>Slug</label>
-                                                                                                <input type="text" required data-pristine-required-message="Please Enter a Slug" class="form-control" placeholder="Slug" />
+                                                                                                <input type="text" name="slug" required class="form-control" placeholder="Slug" />
+                                                                                                @error('slug')
+                                                                                                <p style="color:red;"><b>{{ $message }}</b></p>
+                                                                                                @enderror 
                                                                                         </div>
                                                                                 </div>
                                                                                 <div class="col-xl-6 col-md-6">
                                                                                         <div class="form-group mb-3">
                                                                                                 <label>Order By</label>
-                                                                                                <input type="text" min="14" data-pristine-min-message="You must be at least 14-years-old" required class="form-control" value="10" placeholder="Order By" />
+                                                                                                <input type="text" name="order_number" min="1"  required class="form-control" value="1" placeholder="Order By" />
                                                                                         </div>
                                                                                 </div>
                                                                                 <div class="col-xl-12 py-3">
                                                                                         <div class="dropzone">
                                                                                                 <div class="fallback">
-                                                                                                        <input name="file" type="file" multiple="multiple">
+                                                                                                        <input name="image" type="file" accept="image/png, image/jpeg, image/jpg, image/webp">
                                                                                                 </div>
                                                                                                 <div class="dz-message needsclick">
                                                                                                         <div class="mb-3">
@@ -88,6 +83,9 @@
                                                                                                         <h5>Drop files here or click to upload.</h5>
                                                                                                 </div>
                                                                                         </div>
+                                                                                        @error('image')
+                                                                                                <p style="color:red;"><b>{{ $message }}</b></p>
+                                                                                                @enderror 
                                                                                 </div>
 
 

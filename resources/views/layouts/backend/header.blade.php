@@ -9,6 +9,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta content="Premium Multipurpose Admin & Dashboard Template" name="description" />
     <meta content="Themesbrand" name="author" />
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+
     <!-- App favicon -->
     <link rel="shortcut icon" href="{{url('assets/backend/images/favicon.ico')}}">
      <!-- choices css -->
@@ -269,8 +271,8 @@
             <span data-key="t-apps">Product</span>
         </a>
         <ul class="sub-menu" aria-expanded="false">
-            <li><a href="product-list.php">Product List</a></li>
-            <li><a href="add-product.html">Add Product</a></li>
+            <li><a href="{{ route('backend.product.index') }}">Product List</a></li>
+            <li><a href="{{ route('backend.product.create') }}">Add Product</a></li>
         </ul>
     </li>
 
@@ -281,8 +283,8 @@
             <span data-key="t-apps">Customers</span>
         </a>
         <ul class="sub-menu" aria-expanded="false">
-            <li><a href="customer-list.php">Customers List</a></li>
-            <li><a href="customer-details.html">Customers Details</a></li>
+            <li><a href="{{ route('backend.customer.index') }}">Customers List</a></li>
+            <li><a href="{{ route('backend.customer.view') }}">Customers Details</a></li>
         </ul>
     </li>
 
@@ -293,8 +295,8 @@
             <span data-key="t-apps">Orders</span>
         </a>
         <ul class="sub-menu" aria-expanded="false">
-            <li><a href="orders-list.php">Orders List</a></li>
-            <li><a href="order-details.html">Order Details</a></li>
+            <li><a href="{{ route('backend.order.index') }}">Orders List</a></li>
+            <li><a href="{{ route('backend.order.view') }}">Order Details</a></li>
         </ul>
     </li>
 

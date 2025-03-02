@@ -26,15 +26,14 @@
             <div class="row">
                 <div class="col-lg-12">
                     <div class="card">
-                        @if(count($main_categories) > 0)
                         
-                          <div class="card-header">
-                            <h4 class="card-title">Enter Details Below</h4>
-                            <a href="{{ route('backend.main_category.create') }}" class="btn btn-success waves-effect waves-light" >Add New Category</a>
-                        </div> 
-
-                        <div class="card-body">
-
+                          <div class="card-header"> 
+                              <a href="{{ route('backend.main_category.create') }}" class="btn btn-success waves-effect waves-light" >Add New Category</a>
+                            </div> 
+                            
+                            <div class="card-body">
+                                
+                                @if(count($main_categories) > 0)
                             <table class="table table-striped">
                                 <thead>
                                     <tr>
@@ -55,37 +54,30 @@
                                         <td>{{ $sn++ }}</td>
                                         <td>{{ $main_category->name ?? '' }}</td>
                                         <td>{{ $main_category->slug ?? '' }}</td>
-                                        <td><input type="checkbox" id="switch3" switch="bool" checked />
+                                        <td><input type="checkbox" id="status_btn" switch="bool" data-id="{{ $main_category->id }}" checked />
                                             <label for="switch3" data-on-label="Active" data-off-label="Inactive"></label>
                                         </td>
                                         <td>{{ Carbon\Carbon::parse($main_category->created)->format('d M, Y') }}</td>
                                         <td>
                                             <a href="{{ route('backend.main_category.edit', [$main_category->id]) }}" class="btn btn-primary btn-sm">Edit</a>
-                                            <a href="" class="btn btn-danger btn-sm" id="sa-params">Delete</a>
+                                            <a href="javascript::void(0)" data-id="{{ $main_category->id }}" class="btn btn-danger btn-sm" id="delete_btn">Delete</a>
                                         </td>
                                     </tr>
                                     @endforeach
                                 </tbody>
                             </table>
+                            <div class="">
+                                {{ $main_categories->links('pagination::bootstrap-5') }}
+                            </div>
+                            @else
+                            <center> <h3>No Records Available</h3></center>
+                            @endif 
                         </div>
-                    </div>
-
-                    @else
-                    <center> <h3>No Records Available</h3></center>
-                    @endif
-
-                    
+                    </div> 
                 </div> 
-            </div>
-
-
-
-        </div>
-        <!-- container-fluid -->
-    </div>
-    <!-- End Page-content -->
-
-
+            </div> 
+        </div> 
+    </div> 
     <footer class="footer">
         <div class="container-fluid">
             <div class="row">
@@ -113,6 +105,46 @@
   icon: "success"
 });
 </script>
+@elseif(Session::has('updated'))
+<script>
+    Swal.fire({
+  title: "Success!",
+  text: "{{ Session::get('updated') }}",
+  icon: "success"
+});
+</script>
+@elseif(Session::has('deleted'))
+<script>
+    Swal.fire({
+  title: "Success!",
+  text: "{{ Session::get('deleted') }}",
+  icon: "success"
+});
+</script>
 @endif
+
+<script>
+    $(document).on("click", "#delete_btn", function(){
+        let id = $(this).data('id');
+        let url = "{{ route('backend.main_category.destroy', [':id']) }}";
+        url = url.replace(':id', id);
+        Swal.fire({
+            title: 'Are you sure?',
+            text: "You want to delete this record?",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, delete it!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                window.location.href = url;
+            }
+        });
+    });
+
+  
+    
+</script>
 @endsection
 @endsection
