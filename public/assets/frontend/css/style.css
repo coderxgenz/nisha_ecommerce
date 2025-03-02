@@ -22302,7 +22302,7 @@ a.add-to-wishlist.active .flaticon.flaticon-heart {
   border: 1px solid #222;
   margin-bottom: 1.25rem;
   padding: 2.5rem 2.5rem 0.5rem;
-  width: 26.25rem;
+  /* width: 26.25rem; */
 }
 
 @media (max-width: 1199.98px) {
@@ -22467,10 +22467,34 @@ a.add-to-wishlist.active .flaticon.flaticon-heart {
 .my-account .page-content {
   padding-top: 2.5rem;
 }
+.dashboard_card{
+  background-color: #000;
+  padding: 26px;
+  border-radius: 12px;
+  text-align: center;
+}
+.dashboard_card span{
+  font-size: 72px;
+  font-weight: 500;
+  line-height: 76px;
+  color: var( --bs-beige) ;
+}
 
 .my-account__dashboard p {
   width: 43.125rem;
   max-width: 100%;
+  color: #fff;
+  margin: 0;
+}
+.dashboard_order_img{
+  width: 60px;
+  height: 60px;
+  /* object-fit: cover; */
+  border-radius: 50%;
+  margin-right: 12px;
+}
+.my-account__dashboard .dashboard_card p{
+  font-size: 18px; 
 }
 
 .my-account__dashboard .unerline-link {
@@ -22499,9 +22523,9 @@ a.add-to-wishlist.active .flaticon.flaticon-heart {
   padding: 1.875rem;
 }
 
-.my-account .orders-table tbody td:first-child {
+/* .my-account .orders-table tbody td:first-child {
   text-decoration: underline;
-}
+} */
 
 .my-account .orders-table tbody td:last-child {
   width: 12.5rem;
