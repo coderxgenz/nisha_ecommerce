@@ -47,50 +47,49 @@
                     </div>
                     <div class="row">
                         <div class="col-lg-12">
-                            <div class="page-content my-account__orders-list">
-                                <h2 class="mb-4">Recent Purchase History</h2>
-                                <table class="orders-table">
-                                    <thead>
-                                        <tr>
-                                            <th>Order</th>
-                                            <th>Date</th>
-                                            <th>Qty.</th>
-                                            <th>Price</th>
-                                            <th>Actions</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td> <img loading="lazy" src="{{url('assets/frontend/images/products/product_8-1.jpg')}}" alt="Cropped Faux leather Jacket" class="dashboard_order_img"> <span>Elephant Kalamkari Kurta Pant Set</span> </td>
-                                            <td>October 1, 2023</td>
-                                            <td>1</td>
-                                            <td>₹<span>499</span></td>
-                                            <td><button class="btn btn-primary">VIEW</button></td>
-                                        </tr>
-                                        <tr>
-                                            <td> <img loading="lazy" src="{{url('assets/frontend/images/products/product_8-1.jpg')}}" alt="Cropped Faux leather Jacket" class="dashboard_order_img"> <span>Elephant Kalamkari Kurta Pant Set</span> </td>
-                                            <td>October 2, 2023</td>
-                                            <td>3</td>
-                                            <td>₹<span>499</span></td>
-                                            <td><button class="btn btn-primary">VIEW</button></td>
-                                        </tr>
-                                        <tr>
-                                            <td> <img loading="lazy" src="{{url('assets/frontend/images/products/product_8-1.jpg')}}" alt="Cropped Faux leather Jacket" class="dashboard_order_img"> <span>Elephant Kalamkari Kurta Pant Set</span> </td>
-                                            <td>October 3, 2023</td>
-                                            <td>4</td>
-                                            <td>₹<span>499</span></td>
-                                            <td><button class="btn btn-primary">VIEW</button></td>
-                                        </tr>
-                                        <tr>
-                                            <td> <img loading="lazy" src="{{url('assets/frontend/images/products/product_8-1.jpg')}}" alt="Cropped Faux leather Jacket" class="dashboard_order_img"> <span>Elephant Kalamkari Kurta Pant Set</span> </td>
-                                            <td>October 4, 2023</td>
-                                            <td>2</td>
-                                            <td>₹<span>499</span></td>
-                                            <td><button class="btn btn-primary">VIEW</button></td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
+                        <div class="page-content my-account__orders-list">
+            <table class="orders-table">
+              <thead>
+                <tr>
+                  <th>Order</th>
+                  <th>Date</th>
+                  <th>Status</th>
+                  <th>Total</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>#2416</td>
+                  <td>October 1, 2023</td>
+                  <td>On hold</td>
+                  <td>$1,200.65 for 3 items</td>
+                  <td><button class="btn btn-primary">VIEW</button></td>
+                </tr>
+                <tr>
+                  <td>#2417</td>
+                  <td>October 2, 2023</td>
+                  <td>On hold</td>
+                  <td>$1,200.65 for 3 items</td>
+                  <td><button class="btn btn-primary">VIEW</button></td>
+                </tr>
+                <tr>
+                  <td>#2418</td>
+                  <td>October 3, 2023</td>
+                  <td>On hold</td>
+                  <td>$1,200.65 for 3 items</td>
+                  <td><button class="btn btn-primary">VIEW</button></td>
+                </tr>
+                <tr>
+                  <td>#2419</td>
+                  <td>October 4, 2023</td>
+                  <td>On hold</td>
+                  <td>$1,200.65 for 3 items</td>
+                  <td><button class="btn btn-primary">VIEW</button></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
                         </div>
                     </div>
                 </div>

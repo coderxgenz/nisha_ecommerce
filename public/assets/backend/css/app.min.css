@@ -5574,3 +5574,7 @@ body[data-layout=horizontal] .chat-conversation {
     align-items: center;
 }
 /*# sourceMappingURL=app.min.css.map */
+.variant_section{
+    border: 1px solid var(--bs-border-color);
+    padding: 26px;
+}

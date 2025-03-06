@@ -23683,3 +23683,25 @@ body.coming-soon-page .header {
 .user_login_dropdown{
   width: 10.25rem;
 }
+.product_details {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 14px;
+}
+
+.product_inquery {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #222222;
+  text-transform: uppercase;
+}
+
+.product_answers {
+  font-size: 0.875rem;
+  font-weight: 400;
+  color: #767676;
+  text-align: right;
+  max-width: 60%;
+  word-break: break-word;
+}

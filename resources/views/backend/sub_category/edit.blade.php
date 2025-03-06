@@ -105,5 +105,17 @@
 </div>
             
 @section('javascript-section')
+<script>
+        Dropzone.autoDiscover = false;
+        document.addEventListener("DOMContentLoaded", function() {
+    var myDropzone = new Dropzone(".dropzone", {
+        url: "/upload", // Backend upload URL
+        maxFilesize: 2, // 2MB max size
+        acceptedFiles: "image/png, image/jpeg, image/jpg, image/webp",
+        addRemoveLinks: true
+    });
+});
+
+</script>
         @endsection
 @endsection

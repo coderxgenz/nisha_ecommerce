@@ -166,7 +166,8 @@
         <!-- Sweet Alerts js -->
         <script src="{{url('assets/backend/libs/sweetalert2/sweetalert2.min.js')}}"></script>
         <!-- Sweet alert init js-->
-        <!-- <script src="{{url('assets/backend/js/pages/sweetalert.init.js')}}"></script> -->
+        <!-- <script src="{{url('assets/backend/js/pages/form-advanced.init.js')}}"></script> -->
+        <script src="{{url('assets/backend/libs/%40ckeditor/ckeditor5-build-classic/build/ckeditor.js')}}"></script>
 
         
 
