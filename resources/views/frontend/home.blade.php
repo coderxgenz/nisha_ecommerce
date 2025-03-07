@@ -63,8 +63,191 @@
     </div><!-- /.slideshow__next -->
   </section><!-- /.slideshow -->
 
-  <div class="mb-3 pb-3 mb-md-4 pb-md-4 mb-xl-5 pb-xl-5"></div>
-  <div class="pb-1"></div>
+
+  <div class="mb-3 mb-xl-5 pb-1 pb-xl-5"></div>
+
+  <section class="category-carousel container">
+    <div class="d-flex align-items-center justify-content-center flex-wrap mb-3 pb-xl-2 mb-xl-4">
+      <h2 class="section-title fw-bold">Shop By Category</h2>
+      <!-- <a class="btn-link btn-link_md default-underline text-uppercase fw-medium" href="shop12.html">Shop All Categories</a> -->
+    </div>
+
+    <div id="category_carousel" class="position-relative">
+      <div class="swiper-container js-swiper-slider"
+        data-settings='{
+        "autoplay": {
+          "delay": 5000
+        },
+        "slidesPerView": 8,
+        "slidesPerGroup": 1,
+        "effect": "none",
+        "loop": true,
+        "pagination": {
+          "el": "#category_carousel .slideshow-pagination",
+          "type": "bullets",
+          "clickable": true
+        },
+        "breakpoints": {
+          "320": {
+            "slidesPerView": 2,
+            "slidesPerGroup": 2,
+            "spaceBetween": 15
+          },
+          "768": {
+            "slidesPerView": 4,
+            "slidesPerGroup": 4,
+            "spaceBetween": 20
+          },
+          "992": {
+            "slidesPerView": 6,
+            "slidesPerGroup": 2,
+            "spaceBetween": 30
+          },
+          "1200": {
+            "slidesPerView": 8,
+            "slidesPerGroup": 2,
+            "spaceBetween": 40
+          }
+        }
+      }'>
+        <div class="swiper-wrapper">
+          <div class="swiper-slide">
+            <div class="category_round_img_wrapper">
+            <div class="border-rotate"></div>
+            <img loading="lazy" class=" category_round_img" src="{{url('assets/frontend/images/shop/1.jpg')}}" width="141" height="141" alt="">
+            </div>
+            <div class="text-center">
+              <a href="#" class="menu-link fw-medium">Kurta Set</a>
+            </div>
+          </div>
+          <div class="swiper-slide">
+          <div class="category_round_img_wrapper">
+            <div class="border-rotate"></div>
+            <img loading="lazy" class=" category_round_img" src="{{url('assets/frontend/images/shop/3.jpg')}}" width="141" height="141" alt="">
+            </div>
+            <div class="text-center">
+              <a href="#" class="menu-link fw-medium">Lehengas</a>
+            </div>
+          </div>
+          <div class="swiper-slide">
+          <div class="category_round_img_wrapper">
+            <div class="border-rotate"></div>
+            <img loading="lazy" class=" category_round_img" src="{{url('assets/frontend/images/shop/1.jpg')}}" width="141" height="141" alt="">
+            </div>
+            <div class="text-center">
+              <a href="#" class="menu-link fw-medium">Designer Blouses</a>
+            </div>
+          </div>
+          <div class="swiper-slide">
+          <div class="category_round_img_wrapper">
+            <div class="border-rotate"></div>
+            <img loading="lazy" class=" category_round_img" src="{{url('assets/frontend/images/shop/2.jpg')}}" width="141" height="141" alt="">
+            </div>
+            <div class="text-center">
+              <a href="#" class="menu-link fw-medium">Western Outfits</a>
+            </div>
+          </div>
+          <div class="swiper-slide">
+          <div class="category_round_img_wrapper">
+            <div class="border-rotate"></div>
+            <img loading="lazy" class=" category_round_img" src="{{url('assets/frontend/images/shop/3.jpg')}}" width="141" height="141" alt="">
+            </div>
+            <div class="text-center">
+              <a href="#" class="menu-link fw-medium">Draping Dresses</a>
+            </div>
+          </div>
+          <div class="swiper-slide">
+          <div class="category_round_img_wrapper">
+            <div class="border-rotate"></div>
+            <img loading="lazy" class=" category_round_img" src="{{url('assets/frontend/images/shop/1.jpg')}}" width="141" height="141" alt="">
+            </div>
+            <div class="text-center">
+              <a href="#" class="menu-link fw-medium">Jumpsuits</a>
+            </div>
+          </div>
+          <div class="swiper-slide">
+          <div class="category_round_img_wrapper">
+            <div class="border-rotate"></div>
+            <img loading="lazy" class=" category_round_img" src="{{url('assets/frontend/images/shop/3.jpg')}}" width="141" height="141" alt="">
+            </div>
+            <div class="text-center">
+              <a href="#" class="menu-link fw-medium">Kaftans</a>
+            </div>
+          </div>
+          <div class="swiper-slide">
+          <div class="category_round_img_wrapper">
+            <div class="border-rotate"></div>
+            <img loading="lazy" class=" category_round_img" src="{{url('assets/frontend/images/shop/2.jpg')}}" width="141" height="141" alt="">
+            </div>
+            <div class="text-center">
+              <a href="#" class="menu-link fw-medium">Shirts</a>
+            </div>
+          </div>
+        </div><!-- /.swiper-wrapper -->
+      </div><!-- /.swiper-container js-swiper-slider -->
+
+      <div class="slideshow-pagination mt-4 d-flex align-items-center justify-content-center"></div>
+      <!-- /.products-pagination -->
+    </div><!-- /.position-relative -->
+  </section>
+
+
+  <div class="mb-3 mb-xl-5 pb-1 pb-xl-5"></div>
+
+  <section class="lookbook">
+    <div class="container">
+      <h2 class="section-title fw-normal text-center mb-3 pb-xl-3 mb-xl-4">LookBook</h2>
+      <div class="row">
+        <div class="col-md-6 col-xl-3">
+          <div class="lookbook-item position-relative mb-4">
+            <video class="w-100 h-auto" autoplay loop muted playsinline>
+              <source src="{{url('assets/frontend/images/video.mp4')}}" type="video/mp4">
+            </video>
+            <div class="position-absolute left-0 bottom-0 width-100 px-3 mx-3 mb-3 pb-2">
+              <p class="mb-1 text-uppercase text-white">Women Seasons</p>
+              <a href="shop1.html" class="d-inline-block h5 mb-0 text-white">Floral Dress</a>
+            </div>
+          </div>
+
+        </div>
+        <div class="col-md-6 col-xl-3">
+          <div class="lookbook-item position-relative mb-4">
+            <video class="w-100 h-auto" autoplay loop muted playsinline>
+              <source src="{{url('assets/frontend/images/video2.mp4')}}" type="video/mp4">
+            </video>
+            <div class="position-absolute left-0 bottom-0 width-100 px-3 mx-3 mb-3 pb-2">
+              <p class="mb-1 text-uppercase text-white">Women Seasons</p>
+              <a href="shop1.html" class="d-inline-block h5 mb-0 text-white">Trench Coat</a>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6 col-xl-3">
+          <div class="lookbook-item position-relative mb-4">
+            <video class="w-100 h-auto" autoplay loop muted playsinline>
+              <source src="{{url('assets/frontend/images/video.mp4')}}" type="video/mp4">
+            </video>
+            <div class="position-absolute left-0 bottom-0 width-100 px-3 mx-3 mb-3 pb-2">
+              <p class="mb-1 text-uppercase text-white">Men Seasons</p>
+              <a href="shop1.html" class="d-inline-block h5 mb-0 text-white">Folk Pants</a>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6 col-xl-3">
+          <div class="lookbook-item position-relative mb-4">
+            <video class="w-100 h-auto" autoplay loop muted playsinline>
+              <source src="{{url('assets/frontend/images/video2.mp4')}}" type="video/mp4">
+            </video>
+            <div class="position-absolute left-0 bottom-0 width-100 px-3 mx-3 mb-3 pb-2">
+              <p class="mb-1 text-uppercase text-white">Men Seasons</p>
+              <a href="shop1.html" class="d-inline-block h5 mb-0 text-white">Cos Jacket</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="mb-3 mb-xl-5 pb-1 pb-xl-5"></div>
 
   <!-- Shop by collection -->
   <section class="collections-grid collections-grid_masonry" id="section-collections-grid_masonry">
@@ -120,7 +303,7 @@
     </div><!-- /.container -->
   </section><!-- /.collections-grid collections-grid_masonry -->
 
-  <div class="mb-4 pb-4 mb-xl-5 pb-xl-5"></div>
+  <div class="mb-3 mb-xl-5 pb-1 pb-xl-5"></div>
 
   <section class="products-grid container">
     <h2 class="section-title text-uppercase text-center mb-1 mb-md-3 pb-xl-2 mb-xl-4">Our Trendy <strong>Products</strong></h2>

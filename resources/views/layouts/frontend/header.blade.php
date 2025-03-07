@@ -205,7 +205,7 @@
 
       <div class="logo">
         <a href="index.html">
-          <img src="{{url('assets/frontend/images/logo.png')}}" alt="Uomo" class="logo__image d-block">
+          <img src="{{url('assets/frontend/images/logo.jpg')}}" alt="Uomo" class="logo__image d-block">
         </a>
       </div><!-- /.logo -->
 
@@ -411,7 +411,7 @@
         <div class="container d-flex align-items-center">
           <div class="logo">
             <a href="index.html">
-              <img src="{{url('assets/frontend/images/logo-tools.png')}}" alt="Uomo" class="logo__image">
+              <img src="{{url('assets/frontend/images/trans-logo.png')}}" alt="Uomo" class="logo__image">
             </a>
           </div><!-- /.logo -->
 
@@ -454,7 +454,7 @@
     <!-- User Logged In -->
     <div class="header-tools__item hover-container navigation__item user_login_icon user_logged_in ">
         <a href="account_dashboard.html">
-            <img src="user.jpg" alt="User Image" class="user-profile-img">
+            <img src="{{url('assets/frontend/images/pro.jpg')}}" alt="User Image" class="user-profile-img">
         </a>
         <ul class="default-menu list-unstyled user_login_dropdown">
             <li class="sub-menu__item"><a href="account_dashboard.html" class="menu-link menu-link_us-s">My Account</a></li>
