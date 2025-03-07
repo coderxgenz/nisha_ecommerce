@@ -18458,7 +18458,8 @@ textarea.form-control.is-invalid {
 
 .logo__image {
   max-width: 100%;
-  max-height: 120px;
+  max-height: 94px;
+    mix-blend-mode: multiply;
 }
 
 .header-tools {
@@ -18727,7 +18728,7 @@ textarea.form-control.is-invalid {
 }
 
 .header-desk_type_6 .header-middle {
-  padding: 1.25rem 0;
+  padding: 0.25rem 0;
   border-bottom: 1px solid #e4e4e4;
 }
 
@@ -23704,4 +23705,52 @@ body.coming-soon-page .header {
   text-align: right;
   max-width: 60%;
   word-break: break-word;
+}
+
+.category_round_img_wrapper {
+  position: relative;
+  display: inline-block;
+  border-radius: 50%;
+  padding: 5px;
+}
+
+.border-rotate {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  border: 2px dotted #c3c3c3;
+  animation: rotateBorder 6s linear infinite; /* Slow & Smooth Rotation */
+  z-index: 0;
+}
+
+.category_round_img {
+  display: block;
+  border-radius: 50%;
+  width: 100%;
+  height: auto;
+  position: relative;
+  z-index: 1;
+}
+
+/* Hover Effect - Speed Up Rotation */
+.category_round_img_wrapper:hover .border-rotate {
+  animation: rotateBorder 6s ease-in-out infinite; /* Smooth speed-up */
+}
+
+/* Keyframes for Smooth Rotation */
+@keyframes rotateBorder {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.user-profile-img{
+  width: 40px;
+  border-radius: 50%;
 }
