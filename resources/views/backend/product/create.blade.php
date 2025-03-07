@@ -169,117 +169,137 @@
         });
 </script>
 
+
 <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            let variantIndex = 0;
-            let sizeSelector = new Choices("#size-selector", { removeItemButton: true });
-            let variantData = {}; // Object to store selected size & color data
+    document.addEventListener("DOMContentLoaded", function () {
+        let variantIndex = 0;
+    let sizeSelector = new Choices("#size-selector", { removeItemButton: true });
+    let variantData = {}; // Object to store selected size & color data
 
-            document.getElementById("size-selector").addEventListener("change", function() {
-                generateVariants();
-            });
+    document.getElementById("size-selector").addEventListener("change", function () {
+        generateVariants();
+    });
 
-            function generateVariants() {
-                let selectedSizes = Array.from(document.getElementById("size-selector").selectedOptions).map(opt => opt.value);
+    function generateVariants() {
+        let selectedSizes = Array.from(document.getElementById("size-selector").selectedOptions).map(opt => opt.value);
+        let variantWrapper = document.getElementById("variant-wrapper");
+        variantWrapper.innerHTML = "";
 
-                let variantWrapper = document.getElementById("variant-wrapper");
-                variantWrapper.innerHTML = ""; // Clear display but keep data
-
-                selectedSizes.forEach(size => {
-                    if (!variantData[size]) {
-                        variantData[size] = { colors: {} }; // Initialize if not exists
-                    }
-
-                    let variantHTML = `
-                    <div class="variant-group">
-                        <h5 class="mt-3">Size: ${size}</h5>
-                        <div class="row variant-row">
-                            <div class="col-md-3 mb-4">
-                                <label class="form-label">Select Colors</label>
-                                <select class="form-control color-selector" data-size="${size}" multiple>
-                                    <option value="Red">Red</option>
-                                    <option value="Green">Green</option>
-                                    <option value="Blue">Blue</option>
-                                    <option value="Yellow">Yellow</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="color-variants" data-size="${size}"></div>
-                    </div>`;
-                    variantWrapper.insertAdjacentHTML("beforeend", variantHTML);
-
-                    let colorSelect = document.querySelector(`.color-selector[data-size="${size}"]`);
-                    let colorChoices = new Choices(colorSelect, { removeItemButton: true });
-
-                    if (Object.keys(variantData[size].colors).length > 0) {
-                        colorChoices.setChoiceByValue(Object.keys(variantData[size].colors));
-                        updateColorVariants(colorSelect, Object.keys(variantData[size].colors));
-                    }
-
-                    colorSelect.addEventListener("change", function() {
-                        updateColorVariants(this, Array.from(this.selectedOptions).map(opt => opt.value));
-                    });
-                });
+        selectedSizes.forEach(size => {
+            if (!variantData[size]) {
+                variantData[size] = {}; // Initialize size if not present
             }
 
-            function updateColorVariants(selectElement, selectedColors) {
-                let size = selectElement.dataset.size;
-                let colorVariantContainer = document.querySelector(`.color-variants[data-size="${size}"]`);
-                colorVariantContainer.innerHTML = "";
-
-                selectedColors.forEach(color => {
-                    if (!variantData[size].colors[color]) {
-                        variantData[size].colors[color] = { image: "", price: "", sale_price: "" };
-                    }
-
-                    let existingData = variantData[size].colors[color];
-
-                    let colorVariantHTML = `
+            let variantHTML = `
+                <div class="variant-group">
+                    <h5 class="mt-3">Size: ${size}</h5>
                     <div class="row variant-row">
                         <div class="col-md-3 mb-4">
-                            <label class="form-label">Color: ${color}</label>
-                            <input type="hidden" name="variants[${variantIndex}][size]" value="${size}">
-                            <input type="hidden" name="variants[${variantIndex}][color]" value="${color}">
+                            <label class="form-label">Select Colors</label>
+                            <select class="form-control color-selector" data-size="${size}" multiple>
+                                <option value="Red">Red</option>
+                                <option value="Green">Green</option>
+                                <option value="Blue">Blue</option>
+                                <option value="Yellow">Yellow</option>
+                            </select>
                         </div>
-                        <div class="col-md-3 mb-4">
-                            <label class="form-label">Upload Image</label>
-                            <input type="file" class="form-control" name="variants[${variantIndex}][image]" data-size="${size}" data-color="${color}">
-                        </div>
-                        <div class="col-md-3 mb-4">
-                            <label class="form-label">Price (₹)</label>
-                            <input type="number" class="form-control" name="variants[${variantIndex}][price]" data-size="${size}" data-color="${color}" value="${existingData.price}" placeholder="Enter price" required>
-                        </div>
-                        <div class="col-md-3 mb-4">
-                            <label class="form-label">Sale Price (₹)</label>
-                            <input type="number" class="form-control" name="variants[${variantIndex}][sale_price]" data-size="${size}" data-color="${color}" value="${existingData.sale_price}" placeholder="Enter Sale price">
-                        </div>
-                    </div>`;
-                    colorVariantContainer.insertAdjacentHTML("beforeend", colorVariantHTML);
-                    variantIndex++;
-                });
+                    </div>
+                    <div class="color-variants" data-size="${size}"></div>
+                </div>`;
+            
+            variantWrapper.insertAdjacentHTML("beforeend", variantHTML);
 
-                updateStoredValues();
-            }
+            let colorSelect = document.querySelector(`.color-selector[data-size="${size}"]`);
+            let colorChoices = new Choices(colorSelect, { removeItemButton: true });
 
-            function updateStoredValues() {
-                document.querySelectorAll("input[data-size]").forEach(input => {
-                    let size = input.dataset.size;
-                    let color = input.dataset.color;
-                    let fieldName = input.name.split("[").pop().split("]")[0]; // Get field name (price, sale_price, image)
-
-                    input.addEventListener("input", function() {
-                        if (variantData[size] && variantData[size].colors[color]) {
-                            variantData[size].colors[color][fieldName] = this.value;
-                        }
-                    });
-
-                    if (variantData[size] && variantData[size].colors[color] && variantData[size].colors[color][fieldName]) {
-                        input.value = variantData[size].colors[color][fieldName];
-                    }
-                });
-            }
+            colorSelect.addEventListener("change", function () {
+                updateColorVariants(this, Array.from(this.selectedOptions).map(opt => opt.value));
+            });
         });
-    </script>
+    }
+
+    function updateColorVariants(selectElement, selectedColors) {
+        let size = selectElement.dataset.size;
+        let colorVariantContainer = document.querySelector(`.color-variants[data-size="${size}"]`);
+        colorVariantContainer.innerHTML = "";
+
+        selectedColors.forEach(color => {
+            if (!variantData[size][color]) {
+                variantData[size][color] = { 
+                    color: color, 
+                    price: "", 
+                    sale_price: "", 
+                    images: [] // Store multiple images here
+                };
+            }
+
+            let existingData = variantData[size][color];
+
+            let colorVariantHTML = `
+                <div class="row variant-row">
+                    <div class="col-md-3 mb-4">
+                        <label class="form-label">Color: ${color}</label>
+                        <input type="hidden" name="variants[${size}][${color}][size]" value="${size}">
+                        <input type="hidden" name="variants[${size}][${color}][color]" value="${color}">
+                    </div>
+                    <div class="col-md-3 mb-4">
+                        <label class="form-label">Upload Images (Multiple)</label>
+                        <input type="file" class="form-control image-input" name="variants[${size}][${color}][images][]" data-size="${size}" data-color="${color}" multiple>
+                    </div>
+                    <div class="col-md-3 mb-4">
+                        <label class="form-label">Price (₹)</label>
+                        <input type="number" class="form-control" name="variants[${size}][${color}][price]" data-size="${size}" data-color="${color}" value="${existingData.price}" placeholder="Enter price" required>
+                    </div>
+                    <div class="col-md-3 mb-4">
+                        <label class="form-label">Sale Price (₹)</label>
+                        <input type="number" class="form-control" name="variants[${size}][${color}][sale_price]" data-size="${size}" data-color="${color}" value="${existingData.sale_price}" placeholder="Enter Sale price">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12 mb-4">
+                        <div class="uploaded-images" data-size="${size}" data-color="${color}"></div>
+                    </div>
+                </div>`;
+            
+            colorVariantContainer.insertAdjacentHTML("beforeend", colorVariantHTML);
+        });
+
+        document.querySelectorAll(".image-input").forEach(input => {
+            input.addEventListener("change", function () {
+                handleImageUpload(this);
+            });
+        });
+
+        console.log(variantData); // To check output in console
+    }
+
+    function handleImageUpload(input) {
+        let size = input.dataset.size;
+        let color = input.dataset.color;
+        let uploadedImagesContainer = document.querySelector(`.uploaded-images[data-size="${size}"][data-color="${color}"]`);
+
+        if (!variantData[size][color].images) {
+            variantData[size][color].images = [];
+        }
+
+        let files = input.files;
+        for (let file of files) {
+            let reader = new FileReader();
+            reader.onload = function (e) {
+                let imageUrl = e.target.result;
+                variantData[size][color].images.push(imageUrl);
+
+                let imgPreview = `<img src="${imageUrl}" class="img-thumbnail m-2" width="100">`;
+                uploadedImagesContainer.insertAdjacentHTML("beforeend", imgPreview);
+            };
+            reader.readAsDataURL(file);
+        }
+
+        console.log(variantData); // Check the response in console
+    }
+});
+
+</script>
 <script>
     document.addEventListener("DOMContentLoaded", function() {
         new Choices("#unique-tags", {
@@ -293,4 +313,4 @@
 </script>
 
 @endsection
-@endsection
+@endsectionc

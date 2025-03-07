@@ -54,19 +54,13 @@
                                                                                         </div>
                                                                                 </div>
                                                                                 <div class="col-xl-12 py-3">
-                                                                                        <div class="dropzone">
-                                                                                                <div class="fallback">
-                                                                                                        <input name="image" type="file" accept="image/png, image/jpeg, image/jpg, image/webp">
-                                                                                                        
-                                                                                                </div>
-                                                                                                <div class="dz-message needsclick">
-                                                                                                        <div class="mb-3">
-                                                                                                                <i class="display-4 text-muted bx bx-cloud-upload"></i>
-                                                                                                        </div>
-
-                                                                                                        <h5>Drop files here or click to upload.</h5>
-                                                                                                </div>
+                                                                                <div class="form-group mb-3">
+                                                                                                <label>IMAGES</label>
+                                                                                                <input type="file" class="form-control image-input" name="image"/>
+                                                                                                 
                                                                                         </div>
+                                                                                
+                                                                                        
                                                                                         @error('image')
                                                                                         <p style="color:red;"><b>{{ $message }}</b></p>
                                                                                         @enderror 
@@ -86,17 +80,6 @@
         </div>
 </div>
 @section('javascript-section')
-<script>
-        Dropzone.autoDiscover = false;
-        document.addEventListener("DOMContentLoaded", function() {
-    var myDropzone = new Dropzone(".dropzone", {
-        url: "/upload", 
-        maxFilesize: 2, // 2MB max size
-        acceptedFiles: "image/png, image/jpeg, image/jpg, image/webp",
-        addRemoveLinks: true
-    });
-});
 
-</script>
 @endsection
 @endsection
