@@ -25,22 +25,23 @@
                         </div>
                         <div class="card-body">
                             <div>
-                                <form>
+                                <form method="POST" action="{{ route('backend.product.store') }}" enctype="multipart/form-data">
+                                    @csrf
                                     <div class="row">
                                         <div class="col-md-6 mb-4">
                                             <label for="productName" class="form-label">Product Name</label>
-                                            <input type="text" class="form-control" id="productName" placeholder="Enter product name">
+                                            <input type="text" name="name" class="form-control" id="productName" placeholder="Enter product name">
                                         </div>
                                         <div class="col-md-6 mb-4">
                                             <label for="productName" class="form-label">Product Slug</label>
-                                            <input type="text" class="form-control" id="productName" placeholder="Enter Product Slug">
+                                            <input type="text" name="slug" class="form-control" id="productName" placeholder="Enter Product Slug">
                                         </div>
 
 
                                         <div class="col-md-6 mb-4">
                                             <label for="category" class="form-label">Category</label>
-                                            <select class="form-control" id="category">
-                                                <option selected disabled>Select Category</option>
+                                            <select class="form-control" id="category" name="main_category">
+                                                <option value="">Select Category</option>
                                                 <option value="jewelry">Jewelry</option>
                                                 <option value="accessories">Accessories</option>
                                             </select>
@@ -48,8 +49,8 @@
 
                                         <div class="col-md-6 mb-4">
                                             <label for="subCategory" class="form-label">Sub Category</label>
-                                            <select class="form-control" id="subCategory">
-                                                <option selected disabled>Select Sub Category</option>
+                                            <select class="form-control" name="sub_category" id="subCategory">
+                                                <option value="">Select Sub Category</option>
                                                 <option value="necklaces">Necklaces</option>
                                                 <option value="earrings">Earrings</option>
                                                 <option value="rings">Rings</option>
@@ -60,7 +61,7 @@
                                     <div class="row">
                                         <div class="col-lg-12 mb-4 ">
                                             <label class="form-label">Select Sizes</label>
-                                            <select class="form-control" id="size-selector" multiple>
+                                            <select class="form-control" name="size[]" id="size-selector" multiple>
                                                 <option value="S">S</option>
                                                 <option value="M">M</option>
                                                 <option value="L">L</option>
@@ -76,15 +77,15 @@
                                     <div class="row">
                                         <div class="col-md-6 mb-4">
                                             <label for="stock" class="form-label">Stock</label>
-                                            <input type="number" class="form-control" id="stock" placeholder="Enter stock quantity">
+                                            <input type="number" name="stock" class="form-control" id="stock" placeholder="Enter stock quantity">
                                         </div>
 
 
                                         <div class="col-md-6 mb-4 ">
                                             <label for="statuss" class="form-label">Status</label>
-                                            <select class="form-control" id="statuss">
-                                                <option value="On Stock">In Stock</option>
-                                                <option value="Sold Out">Out Of Stock</option>
+                                            <select class="form-control" name="stock_status" id="statuss">
+                                                <option value="1">In Stock</option>
+                                                <option value="0">Out Of Stock</option>
                                             </select>
                                         </div>
                                         <!-- <div class="col-lg-6 mb-4">
@@ -96,12 +97,12 @@
 
                                         <div class="col-md-12 mb-4 ">
                                             <label for="shortDescription" class="form-label">Short Description</label>
-                                            <textarea class="form-control" id="shortDescription" rows="2" placeholder="Enter short description"></textarea>
+                                            <textarea class="form-control" name="short_description" id="shortDescription" rows="2" placeholder="Enter short description"></textarea>
                                         </div>
 
                                         <div class="col-md-12 mb-4 ">
                                             <label for="description" class="form-label">Product Description</label>
-                                            <textarea class="form-control" id="editor" rows="4" placeholder="Enter full product description"></textarea>
+                                            <textarea class="form-control" name="full_description" id="editor" rows="4" placeholder="Enter full product description"></textarea>
                                         </div>
 
 
@@ -112,7 +113,7 @@
                                             <label for="thumbnailImage" class="form-label">Thumbnail Image *</label>
                                             <div class="dropzone">
                                                 <div class="fallback">
-                                                    <input name="image" type="file" accept="image/png, image/jpeg, image/jpg, image/webp">
+                                                    <input name="thumbnail_image" type="file" accept="image/png, image/jpeg, image/jpg, image/webp">
 
                                                 </div>
                                                 <div class="dz-message needsclick">
@@ -127,26 +128,7 @@
                                             <p style="color:red;"><b>{{ $message }}</b></p>
                                             @enderror
                                         </div>
-                                        <div class="col-xl-6 py-3">
-                                            <label for="galleryImages" class="form-label">Gallery Images</label>
-                                            <div class="dropzone dropzone2">
-                                                <div class="fallback">
-                                                    <input name="image" type="file" accept="image/png, image/jpeg, image/jpg, image/webp">
-
-                                                </div>
-                                                <div class="dz-message needsclick">
-                                                    <div class="mb-3">
-                                                        <i class="display-4 text-muted bx bx-cloud-upload"></i>
-                                                    </div>
-
-                                                    <h5>Drop files here or click to upload.</h5>
-                                                </div>
-                                            </div>
-                                            @error('image')
-                                            <p style="color:red;"><b>{{ $message }}</b></p>
-                                            @enderror
-                                        </div>
-
+                                          
                                     </div>
 
                                     <button type="submit" class="btn btn-success">Submit</button>
