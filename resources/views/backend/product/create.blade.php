@@ -6,12 +6,12 @@
             <div class="row">
                 <div class="col-12">
                     <div class="page-title-box d-sm-flex align-items-center justify-content-between">
-                        <h4 class="mb-sm-0 font-size-18">Add Main Category</h4>
+                        <h4 class="mb-sm-0 font-size-18">Add New Product</h4>
                         <div class="page-title-right">
                             <ol class="breadcrumb m-0">
                                 <li class="breadcrumb-item"><a href="javascript: void(0);">Dashboard</a></li>
-                                <li class="breadcrumb-item"><a href="{{ route('backend.main_category.index') }}">Main Category</a> </li>
-                                <li class="breadcrumb-item active">Add Main Category</li>
+                                <li class="breadcrumb-item"><a href="{{ route('backend.product.index') }}">Product</a> </li>
+                                <li class="breadcrumb-item active">Add New Product</li>
                             </ol>
                         </div>
                     </div>
@@ -25,8 +25,9 @@
                         </div>
                         <div class="card-body">
                             <div>
-                                <form method="POST" action="{{ route('backend.product.store') }}" enctype="multipart/form-data">
+                                <form action="{{ route('backend.product.store') }}" method="POST" enctype="multipart/form-data">
                                     @csrf
+ 
                                     <div class="row">
                                         <div class="col-md-6 mb-4">
                                             <label for="productName" class="form-label">Product Name</label>
@@ -40,38 +41,40 @@
 
                                         <div class="col-md-6 mb-4">
                                             <label for="category" class="form-label">Category</label>
-                                            <select class="form-control" id="category" name="main_category">
-                                                <option value="">Select Category</option>
-                                                <option value="jewelry">Jewelry</option>
-                                                <option value="accessories">Accessories</option>
+                                            <select class="form-control" name="main_category" id="main_category">
+                                                <option selected disabled>Select Category</option> 
+                                                @if(count($main_categories) > 0)
+                                                @foreach($main_categories as $main_category)
+                                                <option value="{{ $main_category->id }}">{{ $main_category->name }}</option>
+                                                @endforeach
+                                                @endif
                                             </select>
                                         </div>
 
                                         <div class="col-md-6 mb-4">
                                             <label for="subCategory" class="form-label">Sub Category</label>
-                                            <select class="form-control" name="sub_category" id="subCategory">
-                                                <option value="">Select Sub Category</option>
-                                                <option value="necklaces">Necklaces</option>
-                                                <option value="earrings">Earrings</option>
-                                                <option value="rings">Rings</option>
+                                            <select class="form-control" name="sub_category" id="sub_category">
+                                                <option selected disabled>Select Sub Category</option> 
                                             </select>
                                         </div>
                                     </div>
-                                    <div class="variant_section mb-4">
                                     <div class="row">
                                         <div class="col-lg-12 mb-4 ">
                                             <label class="form-label">Select Sizes</label>
-                                            <select class="form-control" name="size[]" id="size-selector" multiple>
-                                                <option value="S">S</option>
-                                                <option value="M">M</option>
-                                                <option value="L">L</option>
-                                                <option value="XL">XL</option>
+                                            <select class="form-control" name="sizes[]" id="variant_size" multiple>
+                                                 @if(count($sizes) > 0)
+                                                @foreach($sizes as $size)
+                                                <option value="{{ $size->name }}" data-sname="{{ $size->name }}">{{ $size->name }}</option>
+                                                @endforeach
+                                                @endif
                                             </select>
-                                        </div>
-                                        <div id="variant-wrapper"></div>
+                                        </div> 
                                     </div>
+                                    <div class="row">
+                                    <div class="variant_section mb-4">
+                                        
+                                </div>
                                     </div>
-
 
 
                                     <div class="row">
@@ -87,14 +90,7 @@
                                                 <option value="1">In Stock</option>
                                                 <option value="0">Out Of Stock</option>
                                             </select>
-                                        </div>
-                                        <!-- <div class="col-lg-6 mb-4">
-
-                                            <label for="unique-tags" class="form-label ">Enter Tags</label>
-                                            <input class="form-control" id="unique-tags" type="text" placeholder="Enter something" />
-                                        </div> -->
-
-
+                                        </div> 
                                         <div class="col-md-12 mb-4 ">
                                             <label for="shortDescription" class="form-label">Short Description</label>
                                             <textarea class="form-control" name="short_description" id="shortDescription" rows="2" placeholder="Enter short description"></textarea>
@@ -108,27 +104,16 @@
 
 
 
-
-                                        <div class="col-xl-6 py-3">
-                                            <label for="thumbnailImage" class="form-label">Thumbnail Image *</label>
-                                            <div class="dropzone">
-                                                <div class="fallback">
-                                                    <input name="thumbnail_image" type="file" accept="image/png, image/jpeg, image/jpg, image/webp">
-
-                                                </div>
-                                                <div class="dz-message needsclick">
-                                                    <div class="mb-3">
-                                                        <i class="display-4 text-muted bx bx-cloud-upload"></i>
-                                                    </div>
-
-                                                    <h5>Drop files here or click to upload.</h5>
-                                                </div>
-                                            </div>
-                                            @error('image')
+                                        <div class="form-group mb-3">
+                                        <label>Thumbnail Image</label>
+                                        <input name="thumbnail_images" class="form-control image-input" type="file" accept="image/png, image/jpeg, image/jpg, image/webp">
+                                    @error('image')
                                             <p style="color:red;"><b>{{ $message }}</b></p>
-                                            @enderror
-                                        </div>
-                                          
+                                            @enderror     
+                                    </div>
+                                        
+                                         
+
                                     </div>
 
                                     <button type="submit" class="btn btn-success">Submit</button>
@@ -143,6 +128,86 @@
     </div>
 </div>
 @section('javascript-section')
+  <script>
+    $(document).ready(function() {
+    let sizeSelector = new Choices("#variant_size", { removeItemButton: true });
+    let colors = @json($colors);  
+
+    $(document).on("change", "#variant_size", function () {
+    let sizes = $(this).val();   
+    let append_to_html = ''; 
+    let color_options = '';
+    colors.forEach((color) => {
+        color_options += `<option value="${color.name}">${color.name}</option>`;
+    });
+    $(".variant_section").html(""); 
+    sizes.forEach((size) => { 
+        append_to_html = `
+            <div class="row">
+                <div class="col-md-12 mb-12">
+                    <label for="color" class="form-label">Select Color for Size ${size}</label>
+                    <select class="form-control color-selector" id="variant_color" name="variant_color_${size}[]" data-size="${size}" multiple>
+                        ${color_options}
+                    </select>
+                    <div id="variant_color_data_${size}"></div>
+                </div> 
+            </div>`; 
+        $(".variant_section").append(append_to_html);
+        let colorSelect = document.querySelector(`.color-selector[data-size="${size}"]`);
+        new Choices(colorSelect, { removeItemButton: true });
+    });
+});
+
+});
+
+$(document).on("change", "#variant_color", function () { 
+    let colors = $(this).val(); 
+    let size = $(this).data('size'); 
+    let append_to_html = '';  
+    colors.forEach((color) => {
+        append_to_html = `
+     <div class="row variant-row">
+                        <div class="col-md-3 mb-4">
+                            <label class="form-label">Color: ${color}</label> 
+                        </div>
+                        <div class="col-md-3 mb-4">
+                            <label class="form-label">Upload Image</label>
+                            <input type="file" class="form-control" name="image_${size}_${color}[]" data-size="${color}" data-color="${color}" multiple accept=".jpg, .jpeg, .png, .webp">
+                        </div>
+                        <div class="col-md-3 mb-4">
+                            <label class="form-label">Price (₹)</label>
+                            <input type="number" class="form-control" name="price_${size}_${color}" data-size="${color}" data-color="${color}" placeholder="Enter price">
+                        </div>
+                        <div class="col-md-3 mb-4">
+                            <label class="form-label">Sale Price (₹)</label>
+                            <input type="number" class="form-control" name="sale_price_${size}_${color}" data-size="${color}" data-color="${color}" placeholder="Enter Sale price">
+                        </div>
+                    </div>`;
+                });
+                $("#variant_color_data_"+size).append(append_to_html); 
+        });
+
+
+
+
+
+
+        $(document).on("change", "#main_category", async function() {
+            let id = $(this).val();
+            let url = "{{ route('backend.sub_category.get_sub_category_by_main_category', [':id']) }}";
+            url = url.replace(':id', id);
+            let append_to_html = '<option value="">Select Sub Category</option>';
+            let response = await fetch(`${url}`);
+            let responseData = await response.json();
+            console.log(responseData);
+            responseData.sub_categories.forEach((item) => {
+                append_to_html += `<option value="${item.id}">${item.name}</option>`;
+            }); 
+            $("#sub_category").html(append_to_html);
+        });
+    </script>
+
+
 <script>
     Dropzone.autoDiscover = false;
     document.addEventListener("DOMContentLoaded", function() {
@@ -169,137 +234,117 @@
         });
 </script>
 
-
 <script>
-    document.addEventListener("DOMContentLoaded", function () {
-        let variantIndex = 0;
-    let sizeSelector = new Choices("#size-selector", { removeItemButton: true });
-    let variantData = {}; // Object to store selected size & color data
+        document.addEventListener("DOMContentLoaded", function() {
+            let variantIndex = 0;
+            let sizeSelector = new Choices("#size-selector", { removeItemButton: true });
+            let variantData = {}; // Object to store selected size & color data
 
-    document.getElementById("size-selector").addEventListener("change", function () {
-        generateVariants();
-    });
+            document.getElementById("size-selector").addEventListener("change", function() {
+                generateVariants();
+            });
 
-    function generateVariants() {
-        let selectedSizes = Array.from(document.getElementById("size-selector").selectedOptions).map(opt => opt.value);
-        let variantWrapper = document.getElementById("variant-wrapper");
-        variantWrapper.innerHTML = "";
+            function generateVariants() {
+                let selectedSizes = Array.from(document.getElementById("size-selector").selectedOptions).map(opt => opt.value);
 
-        selectedSizes.forEach(size => {
-            if (!variantData[size]) {
-                variantData[size] = {}; // Initialize size if not present
+                let variantWrapper = document.getElementById("variant-wrapper");
+                variantWrapper.innerHTML = ""; // Clear display but keep data
+
+                selectedSizes.forEach(size => {
+                    if (!variantData[size]) {
+                        variantData[size] = { colors: {} }; // Initialize if not exists
+                    }
+
+                    let variantHTML = `
+                    <div class="variant-group">
+                        <h5 class="mt-3">Size: ${size}</h5>
+                        <div class="row variant-row">
+                            <div class="col-md-3 mb-4">
+                                <label class="form-label">Select Colors</label>
+                                <select class="form-control color-selector" data-size="${size}" multiple>
+                                    <option value="Red">Red</option>
+                                    <option value="Green">Green</option>
+                                    <option value="Blue">Blue</option>
+                                    <option value="Yellow">Yellow</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="color-variants" data-size="${size}"></div>
+                    </div>`;
+                    variantWrapper.insertAdjacentHTML("beforeend", variantHTML);
+
+                    let colorSelect = document.querySelector(`.color-selector[data-size="${size}"]`);
+                    let colorChoices = new Choices(colorSelect, { removeItemButton: true });
+
+                    if (Object.keys(variantData[size].colors).length > 0) {
+                        colorChoices.setChoiceByValue(Object.keys(variantData[size].colors));
+                        updateColorVariants(colorSelect, Object.keys(variantData[size].colors));
+                    }
+
+                    colorSelect.addEventListener("change", function() {
+                        updateColorVariants(this, Array.from(this.selectedOptions).map(opt => opt.value));
+                    });
+                });
             }
 
-            let variantHTML = `
-                <div class="variant-group">
-                    <h5 class="mt-3">Size: ${size}</h5>
+            function updateColorVariants(selectElement, selectedColors) {
+                let size = selectElement.dataset.size;
+                let colorVariantContainer = document.querySelector(`.color-variants[data-size="${size}"]`);
+                colorVariantContainer.innerHTML = "";
+
+                selectedColors.forEach(color => {
+                    if (!variantData[size].colors[color]) {
+                        variantData[size].colors[color] = { image: "", price: "", sale_price: "" };
+                    }
+
+                    let existingData = variantData[size].colors[color];
+
+                    let colorVariantHTML = `
                     <div class="row variant-row">
                         <div class="col-md-3 mb-4">
-                            <label class="form-label">Select Colors</label>
-                            <select class="form-control color-selector" data-size="${size}" multiple>
-                                <option value="Red">Red</option>
-                                <option value="Green">Green</option>
-                                <option value="Blue">Blue</option>
-                                <option value="Yellow">Yellow</option>
-                            </select>
+                            <label class="form-label">Color: ${color}</label>
+                            <input type="hidden" name="variants[${variantIndex}][size]" value="${size}">
+                            <input type="hidden" name="variants[${variantIndex}][color]" value="${color}">
                         </div>
-                    </div>
-                    <div class="color-variants" data-size="${size}"></div>
-                </div>`;
-            
-            variantWrapper.insertAdjacentHTML("beforeend", variantHTML);
+                        <div class="col-md-3 mb-4">
+                            <label class="form-label">Upload Image</label>
+                            <input type="file" class="form-control" name="variants[${variantIndex}][image]" data-size="${size}" data-color="${color}">
+                        </div>
+                        <div class="col-md-3 mb-4">
+                            <label class="form-label">Price (₹)</label>
+                            <input type="number" class="form-control" name="variants[${variantIndex}][price]" data-size="${size}" data-color="${color}" value="${existingData.price}" placeholder="Enter price" required>
+                        </div>
+                        <div class="col-md-3 mb-4">
+                            <label class="form-label">Sale Price (₹)</label>
+                            <input type="number" class="form-control" name="variants[${variantIndex}][sale_price]" data-size="${size}" data-color="${color}" value="${existingData.sale_price}" placeholder="Enter Sale price">
+                        </div>
+                    </div>`;
+                    colorVariantContainer.insertAdjacentHTML("beforeend", colorVariantHTML);
+                    variantIndex++;
+                });
 
-            let colorSelect = document.querySelector(`.color-selector[data-size="${size}"]`);
-            let colorChoices = new Choices(colorSelect, { removeItemButton: true });
-
-            colorSelect.addEventListener("change", function () {
-                updateColorVariants(this, Array.from(this.selectedOptions).map(opt => opt.value));
-            });
-        });
-    }
-
-    function updateColorVariants(selectElement, selectedColors) {
-        let size = selectElement.dataset.size;
-        let colorVariantContainer = document.querySelector(`.color-variants[data-size="${size}"]`);
-        colorVariantContainer.innerHTML = "";
-
-        selectedColors.forEach(color => {
-            if (!variantData[size][color]) {
-                variantData[size][color] = { 
-                    color: color, 
-                    price: "", 
-                    sale_price: "", 
-                    images: [] // Store multiple images here
-                };
+                updateStoredValues();
             }
 
-            let existingData = variantData[size][color];
+            function updateStoredValues() {
+                document.querySelectorAll("input[data-size]").forEach(input => {
+                    let size = input.dataset.size;
+                    let color = input.dataset.color;
+                    let fieldName = input.name.split("[").pop().split("]")[0]; // Get field name (price, sale_price, image)
 
-            let colorVariantHTML = `
-                <div class="row variant-row">
-                    <div class="col-md-3 mb-4">
-                        <label class="form-label">Color: ${color}</label>
-                        <input type="hidden" name="variants[${size}][${color}][size]" value="${size}">
-                        <input type="hidden" name="variants[${size}][${color}][color]" value="${color}">
-                    </div>
-                    <div class="col-md-3 mb-4">
-                        <label class="form-label">Upload Images (Multiple)</label>
-                        <input type="file" class="form-control image-input" name="variants[${size}][${color}][images][]" data-size="${size}" data-color="${color}" multiple>
-                    </div>
-                    <div class="col-md-3 mb-4">
-                        <label class="form-label">Price (₹)</label>
-                        <input type="number" class="form-control" name="variants[${size}][${color}][price]" data-size="${size}" data-color="${color}" value="${existingData.price}" placeholder="Enter price" required>
-                    </div>
-                    <div class="col-md-3 mb-4">
-                        <label class="form-label">Sale Price (₹)</label>
-                        <input type="number" class="form-control" name="variants[${size}][${color}][sale_price]" data-size="${size}" data-color="${color}" value="${existingData.sale_price}" placeholder="Enter Sale price">
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-12 mb-4">
-                        <div class="uploaded-images" data-size="${size}" data-color="${color}"></div>
-                    </div>
-                </div>`;
-            
-            colorVariantContainer.insertAdjacentHTML("beforeend", colorVariantHTML);
+                    input.addEventListener("input", function() {
+                        if (variantData[size] && variantData[size].colors[color]) {
+                            variantData[size].colors[color][fieldName] = this.value;
+                        }
+                    });
+
+                    if (variantData[size] && variantData[size].colors[color] && variantData[size].colors[color][fieldName]) {
+                        input.value = variantData[size].colors[color][fieldName];
+                    }
+                });
+            }
         });
-
-        document.querySelectorAll(".image-input").forEach(input => {
-            input.addEventListener("change", function () {
-                handleImageUpload(this);
-            });
-        });
-
-        console.log(variantData); // To check output in console
-    }
-
-    function handleImageUpload(input) {
-        let size = input.dataset.size;
-        let color = input.dataset.color;
-        let uploadedImagesContainer = document.querySelector(`.uploaded-images[data-size="${size}"][data-color="${color}"]`);
-
-        if (!variantData[size][color].images) {
-            variantData[size][color].images = [];
-        }
-
-        let files = input.files;
-        for (let file of files) {
-            let reader = new FileReader();
-            reader.onload = function (e) {
-                let imageUrl = e.target.result;
-                variantData[size][color].images.push(imageUrl);
-
-                let imgPreview = `<img src="${imageUrl}" class="img-thumbnail m-2" width="100">`;
-                uploadedImagesContainer.insertAdjacentHTML("beforeend", imgPreview);
-            };
-            reader.readAsDataURL(file);
-        }
-
-        console.log(variantData); // Check the response in console
-    }
-});
-
-</script>
+    </script>
 <script>
     document.addEventListener("DOMContentLoaded", function() {
         new Choices("#unique-tags", {
@@ -313,4 +358,4 @@
 </script>
 
 @endsection
-@endsectionc
+@endsection

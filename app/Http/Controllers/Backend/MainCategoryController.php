@@ -38,7 +38,7 @@ class MainCategoryController extends Controller
 
     public function store(Request $request){
         $validator = $request->validate([
-            'name' => ['required'],
+            'name' => ['required', 'unique:main_categories,name'],
             'image' => ['mimes:png,jpg,jpeg,webp']
         ]);
         try{
@@ -100,18 +100,24 @@ class MainCategoryController extends Controller
         }
     }
 
-    public function changeStatus($id){
+    public function updateStatus(Request $request){
         try{
-            // $category = MainCategory::findOrFail($id);
-            // $category->status = $category->status == 1 ? 0 : 1; // Toggle status
-            // $category->save(); 
-            // return response()->json(['success' => true, 'message' => 'Status updated successfully!']);
+            $id = $request->id;
+            $status = $request->status;
+            MainCategory::where('id', $id)->update([
+                'is_active' => $status
+            ]); 
+            return response()->json([
+                'status' => 200,
+                'message' => "success"
+            ], 200);
         }catch(\Exception $e){
-            return response()->json(['success' => false, 'message' => 'Failed!']);
-            
-        }
-   
-}
+            return response()->json([
+                'status' => "failed",
+                'error' => $e->getMessage()
+            ], 400);
+        }  
+    }
 
 
 }

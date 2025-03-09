@@ -41,7 +41,7 @@ class SubCategoryController extends Controller
 
     public function store(Request $request){
         $validator = $request->validate([
-            'name' => ['required'],
+            'name' => ['required', 'unique:sub_categories,name'],
             'image' => ['mimes:png,jpg,jpeg,webp'],
             'main_category' => ['required']
         ]);
@@ -107,5 +107,38 @@ class SubCategoryController extends Controller
         }
     }   
 
+    public function getSubCategoryByMainCategory($id){
+        try{ 
+            $sub_categories = SubCategory::where('main_category_id', $id)->get();
+            return response()->json([
+                'status' => 'success',
+                'sub_categories' => $sub_categories,
+            ], 200);
+        }catch(\Exception $e){
+            return response()->json([
+                'status' => 'failed',
+                'error' => $e->getMessage(),
+            ], 400); 
+        }
+    }
+
+    public function updateStatus(Request $request){
+        try{
+            $id = $request->id;
+            $status = $request->status;
+            SubCategory::where('id', $id)->update([
+                'is_active' => $status
+            ]); 
+            return response()->json([
+                'status' => 200,
+                'message' => "success"
+            ], 200);
+        }catch(\Exception $e){
+            return response()->json([
+                'status' => "failed",
+                'error' => $e->getMessage()
+            ], 400);
+        }  
+    }
 
 }

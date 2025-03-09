@@ -47,10 +47,11 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach($sub_categories as $sub_category)
-                        @php
+                    @php
                         $sn = 1;
                         @endphp
+                    @foreach($sub_categories as $sub_category)
+                        
                     <tr>
                         <td>{{ $sn++ }}</td>
                         <td>{{ $sub_category->name ?? '' }}</td>
@@ -109,7 +110,7 @@
 </div>
  
 @section('javascript-section')
- 
+
 @if(Session::has('created'))
 <script>
     Swal.fire({
@@ -155,9 +156,53 @@
             }
         });
     });
+</script>
 
-  
-    
+
+<script>
+    $(document).on('change', '#switch3', async function(){
+            const id = $(this).data('id');
+            const url = "{{route('backend.sub_category.update_status')}}";
+            const is_active = $(this).prop('checked');
+            const status = is_active ? 1:0;
+            const csrf_token = $('meta[name="csrf-token"]').attr('content');
+          
+            Swal.fire({
+               title: "Are you sure?",
+               text: "You won't be able to revert this!",
+               icon: "warning",
+               showCancelButton: true,
+               confirmButtonColor: "#3085d6",
+               cancelButtonColor: "#d33",
+               confirmButtonText: "Yes, delete it!"
+           }).then(async (result) =>{
+                if(result.isConfirmed){
+                    const response = await fetch(url, {
+                        method:'POST',
+                        headers:{
+                            'Content-Type':'application/json',
+                            'X-CSRF-TOKEN': csrf_token
+                        },
+                        body:JSON.stringify({
+                            'id':id,
+                            'status':status
+                        }),
+                    }); 
+                    if(response.ok){
+                        Swal.fire({
+                            title: "Success!",
+                            text: "Status has been updated.",
+                            icon: "success"
+                        });
+                    }else{
+                        alert('something went wrong.');
+                    }
+                }else if(result.isDismissed){
+                    $(this).prop('checked', !is_active);
+                }
+             
+           });
+       });
 </script>
 @endsection
 @endsection

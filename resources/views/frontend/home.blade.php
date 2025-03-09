@@ -111,78 +111,27 @@
         }
       }'>
         <div class="swiper-wrapper">
+        @if(count($sub_categories) > 0)
+        @foreach($sub_categories as $sub_category)
+
           <div class="swiper-slide">
             <div class="category_round_img_wrapper">
             <div class="border-rotate"></div>
-            <img loading="lazy" class=" category_round_img" src="{{url('assets/frontend/images/shop/1.jpg')}}" width="141" height="141" alt="">
-            </div>
+            @if($sub_category->image == '')
+            <img loading="lazy" class=" category_round_img" src="{{url('assets/default/default_category.jpg')}}" width="141" height="141" alt="">
+            @else
+            <img loading="lazy" class=" category_round_img" src="{{url($sub_category->image)}}" width="141" height="141" alt="">
+            @endif
+          </div>
             <div class="text-center">
-              <a href="#" class="menu-link fw-medium">Kurta Set</a>
+              <a href="#" class="menu-link fw-medium">{{ $sub_category->name ?? '' }}</a>
             </div>
           </div>
-          <div class="swiper-slide">
-          <div class="category_round_img_wrapper">
-            <div class="border-rotate"></div>
-            <img loading="lazy" class=" category_round_img" src="{{url('assets/frontend/images/shop/3.jpg')}}" width="141" height="141" alt="">
-            </div>
-            <div class="text-center">
-              <a href="#" class="menu-link fw-medium">Lehengas</a>
-            </div>
-          </div>
-          <div class="swiper-slide">
-          <div class="category_round_img_wrapper">
-            <div class="border-rotate"></div>
-            <img loading="lazy" class=" category_round_img" src="{{url('assets/frontend/images/shop/1.jpg')}}" width="141" height="141" alt="">
-            </div>
-            <div class="text-center">
-              <a href="#" class="menu-link fw-medium">Designer Blouses</a>
-            </div>
-          </div>
-          <div class="swiper-slide">
-          <div class="category_round_img_wrapper">
-            <div class="border-rotate"></div>
-            <img loading="lazy" class=" category_round_img" src="{{url('assets/frontend/images/shop/2.jpg')}}" width="141" height="141" alt="">
-            </div>
-            <div class="text-center">
-              <a href="#" class="menu-link fw-medium">Western Outfits</a>
-            </div>
-          </div>
-          <div class="swiper-slide">
-          <div class="category_round_img_wrapper">
-            <div class="border-rotate"></div>
-            <img loading="lazy" class=" category_round_img" src="{{url('assets/frontend/images/shop/3.jpg')}}" width="141" height="141" alt="">
-            </div>
-            <div class="text-center">
-              <a href="#" class="menu-link fw-medium">Draping Dresses</a>
-            </div>
-          </div>
-          <div class="swiper-slide">
-          <div class="category_round_img_wrapper">
-            <div class="border-rotate"></div>
-            <img loading="lazy" class=" category_round_img" src="{{url('assets/frontend/images/shop/1.jpg')}}" width="141" height="141" alt="">
-            </div>
-            <div class="text-center">
-              <a href="#" class="menu-link fw-medium">Jumpsuits</a>
-            </div>
-          </div>
-          <div class="swiper-slide">
-          <div class="category_round_img_wrapper">
-            <div class="border-rotate"></div>
-            <img loading="lazy" class=" category_round_img" src="{{url('assets/frontend/images/shop/3.jpg')}}" width="141" height="141" alt="">
-            </div>
-            <div class="text-center">
-              <a href="#" class="menu-link fw-medium">Kaftans</a>
-            </div>
-          </div>
-          <div class="swiper-slide">
-          <div class="category_round_img_wrapper">
-            <div class="border-rotate"></div>
-            <img loading="lazy" class=" category_round_img" src="{{url('assets/frontend/images/shop/2.jpg')}}" width="141" height="141" alt="">
-            </div>
-            <div class="text-center">
-              <a href="#" class="menu-link fw-medium">Shirts</a>
-            </div>
-          </div>
+          @endforeach
+          @endif
+ 
+           
+           
         </div><!-- /.swiper-wrapper -->
       </div><!-- /.swiper-container js-swiper-slider -->
 

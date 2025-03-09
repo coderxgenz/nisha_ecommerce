@@ -13,4 +13,6 @@ class SubCategory extends Model
     {
         return $this->belongsTo(MainCategory::class, 'main_category_id');
     }
+
+    
 }

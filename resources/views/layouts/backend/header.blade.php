@@ -263,6 +263,16 @@
             <li><a href="{{ route('backend.sub_category.index') }}">Sub Category</a></li>
         </ul>
     </li>
+    <li>
+        <a href="javascript: void(0);" class="has-arrow">
+            <i data-feather="grid"></i>
+            <span data-key="t-apps">Variants</span>
+        </a>
+        <ul class="sub-menu" aria-expanded="false">
+            <li><a href="{{ route('backend.size.index') }}">Size</a></li>
+            <li><a href="{{ route('backend.color.index') }}">Color</a></li>
+        </ul>
+    </li>
 
     <!-- Product -->
     <li>
@@ -296,7 +306,7 @@
         </a>
         <ul class="sub-menu" aria-expanded="false">
             <li><a href="{{ route('backend.order.index') }}">Orders List</a></li>
-            <li><a href="{{ route('backend.order.view') }}">Order Details</a></li>
+            <li><a href="{{ route('backend.order.view_order') }}">Order Details</a></li>
         </ul>
     </li>
 

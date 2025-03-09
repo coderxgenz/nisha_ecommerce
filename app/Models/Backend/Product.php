@@ -29,4 +29,17 @@ class Product extends Model
         'new_arrival',
         'status',
     ];
+
+    public function getMainCategory(){
+        return $this->belongsTo(MainCategory::class, 'main_category_id', 'id');
+    }
+
+    public function getSubCategory(){
+        return $this->belongsTo(SubCategory::class, 'sub_category_id', 'id');
+    }
+
+    public function getProductSizeVariants(){
+        return $this->hasMany(ProductVariants::class, 'product_id', 'id');
+    }
+   
 }

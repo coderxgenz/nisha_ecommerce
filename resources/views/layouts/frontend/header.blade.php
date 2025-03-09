@@ -256,19 +256,11 @@
                     <use href="#icon_prev_sm" />
                   </svg>Shop</a>
                 <div class="sub-menu__wrapper">
-                  <a href="#" class="navigation__link d-flex align-items-center">Kurta Sets</a>
-                  
-
-                  <a href="#" class="navigation__link  d-flex align-items-center">Lehengas</a>
-                  
-
-                  <a href="#" class="navigation__link  d-flex align-items-center">Draping Dresses</a>
-                  <a href="#" class="navigation__link  d-flex align-items-center">Designer Blouses</a>
-                  <a href="#" class="navigation__link  d-flex align-items-center">Western Outfits</a>
-                  <a href="#" class="navigation__link  d-flex align-items-center">Kaftans</a>
-                  <a href="#" class="navigation__link  d-flex align-items-center">Jumpsuits</a>
-                  <a href="#" class="navigation__link  d-flex align-items-center">Shirts</a>
-                  
+                  @if(count($sub_categories) > 0)
+                  @foreach($sub_categories as $sub_category)
+                  <a href="#" class="navigation__link d-flex align-items-center">{{ $sub_category->name }}</a> 
+                  @endforeach
+                  @endif
                 </div>
               </div>
             </li>
@@ -486,9 +478,14 @@
               <li class="navigation__item">
                 <a href="#" class="navigation__link color-body">Bestsellers</a>
               </li>
-              <li class="navigation__item">
-                <a href="#" class="navigation__link color-body">Kurta Sets</a>
+              @if(count($sub_categories) > 0)
+                  @foreach($sub_categories as $sub_category)
+                  <li class="navigation__item">
+                <a href="#" class="navigation__link color-body">{{ $sub_category->name }}</a>
               </li>
+                   @endforeach
+                  @endif
+              
               <!-- <li class="navigation__item">
                 <a href="#" class="navigation__link color-body">Shop</a>
                 <div class="mega-menu">
@@ -558,27 +555,8 @@
                 </div>
               </li> -->
               
-              <li class="navigation__item">
-                <a href="#" class="navigation__link color-body">Lehengas</a>
-              </li>
-              <li class="navigation__item">
-                <a href="#" class="navigation__link color-body">Draping Dresses</a>
-              </li>
-              <li class="navigation__item">
-                <a href="#" class="navigation__link color-body">Designer Blouses</a>
-              </li>
-              <li class="navigation__item">
-                <a href="#" class="navigation__link color-body">Western Outfits</a>
-              </li>
-              <li class="navigation__item">
-                <a href="#" class="navigation__link color-body">Kaftans</a>
-              </li>
-              <li class="navigation__item">
-                <a href="#" class="navigation__link color-body">Jumpsuits</a>
-              </li>
-              <li class="navigation__item">
-                <a href="#" class="navigation__link color-body">Shirts</a>
-              </li>
+               
+             
               <li class="navigation__item">
                 <a href="#" class="navigation__link color-body">Sales</a>
               </li>

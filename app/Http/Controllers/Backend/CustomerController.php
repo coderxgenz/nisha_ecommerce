@@ -15,7 +15,7 @@ class CustomerController extends Controller
         }
     }
 
-    public function view(){
+    public function viewCustomer(){
         try{
              return view('backend.customer.view');
         }catch(\Exception $e){

@@ -11,12 +11,12 @@
             <div class="row">
                 <div class="col-12">
                     <div class="page-title-box d-sm-flex align-items-center justify-content-between">
-                        <h4 class="mb-sm-0 font-size-18">Dashboard</h4>
+                        <h4 class="mb-sm-0 font-size-18">All Products</h4>
 
                         <div class="page-title-right">
                             <ol class="breadcrumb m-0">
                                 <li class="breadcrumb-item"><a href="javascript: void(0);">Dashboard</a></li>
-                                <li class="breadcrumb-item active">Dashboard</li>
+                                <li class="breadcrumb-item active">All Products</li>
                             </ol>
                         </div>
 
@@ -30,20 +30,18 @@
                     <div class="card">
 
                         <div class="card-header">
-                            <a href="{{ route('backend.main_category.create') }}" class="btn btn-success waves-effect waves-light">Add New Product</a>
+                            <a href="{{ route('backend.product.create') }}" class="btn btn-success waves-effect waves-light">Add New Product</a>
                         </div>
 
                         <div class="card-body">
-
+                            @if(count($products) > 0)
                             <table class="table table-striped">
                                 <thead>
                                     <tr>
                                         <th>#</th>
                                         <th>Product Name</th>
                                         <th>Category</th>
-                                        <th>Sub Category</th>
-                                        <th>Price</th>
-                                        <th>Sale Price</th>
+                                        <th>Sub Category</th> 
                                         <th>Stock</th>
                                         <th>Status</th>
                                         <th>Created At</th>
@@ -51,52 +49,42 @@
                                     </tr>
                                 </thead>
                                 <tbody>
+                                    @php
+                                    $sn = 1;
+                                    @endphp
+                                    @foreach($products as $product)
                                     <tr>
-                                        <td>1</td>
-                                        <td>Gold Necklace</td>
-                                        <td>Jewelry</td>
-                                        <td>Necklaces</td>
-                                        <td>₹5,999</td>
-                                        <td>₹4,999</td>
-                                        <td>20</td>
+                                        <td>{{ $sn++ }}</td>
+                                        <td>{{ $product->name ?? '' }}</td>
+                                        <td>{{ $product->getMainCategory?->name ?? '' }}</td>
+                                        <td>{{ $product->getSubCategory?->name ?? '' }}</td>
+                                        <td>{{ $product->stock ?? 0 }}</td>
+                                        @if($product->stock > 0)
                                         <td><span class="badge bg-success">In Stock</span></td>
-                                        <td>2025-02-26</td>
-                                        <td>
-                                            <button class="btn btn-primary btn-sm">Edit</button>
-                                            <button class="btn btn-danger btn-sm">Delete</button>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>1</td>
-                                        <td>Gold Necklace</td>
-                                        <td>Jewelry</td>
-                                        <td>Necklaces</td>
-                                        <td>₹5,999</td>
-                                        <td>₹4,999</td>
-                                        <td>20</td>
+                                        @else
                                         <td><span class="badge bg-danger">Sold Out</span></td>
-                                        <td>2025-02-26</td>
+                                        @endif
+                                        <td>{{ $product->created_at->format('Y-m-d') }}</td>
                                         <td>
-                                            <button class="btn btn-primary btn-sm">Edit</button>
-                                            <button class="btn btn-danger btn-sm">Delete</button>
+                                            <a href="{{ route('backend.product.edit', $product->id) }}" class="btn btn-primary btn-sm">Edit</a>
+                                            <a href="{{ route('backend.product.destroy', $product->id) }}" class="btn btn-danger btn-sm">Delete</a>
                                         </td>
                                     </tr>
+                                    @endforeach 
                                 </tbody>
                             </table>
+                            <div class="">
+                                {{ $products->links('pagination::bootstrap-5') }}
+                            </div>
+                            @else
+                            <center> <h3>No Records Available</h3></center>
+                            @endif 
                         </div>
                     </div>
                 </div>
-            </div>
-
-
-
-
-        </div>
-        <!-- container-fluid -->
-    </div>
-    <!-- End Page-content -->
-
-
+            </div> 
+        </div> 
+    </div> 
     <footer class="footer">
         <div class="container-fluid">
             <div class="row">
@@ -117,6 +105,31 @@
 
 
 @section('javascript-section')
+@if(Session::has('created'))
+<script>
+    Swal.fire({
+  title: "Success!",
+  text: "{{ Session::get('created') }}",
+  icon: "success"
+});
+</script>
+@elseif(Session::has('updated'))
+<script>
+    Swal.fire({
+  title: "Success!",
+  text: "{{ Session::get('updated') }}",
+  icon: "success"
+});
+</script>
+@elseif(Session::has('deleted'))
+<script>
+    Swal.fire({
+  title: "Success!",
+  text: "{{ Session::get('deleted') }}",
+  icon: "success"
+});
+</script>
+@endif
 
 @endsection
 @endsection

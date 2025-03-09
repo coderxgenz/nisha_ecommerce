@@ -1,10 +1,12 @@
 <?php
 
 use App\Http\Controllers\Backend\AuthencationController;
+use App\Http\Controllers\Backend\ColorController;
 use App\Http\Controllers\Backend\CustomerController;
 use App\Http\Controllers\Backend\MainCategoryController;
 use App\Http\Controllers\Backend\OrderController;
 use App\Http\Controllers\Backend\ProductController;
+use App\Http\Controllers\Backend\SizeController;
 use App\Http\Controllers\Backend\SubCategoryController;
 
 Route::middleware(['guest'])->group(function(){
@@ -26,18 +28,20 @@ Route::middleware(['auth', 'web', 'verified', 'admin.check'])->group(function(){
             Route::get('/main-category/edit/{id}', [MainCategoryController::class, 'edit'])->name('backend.main_category.edit');
             Route::post('/main-category/update/{id}', [MainCategoryController::class, 'update'])->name('backend.main_category.update');
             Route::get('/main-category/delete/{id}', [MainCategoryController::class, 'destroy'])->name('backend.main_category.destroy');
-            Route::get('/main-category/change-status/{id}', [MainCategoryController::class, 'changeStatus'])->name('backend.main_category.change_status');
+            Route::post('/main-category/update-status', [MainCategoryController::class, 'updateStatus'])->name('backend.main_category.update_status');
         });
      });
 
      Route::controller(SubCategoryController::class)->group(function(){
         Route::prefix('/admin')->group(function(){
-            Route::get('/sub-category', [SubCategoryController::class, 'index'])->name('backend.sub_category.index');
+            Route::get('/sub-category', action: [SubCategoryController::class, 'index'])->name('backend.sub_category.index');
             Route::get('/sub-category/create', [SubCategoryController::class, 'create'])->name('backend.sub_category.create');
             Route::post('/sub-category/store', [SubCategoryController::class, 'store'])->name('backend.sub_category.store');
             Route::get('/sub-category/edit/{id}', [SubCategoryController::class, 'edit'])->name('backend.sub_category.edit');
             Route::post('/sub-category/update/{id}', [SubCategoryController::class, 'update'])->name('backend.sub_category.update');
             Route::get('/sub-category/delete/{id}', [SubCategoryController::class, 'destroy'])->name('backend.sub_category.destroy');
+            Route::post('/sub-category/update-status', [SubCategoryController::class, 'updateStatus'])->name('backend.sub_category.update_status');
+            Route::get('/sub-category/get-sub-category-by-main-category/{id}', [SubCategoryController::class, 'getSubCategoryByMainCategory'])->name('backend.sub_category.get_sub_category_by_main_category');
         });
      });
 
@@ -55,7 +59,7 @@ Route::middleware(['auth', 'web', 'verified', 'admin.check'])->group(function(){
      Route::controller(CustomerController::class)->group(function(){
         Route::prefix('/admin')->group(function(){
             Route::get('/customer', 'index')->name('backend.customer.index');
-            Route::get('/customer/view', 'view')->name('backend.customer.view');
+            Route::get('/customer/view', 'viewCustomer')->name('backend.customer.view');
             Route::get('/customer/delete/{id}', 'destroy')->name('backend.customer.destroy');
         });
      });
@@ -63,8 +67,28 @@ Route::middleware(['auth', 'web', 'verified', 'admin.check'])->group(function(){
      Route::controller(OrderController::class)->group(function(){
         Route::prefix('/admin')->group(function(){
             Route::get('/order', 'index')->name('backend.order.index');
-            Route::get('/order/view', 'view')->name('backend.order.view');
+            Route::get('/order/view-order', 'viewOrder')->name('backend.order.view_order');
             Route::get('/order/delete/{id}', 'destroy')->name('backend.order.destroy');
+        });
+     });
+     Route::controller(SizeController::class)->group(function(){
+        Route::prefix('/admin')->group(function(){
+            Route::get('/size', 'index')->name('backend.size.index');
+            Route::get('/size/create', 'create')->name('backend.size.create');
+            Route::post('/size/store', 'store')->name('backend.size.store');
+            Route::post('/size/update', 'update')->name('backend.size.update');
+            Route::get('/size/edit', 'edit')->name('backend.size.edit');
+            Route::get('/size/delete/{id}', 'destroy')->name('backend.size.destroy');
+        });
+     });
+     Route::controller(ColorController::class)->group(function(){
+        Route::prefix('/admin')->group(function(){
+            Route::get('/color', 'index')->name('backend.color.index');
+            Route::get('/color/create', 'create')->name('backend.color.create');
+            Route::post('/color/store', 'store')->name('backend.color.store');
+            Route::post('/color/update', 'update')->name('backend.color.update');
+            Route::get('/color/edit', 'edit')->name('backend.color.edit');
+            Route::get('/color/delete/{id}', 'destroy')->name('backend.color.destroy');
         });
      });
 

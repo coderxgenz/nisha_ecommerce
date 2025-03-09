@@ -15,7 +15,7 @@ class OrderController extends Controller
         }
     }
 
-    public function view(){
+    public function viewOrder(){
         try{
              return view('backend.order.view');
         }catch(\Exception $e){
