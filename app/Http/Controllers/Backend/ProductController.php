@@ -137,7 +137,7 @@ class ProductController extends Controller
     }
 
     public function store(Request $request){
-        return $request; 
+        // return $request; 
           // $validate = $request->validate([
             //     'name' => ['required'], 
             //     'main_category' => ['required'], 
