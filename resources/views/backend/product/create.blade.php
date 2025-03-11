@@ -75,15 +75,12 @@
                                         
                                 </div>
                                     </div>
-
-
+ 
                                     <div class="row">
                                         <div class="col-md-6 mb-4">
                                             <label for="stock" class="form-label">Stock</label>
                                             <input type="number" name="stock" class="form-control" id="stock" placeholder="Enter stock quantity">
-                                        </div>
-
-
+                                        </div> 
                                         <div class="col-md-6 mb-4 ">
                                             <label for="statuss" class="form-label">Status</label>
                                             <select class="form-control" name="stock_status" id="statuss">

@@ -57,9 +57,13 @@
                         <td>{{ $sub_category->name ?? '' }}</td>
                         <td>{{ $sub_category->getMainCategory?->name ?? '' }}</td>
                         <td>{{ $sub_category->slug ?? '' }}</td>
-                        <td><input type="checkbox" id="switch3" switch="bool" checked />
-                            <label for="switch3" data-on-label="Active" data-off-label="Inactive"></label>
+                         
+                        <td><input type="checkbox" id="switch_{{ $sub_category->id }}" class="toggle-switch" switch="bool" 
+                        data-id="{{ $sub_category->id }}" {{ $sub_category->is_active == 1 ? "checked":"" }}  />
+                            <label for="switch_{{ $sub_category->id }}" data-on-label="Active" data-off-label="Inactive"></label>
                         </td>
+
+
                         <td>{{ Carbon\Carbon::parse($sub_category->created_at)->format('d M, Y') }}</td>
                         <td>
                             <a href="{{ route('backend.sub_category.edit', [$sub_category->id]) }}" class="btn btn-primary btn-sm">Edit</a>
@@ -160,8 +164,8 @@
 
 
 <script>
-    $(document).on('change', '#switch3', async function(){
-            const id = $(this).data('id');
+    $(document).on('change', '.toggle-switch', async function(){
+            const id = $(this).data('id'); 
             const url = "{{route('backend.sub_category.update_status')}}";
             const is_active = $(this).prop('checked');
             const status = is_active ? 1:0;
@@ -169,12 +173,12 @@
           
             Swal.fire({
                title: "Are you sure?",
-               text: "You won't be able to revert this!",
+               text: "You want to change status!",
                icon: "warning",
                showCancelButton: true,
                confirmButtonColor: "#3085d6",
                cancelButtonColor: "#d33",
-               confirmButtonText: "Yes, delete it!"
+               confirmButtonText: "Yes, change it!"
            }).then(async (result) =>{
                 if(result.isConfirmed){
                     const response = await fetch(url, {

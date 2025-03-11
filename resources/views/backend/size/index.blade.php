@@ -51,9 +51,9 @@
                                     @foreach ($sizes as $size) 
                                     <tr>
                                         <td>{{ $sn++ }}</td>
-                                        <td>{{ $size->name ?? '' }}</td> 
-                                        <td><input type="checkbox" id="status_btn" switch="bool" data-id="{{ $size->id }}" checked />
-                                            <label for="switch3" data-on-label="Active" data-off-label="Inactive"></label>
+                                        <td>{{ $size->name ?? '' }}</td>  
+                                        <td><input type="checkbox" id="switch_{{ $size->id }}" class="toggle-switch" switch="bool" data-id="{{ $size->id }}" {{ $size->is_active == 1 ? "checked":"" }} />
+                                            <label for="switch_{{ $size->id }}" data-on-label="Active" data-off-label="Inactive"></label>
                                         </td>
                                         <td>{{ Carbon\Carbon::parse($size->created)->format('d M, Y') }}</td>
                                         <td>
@@ -141,9 +141,54 @@
             }
         });
     });
+</script>
 
-  
-    
+<script>
+    $(document).on('change', '.toggle-switch', async function(){
+            const id = $(this).data('id'); 
+            const url = "{{route('backend.size.update_status')}}";
+            const is_active = $(this).prop('checked');
+            const status = is_active ? 1:0;
+            const csrf_token = $('meta[name="csrf-token"]').attr('content');
+          
+            Swal.fire({
+               title: "Are you sure?",
+               text: "You want to change status!",
+               icon: "warning",
+               showCancelButton: true,
+               confirmButtonColor: "#3085d6",
+               cancelButtonColor: "#d33",
+               confirmButtonText: "Yes, change it!"
+           }).then(async (result) =>{
+                if(result.isConfirmed){
+                    const response = await fetch(url, {
+                        method:'POST',
+                        headers:{
+                            'Content-Type':'application/json',
+                            'X-CSRF-TOKEN': csrf_token
+                        },
+                        body:JSON.stringify({
+                            'id':id,
+                            'status':status
+                        }),
+                    }); 
+                    let responseData = response.json();
+                    console.log(responseData);
+                    if(response.ok){
+                        Swal.fire({
+                            title: "Success!",
+                            text: "Status has been updated.",
+                            icon: "success"
+                        });
+                    }else{
+                        alert('something went wrong.');
+                    }
+                }else if(result.isDismissed){
+                    $(this).prop('checked', !is_active);
+                }
+             
+           });
+       });
 </script>
 @endsection
 @endsection

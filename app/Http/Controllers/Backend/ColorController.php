@@ -56,4 +56,23 @@ class ColorController extends Controller
             return "Something Went Wrong";
         }
     }
+
+    public function updateStatus(Request $request){
+        try{
+            $id = $request->id;
+            $status = $request->status;
+            Color::where('id', $id)->update([
+                'is_active' => $status
+            ]); 
+            return response()->json([
+                'status' => 200,
+                'message' => "success"
+            ], 200);
+        }catch(\Exception $e){
+            return response()->json([
+                'status' => "failed",
+                'error' => $e->getMessage()
+            ], 400);
+        }  
+    }
 }

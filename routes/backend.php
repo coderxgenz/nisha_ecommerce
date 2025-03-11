@@ -79,6 +79,8 @@ Route::middleware(['auth', 'web', 'verified', 'admin.check'])->group(function(){
             Route::post('/size/update', 'update')->name('backend.size.update');
             Route::get('/size/edit', 'edit')->name('backend.size.edit');
             Route::get('/size/delete/{id}', 'destroy')->name('backend.size.destroy');
+            Route::post('/size/update-status', 'updateStatus')->name('backend.size.update_status');
+
         });
      });
      Route::controller(ColorController::class)->group(function(){
@@ -89,6 +91,8 @@ Route::middleware(['auth', 'web', 'verified', 'admin.check'])->group(function(){
             Route::post('/color/update', 'update')->name('backend.color.update');
             Route::get('/color/edit', 'edit')->name('backend.color.edit');
             Route::get('/color/delete/{id}', 'destroy')->name('backend.color.destroy');
+            Route::post('/color/update-status', 'updateStatus')->name('backend.color.update_status');
+
         });
      });
 
