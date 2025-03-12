@@ -198,62 +198,6 @@
 
   <div class="mb-3 mb-xl-5 pb-1 pb-xl-5"></div>
 
-  <!-- Shop by collection -->
-  <section class="collections-grid collections-grid_masonry" id="section-collections-grid_masonry">
-    <div class="container h-md-100">
-      <div class="row h-md-100">
-        <div class="col-lg-6 h-md-100">
-          <div class="collection-grid__item position-relative h-md-100">
-            <div class="background-img" style="background-image: url('../public/assets/frontend/images/collection_grid_1.jpg');"></div>
-            <div class="content_abs content_bottom content_left content_bottom-md content_left-md">
-              <p class="text-uppercase mb-1">Hot List</p>
-              <h3 class="text-uppercase"><strong>Women</strong> Collection</h3>
-              <a href="shop1.html" class="btn-link default-underline text-uppercase fw-medium">Shop Now</a>
-            </div><!-- /.content_abs content_bottom content_left content_bottom-md content_left-md -->
-          </div>
-        </div><!-- /.col-md-6 -->
-
-        <div class="col-lg-6 d-flex flex-column">
-          <div class="collection-grid__item position-relative flex-grow-1 mb-lg-4">
-            <div class="background-img" style="background-image: url('../public/assets/frontend/images/collection_grid_2.jpg');"></div>
-            <div class="content_abs content_bottom content_left content_bottom-md content_left-md">
-              <p class="text-uppercase mb-1">Hot List</p>
-              <h3 class="text-uppercase"><strong>Men</strong> Collection</h3>
-              <a href="shop1.html" class="btn-link default-underline text-uppercase fw-medium">Shop Now</a>
-            </div><!-- /.content_abs content_bottom content_left content_bottom-md content_left-md -->
-          </div>
-          <div class="position-relative flex-grow-1 mt-lg-1">
-            <div class="row h-md-100">
-              <div class="col-md-6 h-md-100">
-                <div class="collection-grid__item h-md-100 position-relative">
-                  <div class="background-img" style="background-image: url('../public/assets/frontend/images/collection_grid_3.jpg');"></div>
-                  <div class="content_abs content_bottom content_left content_bottom-md content_left-md">
-                    <p class="text-uppercase mb-1">Hot List</p>
-                    <h3 class="text-uppercase"><strong>Kids</strong> Collection</h3>
-                    <a href="shop1.html" class="btn-link default-underline text-uppercase fw-medium">Shop Now</a>
-                  </div><!-- /.content_abs content_bottom content_left content_bottom-md content_left-md -->
-                </div><!-- /.collection-grid__item -->
-              </div>
-
-              <div class="col-md-6 h-md-100">
-                <div class="collection-grid__item h-md-100 position-relative">
-                  <div class="background-img" style="background-color: #f5e6e0"></div>
-                  <div class="content_abs content_bottom content_left content_bottom-md content_left-md">
-                    <h3 class="text-uppercase"><strong>E-Gift</strong> Cards</h3>
-                    <p class="mb-1">Surprise someone with the gift they<br>really want.</p>
-                    <a href="shop1.html" class="btn-link default-underline text-uppercase fw-medium">Shop Now</a>
-                  </div><!-- /.content_abs content_bottom content_left content_bottom-md content_left-md -->
-                </div><!-- /.collection-grid__item -->
-              </div>
-            </div>
-          </div>
-        </div><!-- /.col-md-6 -->
-      </div><!-- /.row -->
-    </div><!-- /.container -->
-  </section><!-- /.collections-grid collections-grid_masonry -->
-
-  <div class="mb-3 mb-xl-5 pb-1 pb-xl-5"></div>
-
   <section class="products-grid container">
     <h2 class="section-title text-uppercase text-center mb-1 mb-md-3 pb-xl-2 mb-xl-4">Our Trendy <strong>Products</strong></h2>
 

@@ -20241,6 +20241,7 @@ textarea.form-control.is-invalid {
   box-shadow: none !important;
   text-transform: uppercase;
   font-weight: 500;
+  padding: 0 10px;
 }
 
 .shop-asc__seprator {
@@ -23712,6 +23713,9 @@ body.coming-soon-page .header {
   display: inline-block;
   border-radius: 50%;
   padding: 5px;
+  width: 100%;
+  aspect-ratio: 1/1;
+
 }
 
 .border-rotate {
@@ -23730,7 +23734,8 @@ body.coming-soon-page .header {
   display: block;
   border-radius: 50%;
   width: 100%;
-  height: auto;
+  height: 100%;
+  object-fit: cover;
   position: relative;
   z-index: 1;
 }
@@ -23753,4 +23758,9 @@ body.coming-soon-page .header {
 .user-profile-img{
   width: 40px;
   border-radius: 50%;
+}
+
+::selection{
+  background-color: #000;
+  color: #fff;
 }

@@ -221,4 +221,13 @@ class ProductController extends Controller
         }
     }
 
+    public function productList(){
+        try{ 
+             
+             return view('frontend.product_list');
+        }catch(\Exception $e){
+            return "Something went wrong";
+        }
+    }
+
 }
