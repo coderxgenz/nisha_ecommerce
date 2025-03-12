@@ -312,7 +312,7 @@
 
     <!-- Refund & Returns -->
     <li>
-        <a href="refund-returns.html">
+        <a href="{{ route('backend.refund_and_return') }}">
             <i data-feather="rotate-ccw"></i>
             <span>Refund & Returns</span>
         </a>
@@ -325,8 +325,8 @@
             <span>Coupons</span>
         </a>
         <ul class="sub-menu" aria-expanded="false">
-            <li><a href="coupon-list.php">Coupon List</a></li>
-            <li><a href="add-coupon.html">Create Coupon</a></li>
+            <li><a href="{{ route('backend.coupons.index') }}">Coupon List</a></li>
+            <li><a href="{{ route('backend.coupons.create') }}">Create Coupon</a></li>
         </ul>
     </li>
 
@@ -339,10 +339,10 @@
             <span>Website Management</span>
         </a>
         <ul class="sub-menu" aria-expanded="false">
-            <li><a href="general-settings.html">General Settings</a></li>
-            <li><a href="seo-settings.html">SEO Settings</a></li>
-            <li><a href="social-links.html">Social Media Links</a></li>
-            <li><a href="payment-settings.html">Payment Gateway</a></li>
+            <li><a href="{{ route('backend.website_management.general_setting') }}">General Settings</a></li>
+            <li><a href="{{ route('backend.website_management.seo_setting') }}">SEO Settings</a></li>
+            <li><a href="{{ route('backend.website_management.social_media_link') }}">Social Media Links</a></li>
+            <li><a href="{{ route('backend.website_management.payment_gateway') }}">Payment Gateway</a></li>
         </ul>
     </li>
 
@@ -353,10 +353,9 @@
             <span>CMS</span>
         </a>
         <ul class="sub-menu" aria-expanded="false">
-            <li><a href="banners.html">Banners Management</a></li>
-            <li><a href="pages.html">Pages Management</a></li>
-            <li><a href="blogs.html">Blog Management</a></li>
-            <li><a href="media-library.html">Media Library</a></li>
+            <li><a href="{{ route('backend.cms.banner_management') }}">Banners Management</a></li>
+            <li><a href="{{ route('backend.cms.pages_management') }}">Pages Management</a></li>
+            <li><a href="{{ route('backend.cms.blog_management') }}">Blog Management</a></li>
         </ul>
     </li>
 

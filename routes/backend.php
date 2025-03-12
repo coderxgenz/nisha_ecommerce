@@ -1,13 +1,16 @@
 <?php
 
 use App\Http\Controllers\Backend\AuthencationController;
+use App\Http\Controllers\Backend\CmsController;
 use App\Http\Controllers\Backend\ColorController;
+use App\Http\Controllers\Backend\CouponsController;
 use App\Http\Controllers\Backend\CustomerController;
 use App\Http\Controllers\Backend\MainCategoryController;
 use App\Http\Controllers\Backend\OrderController;
 use App\Http\Controllers\Backend\ProductController;
 use App\Http\Controllers\Backend\SizeController;
 use App\Http\Controllers\Backend\SubCategoryController;
+use App\Http\Controllers\Backend\WebsiteManagementController;
 
 Route::middleware(['guest'])->group(function(){
     Route::get('/admin', [AuthencationController::class, 'adminLogin'])->name('backend.admin.login');
@@ -95,5 +98,16 @@ Route::middleware(['auth', 'web', 'verified', 'admin.check'])->group(function(){
 
         });
      });
+
+     Route::get('refund-and-return', [OrderController::class, 'refundAndReturn'])->name('backend.refund_and_return');
+     Route::get('coupons', [CouponsController::class, 'index'])->name('backend.coupons.index');
+     Route::get('create', [CouponsController::class, 'create'])->name('backend.coupons.create');
+     Route::get('general-setting', [WebsiteManagementController::class, 'generalSetting'])->name('backend.website_management.general_setting');
+        Route::get('seo-setting', [WebsiteManagementController::class, 'seoSetting'])->name('backend.website_management.seo_setting');
+        Route::get('social-media-link', [WebsiteManagementController::class, 'socialMediaLink'])->name('backend.website_management.social_media_link');
+        Route::get('payment-gateway', [WebsiteManagementController::class, 'paymentGateway'])->name('backend.website_management.payment_gateway');
+        Route::get('banner-management', [CmsController::class, 'bannerMangement'])->name('backend.cms.banner_management');
+        Route::get('pages-management', [CmsController::class, 'pagesManagement'])->name('backend.cms.pages_management');
+        Route::get('blog-management', [CmsController::class, 'blogManagement'])->name('backend.cms.blog_management');
 
 });

@@ -14,6 +14,13 @@ class OrderController extends Controller
             return "Something went wrong";
         }
     }
+    public function refundAndReturn(){
+        try{
+             return view('backend.returns.index');
+        }catch(\Exception $e){
+            return "Something went wrong";
+        }
+    }
 
     public function viewOrder(){
         try{
