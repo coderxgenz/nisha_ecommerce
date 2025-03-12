@@ -6,6 +6,7 @@ use App\Http\Controllers\Frontend\DashboardController;
 use App\Http\Controllers\Frontend\HomeController;
 use App\Http\Controllers\Frontend\OrderController;
 use App\Http\Controllers\Frontend\WishListController;
+use App\Http\Controllers\Backend\ProductController;
  
 Route::get('/', [HomeController::class, 'home'])->name('frontend.home');
 
@@ -33,5 +34,6 @@ Route::controller(OrderController::class)->group(function(){
     Route::get('/order-single', 'viewSingleOrder')->name('frontend.view_single_order');
     Route::get('/order-complete', 'viewOrderComplete')->name('frontend.view_order_complete');
 });
+Route::get('/products', [ProductController::class, 'productList'])->name('frontent.product_list');
 
  
