@@ -30,20 +30,21 @@
                     <div class="card">
 
                         <div class="card-header">
-                            <a href="{{ route('backend.main_category.create') }}" class="btn btn-success waves-effect waves-light">Add New Customers</a>
+                        <h5 class="mb-0 fw-bold"><i class="fas fa-users"></i> Customers List</h5>
+                            <a href="{{ route('backend.main_category.create') }}" class="btn btn-primary waves-effect waves-light"><i class="fas fa-plus"></i> Add New Customers</a>
                         </div>
 
                         <div class="card-body">
-
-                            <table class="table table-striped">
-                                <thead>
+                        <div class="table-responsive">
+                            <table class="table table-hover align-middle text-center">
+                                <thead class="table-dark" >
                                     <tr>
                                         <th>#</th>
-                                        <th>Customer Name</th>
-                                        <th>Email</th>
-                                        <th>Phone</th>
-                                        <th>Joining Date</th>
-                                        <th>Actions</th>
+                                        <th>CUSTOMER NAME</th>
+                                        <th>EMAIL</th>
+                                        <th>PHONE</th>
+                                        <th>JOINING DATE</th>
+                                        <th>ACTIONS</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -54,8 +55,9 @@
                                         <td>Necklaces</td>
                                         <td>2025-02-26</td>
                                         <td>
-                                            <button class="btn btn-primary btn-sm">Edit</button>
-                                            <button class="btn btn-danger btn-sm">Delete</button>
+                                        <button class="btn btn-success btn-sm"><i class="fas fa-edit"></i> </button>
+                                        <button class="btn btn-info btn-sm"><i class="fas fa-eye"></i> </button>
+                                        <button class="btn btn-danger btn-sm"> <i class="fas fa-trash"></i>  </button>
                                         </td>
                                     </tr>
                                     <tr>
@@ -65,12 +67,14 @@
                                         <td>Necklaces</td>
                                         <td>2025-02-26</td>
                                         <td>
-                                            <button class="btn btn-primary btn-sm">Edit</button>
-                                            <button class="btn btn-danger btn-sm">Delete</button>
+                                            <button class="btn btn-success btn-sm"><i class="fas fa-edit"></i></button>
+                                            <button class="btn btn-info btn-sm"><i class="fas fa-eye"></i> </button>
+                                            <button class="btn btn-danger btn-sm"> <i class="fas fa-trash"></i> </button>
                                         </td>
                                     </tr>
                                 </tbody>
                             </table>
+                        </div>
                         </div>
                     </div>
                 </div>
@@ -83,24 +87,6 @@
         <!-- container-fluid -->
     </div>
     <!-- End Page-content -->
-
-
-    <footer class="footer">
-        <div class="container-fluid">
-            <div class="row">
-                <div class="col-sm-6">
-                    <script>
-                        document.write(new Date().getFullYear())
-                    </script> © Nisha Rajput Coaching.
-                </div>
-                <div class="col-sm-6">
-                    <div class="text-sm-end d-none d-sm-block">
-                        Design & Develop by <a href="#!" class="text-decoration-underline">Anil</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </footer>
 </div>
 
 

@@ -27,15 +27,16 @@
                 <div class="col-lg-12">
                     <div class="card">
                         <div class="card-header"> 
+                        <h5 class="mb-0 fw-bold"><i class="fas fa-layer-group"></i> Sub Category List</h5>
                             <a href="{{ route('backend.sub_category.create') }}" class="btn btn-success waves-effect waves-light" >Add Sub Category</a>
                         </div>
                         <!-- end card header -->
                         <div class="card-body">
-                            
+                        <div class="table-responsive">
                             @if(count($sub_categories) > 0)
                             
-                        <table class="table table-striped">
-                <thead>
+                            <table class="table table-hover align-middle text-center">
+                            <thead class="table-dark" >
                     <tr>
                         <th>#</th>
                         <th>Sub Category</th>
@@ -66,8 +67,8 @@
 
                         <td>{{ Carbon\Carbon::parse($sub_category->created_at)->format('d M, Y') }}</td>
                         <td>
-                            <a href="{{ route('backend.sub_category.edit', [$sub_category->id]) }}" class="btn btn-primary btn-sm">Edit</a>
-                            <button class="btn btn-danger btn-sm" data-id="{{ $sub_category->id }}" id="delete_btn">Delete</button>
+                            <a href="{{ route('backend.sub_category.edit', [$sub_category->id]) }}" class="btn btn-success btn-sm"><i class="fas fa-edit"></i></a>
+                            <button class="btn btn-danger btn-sm" data-id="{{ $sub_category->id }}" id="delete_btn"><i class="fas fa-trash"></i></button>
                         </td>
                     </tr>
                     @endforeach
@@ -80,6 +81,7 @@
             <center><h3>No Records Available</h3></center>
             @endif
                             
+                        </div>
                         </div>
                     </div>
                     <!-- end card -->

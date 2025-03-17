@@ -28,14 +28,15 @@
                     <div class="card">
                         
                           <div class="card-header"> 
+                          <h5 class="mb-0 fw-bold"><i class="fas fa-palette"></i> Colors List</h5>
                               <a href="{{ route('backend.color.create') }}" class="btn btn-success waves-effect waves-light" >Add New Color</a>
                             </div> 
                             
                             <div class="card-body">
-                                
+                            <div class="table-responsive">
                             @if(count($colors) > 0)
-                            <table class="table table-striped">
-                                <thead>
+                            <table class="table table-hover align-middle text-center">
+                            <thead class="table-dark" >
                                     <tr>
                                         <th>#</th>
                                         <th>Color Name</th> 
@@ -57,8 +58,8 @@
                                         </td>
                                         <td>{{ Carbon\Carbon::parse($color->created)->format('d M, Y') }}</td>
                                         <td>
-                                            <a href="{{ route('backend.main_category.edit', [$color->id]) }}" class="btn btn-primary btn-sm">Edit</a>
-                                            <a href="javascript::void(0)" data-id="{{ $color->id }}" class="btn btn-danger btn-sm" id="delete_btn">Delete</a>
+                                            <a href="{{ route('backend.main_category.edit', [$color->id]) }}" class="btn btn-success btn-sm"><i class="fas fa-edit"></i></a>
+                                            <a href="javascript::void(0)" data-id="{{ $color->id }}" class="btn btn-danger btn-sm" id="delete_btn"><i class="fas fa-trash"></i></a>
                                         </td>
                                     </tr>
                                     @endforeach
@@ -70,7 +71,7 @@
                             @else
                             <center> <h3>No Records Available</h3></center>
                             @endif 
-                            
+                            </div>
                         </div>
                     </div> 
                 </div> 

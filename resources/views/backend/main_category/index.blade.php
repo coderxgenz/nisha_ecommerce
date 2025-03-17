@@ -28,14 +28,15 @@
                     <div class="card">
                         
                           <div class="card-header"> 
+                          <h5 class="mb-0 fw-bold"><i class="fas fa-layer-group"></i> Main Category List</h5>
                               <a href="{{ route('backend.main_category.create') }}" class="btn btn-success waves-effect waves-light" >Add New Category</a>
                             </div> 
                             
                             <div class="card-body">
-                                
+                            <div class="table-responsive">
                                 @if(count($main_categories) > 0)
-                            <table class="table table-striped">
-                                <thead>
+                                <table class="table table-hover align-middle text-center">
+                                <thead class="table-dark">
                                     <tr>
                                         <th>#</th>
                                         <th>Category Name</th>
@@ -62,8 +63,8 @@
 
                                         <td>{{ Carbon\Carbon::parse($main_category->created)->format('d M, Y') }}</td>
                                         <td>
-                                            <a href="{{ route('backend.main_category.edit', [$main_category->id]) }}" class="btn btn-primary btn-sm">Edit</a>
-                                            <a href="javascript::void(0)" data-id="{{ $main_category->id }}" class="btn btn-danger btn-sm" id="delete_btn">Delete</a>
+                                            <a href="{{ route('backend.main_category.edit', [$main_category->id]) }}" class="btn btn-success btn-sm"><i class="fas fa-edit"></i></a>
+                                            <a href="javascript::void(0)" data-id="{{ $main_category->id }}" class="btn btn-danger btn-sm" id="delete_btn"><i class="fas fa-trash"></i></a>
                                         </td>
                                     </tr>
                                     @endforeach
@@ -76,27 +77,13 @@
                             <center> <h3>No Records Available</h3></center>
                             @endif 
                         </div>
+                        </div>
                     </div> 
                 </div> 
             </div> 
         </div> 
     </div> 
-    <footer class="footer">
-        <div class="container-fluid">
-            <div class="row">
-                <div class="col-sm-6">
-                    <script>
-                        document.write(new Date().getFullYear())
-                    </script> © Nisha Rajput Coaching.
-                </div>
-                <div class="col-sm-6">
-                    <div class="text-sm-end d-none d-sm-block">
-                        Design & Develop by <a href="#!" class="text-decoration-underline">Anil</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </footer>
+    
 </div>
 @section('javascript-section')
  

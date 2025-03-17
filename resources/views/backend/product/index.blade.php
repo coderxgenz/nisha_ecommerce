@@ -1,7 +1,12 @@
 @extends('layouts/backend/main')
 @section('main-section')
 
-
+<style>
+    .badge {
+    font-size: 12px;
+    padding: 5px 10px;
+}
+</style>
 <div class="main-content">
 
     <div class="page-content">
@@ -30,13 +35,15 @@
                     <div class="card">
 
                         <div class="card-header">
+                        <h5 class="mb-0 fw-bold"><i class="fas fa-box-open"></i> Products List</h5>
                             <a href="{{ route('backend.product.create') }}" class="btn btn-success waves-effect waves-light">Add New Product</a>
                         </div>
 
                         <div class="card-body">
+                        <div class="table-responsive">
                             @if(count($products) > 0)
-                            <table class="table table-striped">
-                                <thead>
+                            <table class="table table-hover align-middle text-center">
+                                <thead class="table-dark" >
                                     <tr>
                                         <th>#</th>
                                         <th>Product Name</th>
@@ -60,14 +67,14 @@
                                         <td>{{ $product->getSubCategory?->name ?? '' }}</td>
                                         <td>{{ $product->stock ?? 0 }}</td>
                                         @if($product->stock > 0)
-                                        <td><span class="badge bg-success">In Stock</span></td>
+                                        <td><span class="badge bg-success text-dark">In Stock</span></td>
                                         @else
-                                        <td><span class="badge bg-danger">Sold Out</span></td>
+                                        <td><span class="badge bg-danger text-dark">Sold Out</span></td>
                                         @endif
                                         <td>{{ $product->created_at->format('Y-m-d') }}</td>
                                         <td>
-                                            <a href="{{ route('backend.product.edit', $product->id) }}" class="btn btn-primary btn-sm">Edit</a>
-                                            <a href="{{ route('backend.product.destroy', $product->id) }}" class="btn btn-danger btn-sm">Delete</a>
+                                            <a href="{{ route('backend.product.edit', $product->id) }}" class="btn btn-success btn-sm"> <i class="fas fa-edit"></i></a>
+                                            <a href="{{ route('backend.product.destroy', $product->id) }}" class="btn btn-danger btn-sm"> <i class="fas fa-trash"></i></a>
                                         </td>
                                     </tr>
                                     @endforeach 
