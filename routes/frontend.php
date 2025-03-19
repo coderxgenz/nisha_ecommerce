@@ -35,5 +35,6 @@ Route::controller(OrderController::class)->group(function(){
     Route::get('/order-complete', 'viewOrderComplete')->name('frontend.view_order_complete');
 });
 Route::get('/products', [ProductController::class, 'productList'])->name('frontent.product_list');
+Route::get('/product-details', [ProductController::class, 'productDetails'])->name('frontent.product_details');
 
  

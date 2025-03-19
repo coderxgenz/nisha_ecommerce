@@ -229,5 +229,13 @@ class ProductController extends Controller
             return "Something went wrong";
         }
     }
+    public function productDetails(){
+        try{ 
+             
+             return view('frontend.product_details');
+        }catch(\Exception $e){
+            return "Something went wrong";
+        }
+    }
 
 }
