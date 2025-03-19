@@ -209,6 +209,8 @@ class ProductController extends Controller
                                 'product_id' => $product->id,
                                 "product_variant_name" => $selected_size->name,
                                 "product_variant_id" => $selected_size->id,
+                                "color_id" => $selected_color->id,
+                                "color_name" => $selected_color->name,
                                 'image' => 'upload/images/product_images/' . $image_name,
                             ]);
                         }  

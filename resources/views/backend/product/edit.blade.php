@@ -191,14 +191,13 @@
     let sizeSelector = new Choices("#variant_size", { removeItemButton: true }); 
     let colors = @json($colors);    
     let already_selected_size_variants = @json($already_selected_size_variants);
-    console.log(already_selected_size_variants);    
+   
     document.querySelectorAll(".color-selector").forEach((el) => {
         new Choices(el, { removeItemButton: true });
     });
     let already_selected_sizes = []; 
     $(document).on("change", "#variant_size", function () {
-    let sizes = $(this).val();    
-    console.log(already_selected_sizes);
+    let sizes = $(this).val();     
     let append_to_html = ''; 
     let color_options = '';
     colors.forEach((color) => {
