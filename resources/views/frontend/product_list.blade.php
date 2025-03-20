@@ -298,10 +298,10 @@
               <div class="swiper-container background-img js-swiper-slider" data-settings='{"resizeObserver": true}'>
                 <div class="swiper-wrapper">
                   <div class="swiper-slide">
-                    <a href="product1_simple.html"><img loading="lazy" src="{{url('assets/frontend/images/products/1.jpg')}}" width="330" height="400" alt="Cropped Faux leather Jacket" class="pc__img"></a>
+                    <a href="product1_simple.html"><img loading="lazy" src="{{url('assets/frontend/images/shop/1.jpg')}}" width="330" height="400" alt="Cropped Faux leather Jacket" class="pc__img"></a>
                   </div><!-- /.pc__img-wrapper -->
                   <div class="swiper-slide">
-                    <a href="product1_simple.html"><img loading="lazy" src="{{url('assets/frontend/images/products/4.jpg')}}" width="330" height="400" alt="Cropped Faux leather Jacket" class="pc__img"></a>
+                    <a href="product1_simple.html"><img loading="lazy" src="{{url('assets/frontend/images/shop/2.jpg')}}" width="330" height="400" alt="Cropped Faux leather Jacket" class="pc__img"></a>
                   </div><!-- /.pc__img-wrapper -->
                 </div>
                 <span class="pc__img-prev"><svg width="7" height="11" viewBox="0 0 7 11" xmlns="http://www.w3.org/2000/svg">
@@ -355,10 +355,10 @@
               <div class="swiper-container background-img js-swiper-slider" data-settings='{"resizeObserver": true}'>
                 <div class="swiper-wrapper">
                   <div class="swiper-slide">
-                    <a href="product1_simple.html"><img loading="lazy" src="{{url('assets/frontend/images/products/1.jpg')}}" width="330" height="400" alt="Cropped Faux leather Jacket" class="pc__img"></a>
+                    <a href="product1_simple.html"><img loading="lazy" src="{{url('assets/frontend/images/shop/1.jpg')}}" width="330" height="400" alt="Cropped Faux leather Jacket" class="pc__img"></a>
                   </div><!-- /.pc__img-wrapper -->
                   <div class="swiper-slide">
-                    <a href="product1_simple.html"><img loading="lazy" src="{{url('assets/frontend/images/products/4.jpg')}}" width="330" height="400" alt="Cropped Faux leather Jacket" class="pc__img"></a>
+                    <a href="product1_simple.html"><img loading="lazy" src="{{url('assets/frontend/images/shop/2.jpg')}}" width="330" height="400" alt="Cropped Faux leather Jacket" class="pc__img"></a>
                   </div><!-- /.pc__img-wrapper -->
                 </div>
                 <span class="pc__img-prev"><svg width="7" height="11" viewBox="0 0 7 11" xmlns="http://www.w3.org/2000/svg">
@@ -418,10 +418,10 @@
               <div class="swiper-container background-img js-swiper-slider" data-settings='{"resizeObserver": true}'>
                 <div class="swiper-wrapper">
                   <div class="swiper-slide">
-                    <a href="product1_simple.html"><img loading="lazy" src="{{url('assets/frontend/images/products/1.jpg')}}" width="330" height="400" alt="Cropped Faux leather Jacket" class="pc__img"></a>
+                    <a href="product1_simple.html"><img loading="lazy" src="{{url('assets/frontend/images/shop/1.jpg')}}" width="330" height="400" alt="Cropped Faux leather Jacket" class="pc__img"></a>
                   </div><!-- /.pc__img-wrapper -->
                   <div class="swiper-slide">
-                    <a href="product1_simple.html"><img loading="lazy" src="{{url('assets/frontend/images/products/4.jpg')}}" width="330" height="400" alt="Cropped Faux leather Jacket" class="pc__img"></a>
+                    <a href="product1_simple.html"><img loading="lazy" src="{{url('assets/frontend/images/shop/2.jpg')}}" width="330" height="400" alt="Cropped Faux leather Jacket" class="pc__img"></a>
                   </div><!-- /.pc__img-wrapper -->
                 </div>
                 <span class="pc__img-prev"><svg width="7" height="11" viewBox="0 0 7 11" xmlns="http://www.w3.org/2000/svg">
