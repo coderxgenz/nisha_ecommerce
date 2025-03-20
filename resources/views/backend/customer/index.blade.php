@@ -15,8 +15,8 @@
 
                         <div class="page-title-right">
                             <ol class="breadcrumb m-0">
-                                <li class="breadcrumb-item"><a href="javascript: void(0);">Dashboard</a></li>
-                                <li class="breadcrumb-item active">Customers</li>
+                            <li class="breadcrumb-item"><a href="{{ route('backend.admin.dashboard') }}">Dashboard</a></li>
+                            <li class="breadcrumb-item active">Customers</li>
                             </ol>
                         </div>
 
@@ -56,11 +56,10 @@
                                         <td>{{ $sn++ }}</td>
                                         <td>{{ $customer->name ?? '' }}</td>
                                         <td>{{ $customer->email ?? '' }}</td>
-                                        <td>999999999</td>
+                                        <td>{{ $customer->phone ?? '-' }}</td>
                                         <td>{{ Carbon\Carbon::parse($customer->created_at)->format('d M, Y') }}</td>
                                         <td>
-                                        <a href="{{ route('backend.customer.edit', [$customer->id]) }}" class="btn btn-success btn-sm"><i class="fas fa-edit"></i> </a>
-                                        <a href="{{ route('backend.customer.view', [$customer->id]) }}" class="btn btn-info btn-sm"><i class="fas fa-eye"></i> </a>
+                                         <a href="{{ route('backend.customer.view', [$customer->id]) }}" class="btn btn-info btn-sm"><i class="fas fa-eye"></i> </a>
                                         <button class="btn btn-danger btn-sm"> <i class="fas fa-trash"></i>  </button>
                                         </td>
                                     </tr>

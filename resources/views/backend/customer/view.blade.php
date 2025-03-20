@@ -14,7 +14,8 @@
                         <h4 class="mb-sm-0 font-size-18">Customer Details</h4>
                         <div class="page-title-right">
                             <ol class="breadcrumb m-0">
-                                <li class="breadcrumb-item"><a href="javascript:void(0);">Dashboard</a></li>
+                                <li class="breadcrumb-item"><a href="{{ route('backend.admin.dashboard') }}">Dashboard</a></li>
+                                <li class="breadcrumb-item"><a href="{{ route('backend.customer.index') }}">Customers</a></li>
                                 <li class="breadcrumb-item active">Customer Details</li>
                             </ol>
                         </div>
@@ -32,8 +33,9 @@
                             <img src="{{url('assets/frontend/images/products/1.jpg')}}" alt="Customer Image" class="avatar-lg rounded-circle shadow">
                             <h5 class="mt-3">{{ $customer->name ?? '' }}</h5>
                             <p class="text-muted">{{ $customer->email ?? '' }}</p>
-                            <p><i class="fas fa-phone"></i> +91 8287003254 </p>
-                            <p><i class="fas fa-map-marker-alt"></i> WZ-1297, Nangal Raya, New Delhi-110046</p>
+                            @if($customer->phone != '')
+                            <p><i class="fas fa-phone"></i> +91 {{ $customer->phone ?? '' }} </p> 
+                            @endif
                             <button class="btn btn-dark mt-2">Edit Profile</button>
                         </div>
                     </div>

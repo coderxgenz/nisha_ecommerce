@@ -437,10 +437,15 @@
     <!-- User Logged In -->
     <div class="header-tools__item hover-container navigation__item user_login_icon user_logged_in ">
         <a href="account_dashboard.html">
-            <img src="{{url('assets/frontend/images/pro.jpg')}}" alt="User Image" class="user-profile-img">
+          @if(Auth::user()->profile != '')
+          <img src="{{url('upload/images/users/')}}{{ Auth::user()->profile }}" alt="User Image" class="user-profile-img">
+
+          @else
+            <img src="{{url('upload/images/users/default_user.webp')}}" alt="User Image" class="user-profile-img">
+            @endif
         </a>
         <ul class="default-menu list-unstyled user_login_dropdown">
-            <li class="sub-menu__item"><a href="account_dashboard.html" class="menu-link menu-link_us-s">My Account</a></li>
+            <li class="sub-menu__item"><a href="{{ route('frontend.view_dashboard') }}" class="menu-link menu-link_us-s">My Account</a></li>
             <li class="sub-menu__item"> 
             <form method="POST" action="{{ route('logout') }}">
               @csrf

@@ -7,14 +7,7 @@
       <h2 class="page-title">Wishlist</h2>
       <div class="row">
         <div class="col-lg-3">
-          <ul class="account-nav">
-            <li><a href="account_dashboard.html" class="menu-link menu-link_us-s">Dashboard</a></li>
-            <li><a href="account_orders.html" class="menu-link menu-link_us-s">Orders</a></li>
-            <li><a href="account_edit_address.html" class="menu-link menu-link_us-s">Addresses</a></li>
-            <li><a href="account_edit.html" class="menu-link menu-link_us-s">Account Details</a></li>
-            <li><a href="account_wishlist.html" class="menu-link menu-link_us-s menu-link_active">Wishlist</a></li>
-            <li><a href="login_register.html" class="menu-link menu-link_us-s">Logout</a></li>
-          </ul>
+        @include('frontend/dashboard_sidebar')
         </div>
         <div class="col-lg-9">
           <div class="page-content my-account__wishlist">

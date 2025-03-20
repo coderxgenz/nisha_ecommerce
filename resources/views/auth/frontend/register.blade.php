@@ -25,6 +25,13 @@
                     <div style="color:red;"><b>{{ $message }}</b></div>
                     @enderror
                 </div>
+                <div class="form-floating mb-3">
+                    <input name="phone" type="number" class="form-control form-control_gray" id="email" placeholder="Phone Number *" value="{{ old('phone') }}">
+                    <label for="phone">Phone Number *</label>
+                    @error('phone')
+                    <div style="color:red;"><b>{{ $message }}</b></div>
+                    @enderror
+                </div>
 
                 <div class="pb-3"></div>
 

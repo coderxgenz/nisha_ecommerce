@@ -25,13 +25,7 @@ class CustomerController extends Controller
             return "Something went wrong";
         }
     }
-    public function edit($id){
-        try{
-             return view('backend.customer.view');
-        }catch(\Exception $e){
-            return "Something went wrong";
-        }
-    }
+    
     public function update(){
         try{
              return view('backend.customer.view');
