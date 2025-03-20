@@ -223,7 +223,7 @@ class ProductController extends Controller
         }
     }
 
-    public function productList(){
+    public function productList($category_slug){
         try{ 
              
              return view('frontend.product_list');

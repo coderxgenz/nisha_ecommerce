@@ -29,12 +29,10 @@
                 <div class="col-lg-12">
                     <div class="card">
 
-                        <div class="card-header">
-                        <h5 class="mb-0 fw-bold"><i class="fas fa-users"></i> Customers List</h5>
-                            <a href="{{ route('backend.main_category.create') }}" class="btn btn-primary waves-effect waves-light"><i class="fas fa-plus"></i> Add New Customers</a>
-                        </div>
+                        
 
-                        <div class="card-body">
+                        @if(count($customers) > 0)
+                         <div class="card-body">
                         <div class="table-responsive">
                             <table class="table table-hover align-middle text-center">
                                 <thead class="table-dark" >
@@ -48,34 +46,36 @@
                                     </tr>
                                 </thead>
                                 <tbody>
+                                    @php
+                                    $sn = 1;
+                                    @endphp
+                                    @foreach ($customers as $customer)
+                                    
+                                    
                                     <tr>
-                                        <td>1</td>
-                                        <td>Gold Necklace</td>
-                                        <td>Jewelry</td>
-                                        <td>Necklaces</td>
-                                        <td>2025-02-26</td>
+                                        <td>{{ $sn++ }}</td>
+                                        <td>{{ $customer->name ?? '' }}</td>
+                                        <td>{{ $customer->email ?? '' }}</td>
+                                        <td>999999999</td>
+                                        <td>{{ Carbon\Carbon::parse($customer->created_at)->format('d M, Y') }}</td>
                                         <td>
-                                        <button class="btn btn-success btn-sm"><i class="fas fa-edit"></i> </button>
-                                        <button class="btn btn-info btn-sm"><i class="fas fa-eye"></i> </button>
+                                        <a href="{{ route('backend.customer.edit', [$customer->id]) }}" class="btn btn-success btn-sm"><i class="fas fa-edit"></i> </a>
+                                        <a href="{{ route('backend.customer.view', [$customer->id]) }}" class="btn btn-info btn-sm"><i class="fas fa-eye"></i> </a>
                                         <button class="btn btn-danger btn-sm"> <i class="fas fa-trash"></i>  </button>
                                         </td>
                                     </tr>
-                                    <tr>
-                                        <td>1</td>
-                                        <td>Gold Necklace</td>
-                                        <td>Jewelry</td>
-                                        <td>Necklaces</td>
-                                        <td>2025-02-26</td>
-                                        <td>
-                                            <button class="btn btn-success btn-sm"><i class="fas fa-edit"></i></button>
-                                            <button class="btn btn-info btn-sm"><i class="fas fa-eye"></i> </button>
-                                            <button class="btn btn-danger btn-sm"> <i class="fas fa-trash"></i> </button>
-                                        </td>
-                                    </tr>
+                                     @endforeach
                                 </tbody>
                             </table>
+                            <div class="">
+                                {{ $customers->links('pagination::bootstrap-5') }}
+                            </div>
                         </div>
-                        </div>
+                        </div> 
+                        
+                        @else
+                        <center><h2>No Records Available</h2></center>
+                        @endif
                     </div>
                 </div>
             </div>

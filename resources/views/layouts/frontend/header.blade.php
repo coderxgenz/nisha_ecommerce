@@ -290,6 +290,7 @@
     <path d="M7 4V2H17V18H7V16" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
     <path d="M11 10H3M3 10L5 8M3 10L5 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
   </svg>
+  
           <span class="d-inline-block ms-2 text-uppercase align-middle fw-medium">Logout</span>
         </div>
 
@@ -430,19 +431,9 @@
           </form><!-- /.header-search -->
 
           <div class="header-tools d-flex align-items-center me-0">
-    <!-- User Not Logged In -->
-    <div class="header-tools__item hover-container navigation__item user_login_icon user_not_logged_in d-none">
-        <a href="#" data-aside="customerForms">
-            <svg class="d-block" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <use href="#icon_user" />
-            </svg>
-        </a>
-        <ul class="default-menu list-unstyled user_login_dropdown">
-            <li class="sub-menu__item"><a href="login_register.html" class="menu-link menu-link_us-s">Login</a></li>
-            <li class="sub-menu__item"><a href="register.html" class="menu-link menu-link_us-s">Register</a></li>
-        </ul>
-    </div>
+    
 
+    @auth
     <!-- User Logged In -->
     <div class="header-tools__item hover-container navigation__item user_login_icon user_logged_in ">
         <a href="account_dashboard.html">
@@ -450,9 +441,29 @@
         </a>
         <ul class="default-menu list-unstyled user_login_dropdown">
             <li class="sub-menu__item"><a href="account_dashboard.html" class="menu-link menu-link_us-s">My Account</a></li>
-            <li class="sub-menu__item"><a href="#" class="menu-link menu-link_us-s logout-btn">Logout</a></li>
+            <li class="sub-menu__item"> 
+            <form method="POST" action="{{ route('logout') }}">
+              @csrf
+              <a class="dropdown-item menu-link menu-link_us-s logout-btn"  href="{{ route('logout') }}" onclick="event.preventDefault();
+              this.closest('form').submit();"><i class="mdi mdi-logout font-size-16 align-middle me-1"></i> Log Out</a>
+            </form>             
+          </li>
         </ul>
     </div>
+    @else
+<!-- User Not Logged In -->
+<div class="header-tools__item hover-container navigation__item user_login_icon user_not_logged_in">
+        <a href="#" data-aside="customerForms">
+            <svg class="d-block" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <use href="#icon_user" />
+            </svg>
+        </a>
+        <ul class="default-menu list-unstyled user_login_dropdown">
+            <li class="sub-menu__item"><a href="{{ route('frontend.login') }}" class="menu-link menu-link_us-s">Login</a></li>
+            <li class="sub-menu__item"><a href="{{ route('frontend.register') }}" class="menu-link menu-link_us-s">Register</a></li>
+        </ul>
+    </div>
+    @endauth
 
     <a class="header-tools__item" href="account_wishlist.html">
         <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -481,7 +492,7 @@
               @if(count($sub_categories) > 0)
                   @foreach($sub_categories as $sub_category)
                   <li class="navigation__item">
-                <a href="#" class="navigation__link color-body">{{ $sub_category->name }}</a>
+                <a href="{{ route('frontent.product_list', [$sub_category->slug ?? "" ]) }}" class="navigation__link color-body">{{ $sub_category->name }}</a>
               </li>
                    @endforeach
                   @endif

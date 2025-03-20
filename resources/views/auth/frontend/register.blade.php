@@ -6,28 +6,41 @@
     <section class="login-register container">
         <h2 class="mb-4">Register</h2>
         <div class="register-form">
-            <form name="register-form" class="needs-validation" novalidate>
+            <form name="register-form" action="{{ route('frontend.register_submit') }}" method="POST">
+                @csrf
                 <div class="form-floating mb-3">
-                    <input name="register_username" type="text" class="form-control form-control_gray" id="customerNameRegisterInput" placeholder="Username" required>
-                    <label for="customerNameRegisterInput">Username</label>
+                    <input name="name" type="text" class="form-control form-control_gray" id="name" placeholder="Full Name" value="{{ old('name') }}">
+                    <label for="name">Full Name</label>
+                    @error('name')
+                    <div style="color:red;"><b>{{ $message }}</b></div>
+                    @enderror
                 </div>
 
                 <div class="pb-3"></div>
 
                 <div class="form-floating mb-3">
-                    <input name="register_email" type="email" class="form-control form-control_gray" id="customerEmailRegisterInput" placeholder="Email address *" required>
-                    <label for="customerEmailRegisterInput">Email address *</label>
+                    <input name="email" type="email" class="form-control form-control_gray" id="email" placeholder="Email address *" value="{{ old('email') }}">
+                    <label for="email">Email address *</label>
+                    @error('email')
+                    <div style="color:red;"><b>{{ $message }}</b></div>
+                    @enderror
                 </div>
 
                 <div class="pb-3"></div>
 
                 <div class="form-floating mb-3">
-                    <input name="register_password" type="password" class="form-control form-control_gray" id="customerPasswodRegisterInput" placeholder="Password *" required>
+                    <input name="password" type="password" class="form-control form-control_gray" id="password" placeholder="Password *" >
                     <label for="customerPasswodRegisterInput">Password *</label>
+                    @error('password')
+                    <div style="color:red;"><b>{{ $message }}</b></div>
+                    @enderror
                 </div>
                 <div class="form-floating mb-3">
-                    <input name="register_password" type="password" class="form-control form-control_gray" id="customerConfirmPasswodRegisterInput" placeholder="Confirm Password *" required>
-                    <label for="customerPasswodRegisterInput">Confirm Password *</label>
+                    <input name="password_confirmation" type="password" class="form-control form-control_gray" id="password_confirmation" placeholder="Confirm Password *" >
+                    <label for="password_confirmation">Confirm Password *</label>
+                    @error('password_confirmation')
+                    <div style="color:red;"><b>{{ $message }}</b></div>
+                    @enderror
                 </div>
 
                 <div class="d-flex align-items-center mb-3 pb-2">

@@ -6,17 +6,24 @@
     <section class="login-register container">
     <h2 class="mb-4">Login</h2>
           <div class="login-form">
-            <form name="login-form" class="needs-validation" novalidate>
+            <form name="login-form" action="{{ route('frontend.login_submit') }}" method="POST">
+              @csrf
               <div class="form-floating mb-3">
-                <input name="login_email" type="email" class="form-control form-control_gray" id="customerNameEmailInput1" placeholder="Email address *" required>
-                <label for="customerNameEmailInput1">Email address *</label>
+                <input name="email" type="email" class="form-control form-control_gray" id="email" placeholder="Email address *">
+                <label for="email">Email address *</label>
+                @error('email')
+                <div style="color:red;"><b>{{ $message }}</b></div>
+                @enderror
               </div>
     
               <div class="pb-3"></div>
     
               <div class="form-floating mb-3">
-                <input name="login_password" type="password" class="form-control form-control_gray" id="customerPasswodInput" placeholder="Password *" required>
-                <label for="customerPasswodInput">Password *</label>
+                <input name="password" type="password" class="form-control form-control_gray" id="password" placeholder="Password *">
+                <label for="password">Password *</label>
+                @error('password')
+                <div style="color:red;"><b>{{ $message }}</b></div>
+                @enderror
               </div>
     
               <div class="d-flex align-items-center mb-3 pb-2">

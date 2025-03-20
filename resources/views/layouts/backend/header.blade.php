@@ -293,8 +293,7 @@
             <span data-key="t-apps">Customers</span>
         </a>
         <ul class="sub-menu" aria-expanded="false">
-            <li><a href="{{ route('backend.customer.index') }}">Customers List</a></li>
-            <li><a href="{{ route('backend.customer.view') }}">Customers Details</a></li>
+            <li><a href="{{ route('backend.customer.index') }}">Customers List</a></li> 
         </ul>
     </li>
 

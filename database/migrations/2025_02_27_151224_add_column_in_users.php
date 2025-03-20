@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->tinyInteger('role_id')->nullable()->after('email_verified_at');
+            $table->tinyInteger('role_id')->nullable()->after('email_verified_at'); //1 = admin, 2 = customer
         });
     }
 

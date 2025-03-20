@@ -73,7 +73,7 @@
                                                     <h5 class="mb-0">Welcome Back !</h5>
                                                     <p class="text-muted mt-2">Sign in to continue to Nisha Rajput Coaching.</p>
                                                 </div>
-                                                <form class="mt-4 pt-2" method="POST" action="{{ route('login') }}">
+                                                <form class="mt-4 pt-2" method="POST" action="{{ route('backend.admin.login_submit') }}">
                                                   @csrf
                                                     <div class="mb-3">
                                                         <label class="form-label">Email</label>

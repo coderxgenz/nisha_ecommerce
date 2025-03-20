@@ -14,6 +14,7 @@ use App\Http\Controllers\Backend\WebsiteManagementController;
 
 Route::middleware(['guest'])->group(function(){
     Route::get('/admin', [AuthencationController::class, 'adminLogin'])->name('backend.admin.login');
+    Route::post('/admin/login', [AuthencationController::class, 'adminLoginSubmit'])->name('backend.admin.login_submit');
 });
 
 Route::middleware(['auth', 'web', 'verified', 'admin.check'])->group(function(){
@@ -62,7 +63,10 @@ Route::middleware(['auth', 'web', 'verified', 'admin.check'])->group(function(){
      Route::controller(CustomerController::class)->group(function(){
         Route::prefix('/admin')->group(function(){
             Route::get('/customer', 'index')->name('backend.customer.index');
-            Route::get('/customer/view', 'viewCustomer')->name('backend.customer.view');
+            Route::get('/customer/view/{id}', 'viewCustomer')->name('backend.customer.view');
+            Route::get('/customer/edit/{id}', 'viewCustomer')->name('backend.customer.edit');
+            Route::post('/customer/update', 'viewCustomer')->name('backend.customer.update');
+            Route::get('/customer/change-status', 'changeStatus')->name('backend.customer.change_status');
             Route::get('/customer/delete/{id}', 'destroy')->name('backend.customer.destroy');
         });
      });

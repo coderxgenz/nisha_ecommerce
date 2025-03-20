@@ -30,8 +30,8 @@
                     <div class="card custom-card">
                         <div class="card-body text-center">
                             <img src="{{url('assets/frontend/images/products/1.jpg')}}" alt="Customer Image" class="avatar-lg rounded-circle shadow">
-                            <h5 class="mt-3"> Naveen Rajput</h5>
-                            <p class="text-muted">naveentanwar3011@gmail.com</p>
+                            <h5 class="mt-3">{{ $customer->name ?? '' }}</h5>
+                            <p class="text-muted">{{ $customer->email ?? '' }}</p>
                             <p><i class="fas fa-phone"></i> +91 8287003254 </p>
                             <p><i class="fas fa-map-marker-alt"></i> WZ-1297, Nangal Raya, New Delhi-110046</p>
                             <button class="btn btn-dark mt-2">Edit Profile</button>
