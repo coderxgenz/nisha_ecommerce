@@ -1886,12 +1886,12 @@ progress {
   border-bottom-width: 1px;
 }
 
-.accordion-item:last-of-type .accordion-collapse {
+/* .accordion-item:last-of-type .accordion-collapse {
   border-bottom-width: 1px;
-}
+} */
 
 .accordion-collapse {
-  border: solid #eeeeee;
+  /* border: solid #eeeeee; */
   border-width: 0 1px;
 }
 
@@ -2140,9 +2140,9 @@ progress {
 .list-group-item {
   position: relative;
   display: block;
-  padding: 0.5rem 1rem;
-  background-color: #fff;
-  border: 1px solid rgba(0, 0, 0, 0.125);
+  padding: 0.1rem 0.5rem;
+  /* background-color: #fff;
+  border: 1px solid rgba(0, 0, 0, 0.125); */
 }
 
 .list-group-item:first-child {
@@ -12472,9 +12472,9 @@ img {
   transform: rotate(0deg);
 }
 
-.accordion-body {
+/* .accordion-body {
   padding: 1.5rem 1.875rem 1.75rem;
-}
+} */
 
 .faq-accordion .accordion-item {
   margin-bottom: 1.25rem;
@@ -18235,7 +18235,7 @@ textarea.form-control.is-invalid {
   position: relative;
   padding: 0.5em 0;
   color: #222222;
-  line-height: 1.5em;
+  line-height: 1em;
 }
 
 .menu-link_us-s:after {
