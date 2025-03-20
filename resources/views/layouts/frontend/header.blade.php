@@ -15,6 +15,7 @@
 
   <!-- Stylesheets -->
   <link rel="stylesheet" href="{{url('assets/frontend/css/swiper.min.css')}}" type="text/css">
+  <link rel="stylesheet" href="{{url('assets/frontend/css/jquery.fancybox.css')}}" type="text/css">
   <link rel="stylesheet" href="{{url('assets/frontend/css/style.css')}}" type="text/css">
 
 
