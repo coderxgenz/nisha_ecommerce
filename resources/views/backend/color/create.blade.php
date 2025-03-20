@@ -39,6 +39,15 @@
                                                                                 </div> 
                                                                                 <div class="col-xl-4 col-md-6">
                                                                                         <div class="form-group mb-3">
+                                                                                                <label>Color Code</label>
+                                                                                                <input type="color" name="color_code" required  class="form-control" style="width:20% !important;" />
+                                                                                                @error('name')
+                                                                                                <p style="color:red;"><b>{{ $message }}</b></p>
+                                                                                                @enderror 
+                                                                                        </div>
+                                                                                </div> 
+                                                                                <div class="col-xl-4 col-md-6">
+                                                                                        <div class="form-group mb-3">
                                                                                                 <label>Order By</label>
                                                                                                 <input type="text" name="order_number" min="1" required class="form-control" value="1" placeholder="Order By" />
                                                                                                  

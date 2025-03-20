@@ -95,8 +95,8 @@ Route::middleware(['auth', 'web', 'verified', 'admin.check'])->group(function(){
             Route::get('/color', 'index')->name('backend.color.index');
             Route::get('/color/create', 'create')->name('backend.color.create');
             Route::post('/color/store', 'store')->name('backend.color.store');
-            Route::post('/color/update', 'update')->name('backend.color.update');
-            Route::get('/color/edit', 'edit')->name('backend.color.edit');
+            Route::post('/color/update/{id}', 'update')->name('backend.color.update');
+            Route::get('/color/edit/{id}', 'edit')->name('backend.color.edit');
             Route::get('/color/delete/{id}', 'destroy')->name('backend.color.destroy');
             Route::post('/color/update-status', 'updateStatus')->name('backend.color.update_status');
 

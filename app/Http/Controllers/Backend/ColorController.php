@@ -11,7 +11,7 @@ class ColorController extends Controller
     public function index()
     {
         try{ 
-            $colors = Color::paginate(20);
+            $colors = Color::orderBy('id', 'desc')->paginate(20);
             return view('backend.color.index',compact('colors'));
         }catch(\Exception $e){
          return "Something Went Wrong";
@@ -26,10 +26,11 @@ class ColorController extends Controller
          return "Something Went Wrong";
         }
     }
-    public function edit()
+    public function edit($id)
     {
         try{ 
-            return view('backend.color.edit');
+            $color = Color::where('id', $id)->first();
+            return view('backend.color.edit', compact('color'));
         }catch(\Exception $e){
          return "Something Went Wrong";
         }
@@ -38,10 +39,12 @@ class ColorController extends Controller
     public function store(Request $request){
         $validate = $request->validate([
             'name' => 'required',
+            'color_code' => 'required',
         ]);
         try{
             Color::create([
                 'name' => $request->name,
+                'color_code' => $request->color_code,
                 'order_number' => $request->order_number, 
             ]);
             return redirect()->route('backend.color.index')->with('created', "Color Created Successfully");
@@ -49,9 +52,18 @@ class ColorController extends Controller
             return "Something Went Wrong";
         }
     }
-    public function update(Request $request){
+    public function update(Request $request, $id){
+        $validate = $request->validate([
+            'name' => 'required',
+            'color_code' => 'required',
+        ]);
         try{
-            return redirect()->route('backend.color.index');
+            Color::where('id', $id)->update([
+                'name' => $request->name,
+                'color_code' => $request->color_code,
+                'order_number' => $request->order_number, 
+            ]);
+            return redirect()->route('backend.color.index')->with('updated', "Color Updated Successfully");
         }catch(\Exception $e){
             return "Something Went Wrong";
         }

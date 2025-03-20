@@ -221,10 +221,18 @@ class ProductController extends Controller
         }
     }
 
-    public function productList($category_slug){
+    public function productList(Request $request, $category_slug){
         try{ 
-             
-             return view('frontend.product_list');
+            $color = $request->color;
+            $size = $request->size;
+            $price = $request->price; 
+            $sub_category = SubCategory::with('getMainCategory')->where('slug', $category_slug)->first();    
+             $products = Product::where('sub_category_id', $sub_category->id)->get();
+             $categories = MainCategory::with(['subCategories'])->where('is_active', '1')->get();
+            $colors = Color::where('is_active', '1')->get();
+            $sizes = Size::where('is_active', '1')->get();
+             return view('frontend.product_list', compact('products', 'categories', 'category_slug', 
+             'sub_category', 'colors', 'sizes'));
         }catch(\Exception $e){
             return "Something went wrong";
         }

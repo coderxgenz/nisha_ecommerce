@@ -40,6 +40,7 @@
                                     <tr>
                                         <th>#</th>
                                         <th>Color Name</th> 
+                                        <th>Color Color</th> 
                                         <th>Status</th>
                                         <th>Created At</th>
                                         <th>Actions</th>
@@ -53,12 +54,13 @@
                                     <tr>
                                         <td>{{ $sn++ }}</td>
                                         <td>{{ $color->name ?? '' }}</td> 
+                                        <td>{{ $color->color_code ?? '' }}</td> 
                                         <td><input type="checkbox" id="switch_{{ $color->id }}" class="toggle-switch" switch="bool" data-id="{{ $color->id }}" {{ $color->is_active == 1 ? "checked":"" }} />
                                             <label for="switch_{{ $color->id }}" data-on-label="Active" data-off-label="Inactive"></label>
                                         </td>
                                         <td>{{ Carbon\Carbon::parse($color->created)->format('d M, Y') }}</td>
                                         <td>
-                                            <a href="{{ route('backend.main_category.edit', [$color->id]) }}" class="btn btn-success btn-sm"><i class="fas fa-edit"></i></a>
+                                            <a href="{{ route('backend.color.edit', [$color->id]) }}" class="btn btn-success btn-sm"><i class="fas fa-edit"></i></a>
                                             <a href="javascript::void(0)" data-id="{{ $color->id }}" class="btn btn-danger btn-sm" id="delete_btn"><i class="fas fa-trash"></i></a>
                                         </td>
                                     </tr>

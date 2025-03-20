@@ -25,23 +25,32 @@
                                                 </div>  
                                                 <div class="card-body">
                                                         <div>
-                                                                <form id="pristine-valid-example" novalidate method="POST" action="{{ route('backend.color.store') }}">
+                                                                <form id="pristine-valid-example" novalidate method="POST" action="{{ route('backend.color.update', [$color->id]) }}">
                                                                         @csrf 
                                                                         <div class="row">
                                                                                 <div class="col-xl-4 col-md-6">
                                                                                         <div class="form-group mb-3">
                                                                                                 <label>Color Name</label>
-                                                                                                <input type="text" name="name" required  class="form-control" placeholder="Color Name" />
+                                                                                                <input type="text" name="name" value="{{ $color->name }}" required  class="form-control" placeholder="Color Name" />
                                                                                                 @error('name')
                                                                                                 <p style="color:red;"><b>{{ $message }}</b></p>
                                                                                                 @enderror 
                                                                                         </div>
                                                                                 </div> 
+
+                                                                                <div class="col-xl-4 col-md-6">
+                                                                                        <div class="form-group mb-3">
+                                                                                                <label>Color Code</label>
+                                                                                                <input type="color" name="color_code" required value="{{ $color->color_code ?? $color->name }}"  class="form-control" style="width:20% !important;" />
+                                                                                                @error('name')
+                                                                                                <p style="color:red;"><b>{{ $message }}</b></p>
+                                                                                                @enderror 
+                                                                                        </div>
+                                                                                </div>
                                                                                 <div class="col-xl-4 col-md-6">
                                                                                         <div class="form-group mb-3">
                                                                                                 <label>Order By</label>
-                                                                                                <input type="text" name="order_number" min="1" required class="form-control" value="1" placeholder="Order By" />
-                                                                                                 
+                                                                                                <input type="text" name="order_number" min="1" required class="form-control" value="{{ $color->order_number }}" placeholder="Order By" />
                                                                                         </div>
                                                                                 </div>
                                                                                  

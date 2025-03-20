@@ -10,7 +10,7 @@
         </div>
 
         <div class="shop-banner__content container position-absolute start-50 top-50 translate-middle">
-          <h2 class="h1 text-uppercase text-center fw-bold mb-3 mb-xl-4 mb-xl-5">Shoes</h2>
+          <h2 class="h1 text-uppercase text-center fw-bold mb-3 mb-xl-4 mb-xl-5">{{ $sub_category->name ?? '' }}</h2>
           <ul class="d-flex justify-content-center flex-wrap list-unstyled text-uppercase h6">
             <li class="me-3 me-xl-4 pe-1"><a href="#" class="menu-link menu-link_us-s menu-link_active">StayHome</a></li>
             <li class="me-3 me-xl-4 pe-1"><a href="#" class="menu-link menu-link_us-s">New In</a></li>
@@ -55,12 +55,13 @@
               <ul class="list list-inline mb-0">
                 <!-- Nested Accordion -->
                 <div class="accordion" id="nestedAccordion1">
-
+                  @if(count($categories) > 0)
+                  @foreach($categories as $category)
                   <!-- Dresses -->
                   <div class="accordion-item pb-2">
-                    <h2 class="accordion-header" id="nestedHeadingOne">
-                      <button class="accordion-button p-0 border-0 fs-5 text-uppercase" type="button" data-bs-toggle="collapse" data-bs-target="#nestedCollapseOne" aria-expanded="true" aria-controls="nestedCollapseOne">
-                        Women
+                    <h2 class="accordion-header" id="nestedHeading_{{ $category->slug ?? '' }}">
+                      <button class="accordion-button p-0 border-0 fs-5 text-uppercase" type="button" data-bs-toggle="collapse" data-bs-target="#nestedCollapse_{{ $category->slug ?? '' }}" aria-expanded="true" aria-controls="nestedCollapse_{{ $category->slug ?? '' }}">
+                        {{ $category->name ?? ''}}
                         <svg class="accordion-button__icon type2" viewBox="0 0 10 6" xmlns="http://www.w3.org/2000/svg">
                           <g aria-hidden="true" stroke="none" fill-rule="evenodd">
                             <path d="M5.35668 0.159286C5.16235 -0.053094 4.83769 -0.0530941 4.64287 0.159286L0.147611 5.05963C-0.0492049 5.27473 -0.049205 5.62357 0.147611 5.83813C0.344427 6.05323 0.664108 6.05323 0.860924 5.83813L5 1.32706L9.13858 5.83867C9.33589 6.05378 9.65507 6.05378 9.85239 5.83867C10.0492 5.62357 10.0492 5.27473 9.85239 5.06018L5.35668 0.159286Z" />
@@ -68,92 +69,25 @@
                         </svg>
                       </button>
                     </h2>
-                    <div id="nestedCollapseOne" class="accordion-collapse collapse show" aria-labelledby="nestedHeadingOne" data-bs-parent="#nestedAccordion1">
+                    <div id="nestedCollapse_{{ $category->slug ?? '' }}" class="accordion-collapse collapse {{ $sub_category->getMainCategory?->slug == $category->slug ? 'show':'' }}" aria-labelledby="nestedHeading_{{ $category->slug ?? '' }}" data-bs-parent="#nestedAccordion1">
                       <div class="accordion-body">
+                        @if(count($category->subCategories) > 0)
                         <ul class="list-group">
+                          @foreach($category->subCategories as $subCategory)
                           <li class="list-group-item">
-                            <a href="#" class="menu-link py-1">Kurta Sets</a>
-                          </li>
-                          <li class="list-group-item">
-                            <a href="#" class="menu-link py-1">Lehengas</a>
-                          </li>
-                          <li class="list-group-item">
-                            <a href="#" class="menu-link py-1">Draping Dresses</a>
-                          </li>
-                          <li class="list-group-item">
-                            <a href="#" class="menu-link py-1">Designer Blouses</a>
-                          </li>
-                          <li class="list-group-item">
-                            <a href="#" class="menu-link py-1">Western Outfits</a>
-                          </li>
-                          <li class="list-group-item">
-                            <a href="#" class="menu-link py-1">Kaftans</a>
-                          </li>
-                          <li class="list-group-item">
-                            <a href="#" class="menu-link py-1">Jumpsuits</a>
-                          </li>
-                          <li class="list-group-item">
-                            <a href="#" class="menu-link py-1">Shirts</a>
-                          </li>
+                            <a href="{{ route('frontent.product_list', [$subCategory->slug ?? "" ]) }}" class="menu-link py-1">{{ $subCategory->name ?? '' }}</a>
+                          </li> 
+                          @endforeach
                         </ul>
+                        @endif
                       </div>
                     </div>
                   </div>
+                  @endforeach
+                  @endif
 
-                  <div class="accordion-item pb-2">
-                    <h2 class="accordion-header" id="nestedHeadingTwo">
-                      <button class="accordion-button p-0 border-0 fs-5 text-uppercase" type="button" data-bs-toggle="collapse" data-bs-target="#nestedCollapseTwo" aria-expanded="true" aria-controls="nestedCollapseOne">
-                        Dresses
-                        <svg class="accordion-button__icon type2" viewBox="0 0 10 6" xmlns="http://www.w3.org/2000/svg">
-                          <g aria-hidden="true" stroke="none" fill-rule="evenodd">
-                            <path d="M5.35668 0.159286C5.16235 -0.053094 4.83769 -0.0530941 4.64287 0.159286L0.147611 5.05963C-0.0492049 5.27473 -0.049205 5.62357 0.147611 5.83813C0.344427 6.05323 0.664108 6.05323 0.860924 5.83813L5 1.32706L9.13858 5.83867C9.33589 6.05378 9.65507 6.05378 9.85239 5.83867C10.0492 5.62357 10.0492 5.27473 9.85239 5.06018L5.35668 0.159286Z" />
-                          </g>
-                        </svg>
-                      </button>
-                    </h2>
-                    <div id="nestedCollapseTwo" class="accordion-collapse collapse " aria-labelledby="nestedHeadingTwo" data-bs-parent="#nestedAccordion1">
-                      <div class="accordion-body">
-                        <ul class="list-group">
-                          <li class="list-group-item">
-                            <a href="#" class="menu-link py-1">Shorts</a>
-                          </li>
-                          <li class="list-group-item">
-                            <a href="#" class="menu-link py-1">Shorts</a>
-                          </li>
-                          <li class="list-group-item">
-                            <a href="#" class="menu-link py-1">Shorts</a>
-                          </li>
-                        </ul>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="accordion-item pb-2">
-                    <h2 class="accordion-header" id="nestedHeadingThree">
-                      <button class="accordion-button p-0 border-0 fs-5 text-uppercase" type="button" data-bs-toggle="collapse" data-bs-target="#nestedCollapseThree" aria-expanded="true" aria-controls="nestedCollapseOne">
-                        Dresses
-                        <svg class="accordion-button__icon type2" viewBox="0 0 10 6" xmlns="http://www.w3.org/2000/svg">
-                          <g aria-hidden="true" stroke="none" fill-rule="evenodd">
-                            <path d="M5.35668 0.159286C5.16235 -0.053094 4.83769 -0.0530941 4.64287 0.159286L0.147611 5.05963C-0.0492049 5.27473 -0.049205 5.62357 0.147611 5.83813C0.344427 6.05323 0.664108 6.05323 0.860924 5.83813L5 1.32706L9.13858 5.83867C9.33589 6.05378 9.65507 6.05378 9.85239 5.83867C10.0492 5.62357 10.0492 5.27473 9.85239 5.06018L5.35668 0.159286Z" />
-                          </g>
-                        </svg>
-                      </button>
-                    </h2>
-                    <div id="nestedCollapseThree" class="accordion-collapse collapse" aria-labelledby="nestedHeadingThree" data-bs-parent="#nestedAccordion1">
-                      <div class="accordion-body">
-                        <ul class="list-group">
-                          <li class="list-group-item">
-                            <a href="#" class="menu-link py-1">Shorts</a>
-                          </li>
-                          <li class="list-group-item">
-                            <a href="#" class="menu-link py-1">Shorts</a>
-                          </li>
-                          <li class="list-group-item">
-                            <a href="#" class="menu-link py-1">Shorts</a>
-                          </li>
-                        </ul>
-                      </div>
-                    </div>
-                  </div>
+                   
+                   
 
 
                 </div> <!-- Nested Accordion Ends -->
@@ -165,11 +99,12 @@
       </div><!-- /.accordion-item -->
 
 
+      @if(count($colors) > 0)
       <div class="accordion" id="color-filters">
         <div class="accordion-item mb-4 pb-3">
           <h5 class="accordion-header" id="accordion-heading-1">
             <button class="accordion-button p-0 border-0 fs-5 text-uppercase" type="button" data-bs-toggle="collapse" data-bs-target="#accordion-filter-2" aria-expanded="true" aria-controls="accordion-filter-2">
-              Color
+              Colors
               <svg class="accordion-button__icon type2" viewBox="0 0 10 6" xmlns="http://www.w3.org/2000/svg">
                 <g aria-hidden="true" stroke="none" fill-rule="evenodd">
                   <path d="M5.35668 0.159286C5.16235 -0.053094 4.83769 -0.0530941 4.64287 0.159286L0.147611 5.05963C-0.0492049 5.27473 -0.049205 5.62357 0.147611 5.83813C0.344427 6.05323 0.664108 6.05323 0.860924 5.83813L5 1.32706L9.13858 5.83867C9.33589 6.05378 9.65507 6.05378 9.85239 5.83867C10.0492 5.62357 10.0492 5.27473 9.85239 5.06018L5.35668 0.159286Z" />
@@ -177,26 +112,23 @@
               </svg>
             </button>
           </h5>
+          
+
           <div id="accordion-filter-2" class="accordion-collapse collapse show border-0" aria-labelledby="accordion-heading-1" data-bs-parent="#color-filters">
             <div class="accordion-body px-0 pb-0">
               <div class="d-flex flex-wrap">
-                <a href="#" class="swatch-color js-filter" style="color: #0a2472"></a>
-                <a href="#" class="swatch-color js-filter" style="color: #d7bb4f"></a>
-                <a href="#" class="swatch-color js-filter" style="color: #282828"></a>
-                <a href="#" class="swatch-color js-filter" style="color: #b1d6e8"></a>
-                <a href="#" class="swatch-color js-filter" style="color: #9c7539"></a>
-                <a href="#" class="swatch-color js-filter" style="color: #d29b48"></a>
-                <a href="#" class="swatch-color js-filter" style="color: #e6ae95"></a>
-                <a href="#" class="swatch-color js-filter" style="color: #d76b67"></a>
-                <a href="#" class="swatch-color swatch_active js-filter" style="color: #bababa"></a>
-                <a href="#" class="swatch-color js-filter" style="color: #bfdcc4"></a>
+                @foreach($colors as $color)
+                <a href="{{ route('frontent.product_list', [$sub_category->slug ?? "" ]) }}?color={{ $color->color_code ?? $color->name}}" class="swatch-color js-filter" style="color: {{ $color->name ?? '' }}"></a>
+                @endforeach 
               </div>
             </div>
           </div>
         </div><!-- /.accordion-item -->
       </div><!-- /.accordion -->
+      @endif
+      
 
-
+      @if(count($sizes) > 0)
       <div class="accordion" id="size-filters">
         <div class="accordion-item mb-4 pb-3">
           <h5 class="accordion-header" id="accordion-heading-size">
@@ -212,17 +144,15 @@
           <div id="accordion-filter-size" class="accordion-collapse collapse show border-0" aria-labelledby="accordion-heading-size" data-bs-parent="#size-filters">
             <div class="accordion-body px-0 pb-0">
               <div class="d-flex flex-wrap">
-                <a href="#" class="swatch-size btn btn-sm btn-outline-light mb-3 me-3 js-filter">XS</a>
-                <a href="#" class="swatch-size btn btn-sm btn-outline-light mb-3 me-3 js-filter">S</a>
-                <a href="#" class="swatch-size btn btn-sm btn-outline-light mb-3 me-3 js-filter">M</a>
-                <a href="#" class="swatch-size btn btn-sm btn-outline-light mb-3 me-3 js-filter">L</a>
-                <a href="#" class="swatch-size btn btn-sm btn-outline-light mb-3 me-3 js-filter">XL</a>
-                <a href="#" class="swatch-size btn btn-sm btn-outline-light mb-3 me-3 js-filter">XXL</a>
+                @foreach($sizes as $size)
+                <a href="#" class="swatch-size btn btn-sm btn-outline-light mb-3 me-3 js-filter">{{ $size->name ?? '' }}</a>
+                @endforeach 
               </div>
             </div>
           </div>
         </div><!-- /.accordion-item -->
       </div><!-- /.accordion -->
+      @endif
 
       <div class="accordion" id="price-filters">
         <div class="accordion-item mb-4">
@@ -258,7 +188,9 @@
         <div class="breadcrumb mb-0 d-none d-md-block flex-grow-1">
           <a href="#" class="menu-link menu-link_us-s text-uppercase fw-medium">Home</a>
           <span class="breadcrumb-separator menu-link fw-medium ps-1 pe-1">/</span>
-          <a href="#" class="menu-link menu-link_us-s text-uppercase fw-medium">The Shop</a>
+          <a href="#" class="menu-link menu-link_us-s text-uppercase fw-medium">{{ $sub_category->getMainCategory?->name ?? '' }}</a>
+          <span class="breadcrumb-separator menu-link fw-medium ps-1 pe-1">/</span>
+          <span class="text-uppercase fw-medium">{{ $sub_category->name ?? '' }}</span>
         </div><!-- /.breadcrumb -->
 
         <div class="shop-acs d-flex align-items-center justify-content-between justify-content-md-end flex-grow-1">
@@ -292,6 +224,10 @@
       </div><!-- /.d-flex justify-content-between -->
 
       <div class="products-grid row row-cols-2 row-cols-md-3" id="products-grid">
+      @if(count($products) > 0)
+      @foreach($products as $product)
+
+
         <div class="product-card-wrapper">
           <div class="product-card mb-3 mb-md-4 mb-xxl-5">
             <div class="pc__img-wrapper">
@@ -349,131 +285,11 @@
             </div>
           </div>
         </div>
-        <div class="product-card-wrapper">
-          <div class="product-card mb-3 mb-md-4 mb-xxl-5">
-            <div class="pc__img-wrapper">
-              <div class="swiper-container background-img js-swiper-slider" data-settings='{"resizeObserver": true}'>
-                <div class="swiper-wrapper">
-                  <div class="swiper-slide">
-                    <a href="product1_simple.html"><img loading="lazy" src="{{url('assets/frontend/images/products/1.jpg')}}" width="330" height="400" alt="Cropped Faux leather Jacket" class="pc__img"></a>
-                  </div><!-- /.pc__img-wrapper -->
-                  <div class="swiper-slide">
-                    <a href="product1_simple.html"><img loading="lazy" src="{{url('assets/frontend/images/products/4.jpg')}}" width="330" height="400" alt="Cropped Faux leather Jacket" class="pc__img"></a>
-                  </div><!-- /.pc__img-wrapper -->
-                </div>
-                <span class="pc__img-prev"><svg width="7" height="11" viewBox="0 0 7 11" xmlns="http://www.w3.org/2000/svg">
-                    <use href="#icon_prev_sm" />
-                  </svg></span>
-                <span class="pc__img-next"><svg width="7" height="11" viewBox="0 0 7 11" xmlns="http://www.w3.org/2000/svg">
-                    <use href="#icon_next_sm" />
-                  </svg></span>
-              </div>
-              <button class="pc__atc btn anim_appear-bottom btn position-absolute border-0 text-uppercase fw-medium js-add-cart js-open-aside" data-aside="cartDrawer" title="Add To Cart">Add To Cart</button>
-            </div>
+        @endforeach
 
-            <div class="pc__info position-relative">
-              <p class="pc__category">Dresses</p>
-              <h6 class="pc__title"><a href="product1_simple.html">Cropped Faux Leather Jacket</a></h6>
-              <div class="product-card__price d-flex">
-                <span class="money price">₹29</span>
-              </div>
-              <div class="product-card__review d-flex align-items-center">
-                <div class="reviews-group d-flex">
-                  <svg class="review-star" viewBox="0 0 9 9" xmlns="http://www.w3.org/2000/svg">
-                    <use href="#icon_star" />
-                  </svg>
-                  <svg class="review-star" viewBox="0 0 9 9" xmlns="http://www.w3.org/2000/svg">
-                    <use href="#icon_star" />
-                  </svg>
-                  <svg class="review-star" viewBox="0 0 9 9" xmlns="http://www.w3.org/2000/svg">
-                    <use href="#icon_star" />
-                  </svg>
-                  <svg class="review-star" viewBox="0 0 9 9" xmlns="http://www.w3.org/2000/svg">
-                    <use href="#icon_star" />
-                  </svg>
-                  <svg class="review-star" viewBox="0 0 9 9" xmlns="http://www.w3.org/2000/svg">
-                    <use href="#icon_star" />
-                  </svg>
-                </div>
-                <span class="reviews-note text-lowercase text-secondary ms-1">8k+ reviews</span>
-              </div>
 
-              <button class="pc__btn-wl position-absolute top-0 end-0 bg-transparent border-0 js-add-wishlist" title="Add To Wishlist">
-                <svg width="16" height="16" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <use href="#icon_heart" />
-                </svg>
-              </button>
-            </div>
-
-            <div class="pc-labels position-absolute top-0 start-0 w-100 d-flex justify-content-between">
-              <div class="pc-labels__left">
-                <span class="pc-label pc-label_new d-block bg-white">NEW</span>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="product-card-wrapper">
-          <div class="product-card mb-3 mb-md-4 mb-xxl-5">
-            <div class="pc__img-wrapper">
-              <div class="swiper-container background-img js-swiper-slider" data-settings='{"resizeObserver": true}'>
-                <div class="swiper-wrapper">
-                  <div class="swiper-slide">
-                    <a href="product1_simple.html"><img loading="lazy" src="{{url('assets/frontend/images/products/1.jpg')}}" width="330" height="400" alt="Cropped Faux leather Jacket" class="pc__img"></a>
-                  </div><!-- /.pc__img-wrapper -->
-                  <div class="swiper-slide">
-                    <a href="product1_simple.html"><img loading="lazy" src="{{url('assets/frontend/images/products/4.jpg')}}" width="330" height="400" alt="Cropped Faux leather Jacket" class="pc__img"></a>
-                  </div><!-- /.pc__img-wrapper -->
-                </div>
-                <span class="pc__img-prev"><svg width="7" height="11" viewBox="0 0 7 11" xmlns="http://www.w3.org/2000/svg">
-                    <use href="#icon_prev_sm" />
-                  </svg></span>
-                <span class="pc__img-next"><svg width="7" height="11" viewBox="0 0 7 11" xmlns="http://www.w3.org/2000/svg">
-                    <use href="#icon_next_sm" />
-                  </svg></span>
-              </div>
-              <button class="pc__atc btn anim_appear-bottom btn position-absolute border-0 text-uppercase fw-medium js-add-cart js-open-aside" data-aside="cartDrawer" title="Add To Cart">Add To Cart</button>
-            </div>
-
-            <div class="pc__info position-relative">
-              <p class="pc__category">Dresses</p>
-              <h6 class="pc__title"><a href="product1_simple.html">Cropped Faux Leather Jacket</a></h6>
-              <div class="product-card__price d-flex">
-                <span class="money price">₹29</span>
-              </div>
-              <div class="product-card__review d-flex align-items-center">
-                <div class="reviews-group d-flex">
-                  <svg class="review-star" viewBox="0 0 9 9" xmlns="http://www.w3.org/2000/svg">
-                    <use href="#icon_star" />
-                  </svg>
-                  <svg class="review-star" viewBox="0 0 9 9" xmlns="http://www.w3.org/2000/svg">
-                    <use href="#icon_star" />
-                  </svg>
-                  <svg class="review-star" viewBox="0 0 9 9" xmlns="http://www.w3.org/2000/svg">
-                    <use href="#icon_star" />
-                  </svg>
-                  <svg class="review-star" viewBox="0 0 9 9" xmlns="http://www.w3.org/2000/svg">
-                    <use href="#icon_star" />
-                  </svg>
-                  <svg class="review-star" viewBox="0 0 9 9" xmlns="http://www.w3.org/2000/svg">
-                    <use href="#icon_star" />
-                  </svg>
-                </div>
-                <span class="reviews-note text-lowercase text-secondary ms-1">8k+ reviews</span>
-              </div>
-
-              <button class="pc__btn-wl position-absolute top-0 end-0 bg-transparent border-0 js-add-wishlist" title="Add To Wishlist">
-                <svg width="16" height="16" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <use href="#icon_heart" />
-                </svg>
-              </button>
-            </div>
-            <div class="pc-labels position-absolute top-0 start-0 w-100 d-flex justify-content-between">
-              <div class="pc-labels__right ms-auto">
-                <span class="pc-label pc-label_sale d-block text-white">-67%</span>
-              </div>
-            </div>
-          </div>
-        </div>
+         
+         
       </div><!-- /.products-grid row -->
 
       <nav class="shop-pages d-flex justify-content-between mt-3" aria-label="Page navigation">
@@ -496,6 +312,12 @@
           </svg>
         </a>
       </nav>
+
+      @else
+      <div class="alert alert-danger col-md-12" role="alert">
+       <center>No Products Found</center> 
+      </div>
+      @endif
     </div>
   </section><!-- /.shop-main container -->
 </main>
