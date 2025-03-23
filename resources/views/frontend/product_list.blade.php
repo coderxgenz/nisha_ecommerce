@@ -224,8 +224,9 @@
       </div><!-- /.d-flex justify-content-between -->
 
       <div class="products-grid row row-cols-2 row-cols-md-3" id="products-grid">
-      @if(count($products) > 0)
-      @foreach($products as $product)
+         
+      @if(count($product_list) > 0)
+      @foreach($product_list as $product)
 
 
         <div class="product-card-wrapper">
@@ -233,12 +234,19 @@
             <div class="pc__img-wrapper">
               <div class="swiper-container background-img js-swiper-slider" data-settings='{"resizeObserver": true}'>
                 <div class="swiper-wrapper">
+                @if(count($product['product_images']) > 0)
+                    @foreach($product['product_images'] as $p_image)
                   <div class="swiper-slide">
-                    <a href="product1_simple.html"><img loading="lazy" src="{{url('assets/frontend/images/shop/1.jpg')}}" width="330" height="400" alt="Cropped Faux leather Jacket" class="pc__img"></a>
-                  </div><!-- /.pc__img-wrapper -->
+                    <a href="javascript:void(0)"><img loading="lazy" src="{{url($p_image)}}" width="330" height="400" alt="Cropped Faux leather Jacket" class="pc__img"></a>
+                  </div> 
+                  @endforeach
+                  @else
                   <div class="swiper-slide">
-                    <a href="product1_simple.html"><img loading="lazy" src="{{url('assets/frontend/images/shop/2.jpg')}}" width="330" height="400" alt="Cropped Faux leather Jacket" class="pc__img"></a>
-                  </div><!-- /.pc__img-wrapper -->
+                    <a href="javascript:void(0)"><img loading="lazy" src="{{url('upload/images/product_images/default_product.jpg')}}" width="330" height="400" alt="Cropped Faux leather Jacket" class="pc__img"></a>
+                  </div> 
+                  @endif
+
+
                 </div>
                 <span class="pc__img-prev"><svg width="7" height="11" viewBox="0 0 7 11" xmlns="http://www.w3.org/2000/svg">
                     <use href="#icon_prev_sm" />
@@ -251,10 +259,10 @@
             </div>
 
             <div class="pc__info position-relative">
-              <p class="pc__category">Dresses</p>
-              <h6 class="pc__title"><a href="product1_simple.html">Cropped Faux Leather Jacket</a></h6>
+              <p class="pc__category">{{ strtoupper($sub_category->getMainCategory?->name) ?? '' }}</p>
+              <h6 class="pc__title"><a href="{{ route('frontent.product_details', [$product['id'], $product['size_id'], $product['color_id']]) }}">{{  ucwords($product['p_name']) ?? '' }} - {{ ucwords($product['color']) }} Color</a></h6>
               <div class="product-card__price d-flex">
-                <span class="money price">₹29</span>
+                <span class="money price">₹{{ $product['sale_price'] }}</span>
               </div>
               <div class="product-card__review d-flex align-items-center">
                 <div class="reviews-group d-flex">

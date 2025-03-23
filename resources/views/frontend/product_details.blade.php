@@ -66,7 +66,7 @@
               <a href="product3_external.html" class="text-uppercase fw-medium"><span class="menu-link menu-link_us-s">Next</span><svg class="mb-1px" width="10" height="10" viewBox="0 0 25 25" xmlns="http://www.w3.org/2000/svg"><use href="#icon_next_md" /></svg></a>
             </div><!-- /.shop-acs -->
           </div>
-          <h1 class="product-single__name">Lightweight Puffer Jacket With a Hood</h1>
+          <h1 class="product-single__name">{{ $product->name ?? '' }}</h1>
           <div class="product-single__rating">
             <div class="reviews-group d-flex">
               <svg class="review-star" viewBox="0 0 9 9" xmlns="http://www.w3.org/2000/svg"><use href="#icon_star" /></svg>
@@ -90,32 +90,31 @@
           <form name="addtocart-form" method="post">
             <div class="product-single__swatches">
               <div class="product-swatch text-swatches">
+                @if(count($sizes) > 0)
                 <label>Sizes</label>
                 <div class="swatch-list">
-                  <input type="radio" name="size" id="swatch-1">
-                  <label class="swatch js-swatch" for="swatch-1" aria-label="Extra Small" data-bs-toggle="tooltip" data-bs-placement="top" title="Extra Small">XS</label>
-                  <input type="radio" name="size" id="swatch-2" checked>
-                  <label class="swatch js-swatch" for="swatch-2" aria-label="Small" data-bs-toggle="tooltip" data-bs-placement="top" title="Small">S</label>
-                  <input type="radio" name="size" id="swatch-3">
-                  <label class="swatch js-swatch" for="swatch-3" aria-label="Middle" data-bs-toggle="tooltip" data-bs-placement="top" title="Middle">M</label>
-                  <input type="radio" name="size" id="swatch-4">
-                  <label class="swatch js-swatch" for="swatch-4" aria-label="Large" data-bs-toggle="tooltip" data-bs-placement="top" title="Large">L</label>
-                  <input type="radio" name="size" id="swatch-5">
-                  <label class="swatch js-swatch" for="swatch-5" aria-label="Extra Large" data-bs-toggle="tooltip" data-bs-placement="top" title="Extra Large">XL</label>
+                  @foreach($sizes as $size)
+                  <input type="radio" name="size" id="swatch-1" {{ $size->variant_id == $selected_size_id ? "checked":"" }}>
+                  <label class="swatch js-swatch" for="swatch-1" aria-label="Extra Small" data-bs-toggle="tooltip" data-bs-placement="top" title="Extra Small">{{ strtoupper($size->name) }}</label>
+                  @endforeach
                 </div>
+                @endif
                 <a href="#" class="sizeguide-link" data-bs-toggle="modal" data-bs-target="#sizeGuide">Size Guide</a>
               </div>
+
+              @if(count($sizes) > 0)
               <div class="product-swatch color-swatches">
                 <label>Color</label>
                 <div class="swatch-list">
-                  <input type="radio" name="color" id="swatch-11">
-                  <label class="swatch swatch-color js-swatch" for="swatch-11" aria-label="Black" data-bs-toggle="tooltip" data-bs-placement="top" title="Black" style="color: #222"></label>
-                  <input type="radio" name="color" id="swatch-12" checked>
-                  <label class="swatch swatch-color js-swatch" for="swatch-12" aria-label="Red" data-bs-toggle="tooltip" data-bs-placement="top" title="Red" style="color: #C93A3E"></label>
-                  <input type="radio" name="color" id="swatch-13">
-                  <label class="swatch swatch-color js-swatch" for="swatch-13" aria-label="Grey" data-bs-toggle="tooltip" data-bs-placement="top" title="Grey" style="color: #E4E4E4"></label>
+                @foreach($colors as $color)
+                  <input type="radio" name="color" id="swatch-11" {{ $color->color_id == $selected_color_id ? "checked":"" }}>
+                  <label class="swatch swatch-color js-swatch" for="swatch-11" aria-label="Black" data-bs-toggle="tooltip" data-bs-placement="top" title="Black" style="color: {{ $color->color }}"></label>
+                @endforeach
                 </div>
               </div>
+              @endif
+
+
             </div>
             <div class="product-single__addtocart">
               <div class="qty-control position-relative">

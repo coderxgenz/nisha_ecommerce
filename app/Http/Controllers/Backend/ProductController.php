@@ -227,20 +227,62 @@ class ProductController extends Controller
             $size = $request->size;
             $price = $request->price; 
             $sub_category = SubCategory::with('getMainCategory')->where('slug', $category_slug)->first();    
-             $products = Product::where('sub_category_id', $sub_category->id)->get();
-             $categories = MainCategory::with(['subCategories'])->where('is_active', '1')->get();
+            $categories = MainCategory::with(['subCategories'])->where('is_active', '1')->get();
             $colors = Color::where('is_active', '1')->get();
             $sizes = Size::where('is_active', '1')->get();
-             return view('frontend.product_list', compact('products', 'categories', 'category_slug', 
+            $products = Product::where('sub_category_id', $sub_category->id)->get();
+            $product_list = [];
+            foreach ($products as $product) {
+                $product_variants = ProductVariants::where('product_id', $product->id)
+                    ->get()
+                    ->unique('color_id');
+                foreach ($product_variants as $variant) {
+                    $product_image = [];       
+                            $product_images = ProductImage::select('image')
+                                ->where('product_id', $product->id)
+                                ->where('product_variant_id', $variant->variant_id)
+                                ->get();
+                     foreach($product_images as $p_image){
+                        $product_image[] = $p_image->image;
+                    }
+                    $product_list[] = [
+                        'id' => $product->id,
+                        'p_name' => $product->name,
+                        'price' => $variant->price,
+                        'sale_price' => $variant->sale_price,
+                        'color' => $variant->color,
+                        'color_id' => $variant->color_id,
+                        'size' => $variant->name,
+                        'size_id' => $variant->variant_id,
+                        'v_id' => $variant->id,
+                        'product_images' => $product_image
+                    ];
+                }
+            } 
+             return view('frontend.product_list', compact('product_list', 'categories', 'category_slug', 
              'sub_category', 'colors', 'sizes'));
         }catch(\Exception $e){
             return "Something went wrong";
         }
     }
-    public function productDetails(){
+    public function productDetails($p_id, $selected_size_id, $selected_color_id){
         try{ 
-             
-             return view('frontend.product_details');
+            $product = Product::where('id', $p_id)->first();
+            $sizes = ProductVariants::where('product_id', $p_id)
+            ->get()
+            ->unique('variant_id');
+
+            $colors = ProductVariants::where('product_id', $p_id)
+            ->where('variant_id', $selected_size_id)
+            ->get();
+
+            // $selected_variant_detail = ProductVariants::where('id', $selected_size_id)->first();
+
+
+
+
+            // return $colors; 
+             return view('frontend.product_details', compact('product', 'selected_size_id', 'selected_color_id', 'sizes', 'colors'));
         }catch(\Exception $e){
             return "Something went wrong";
         }
