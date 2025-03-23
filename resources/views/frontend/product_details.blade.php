@@ -109,11 +109,11 @@
                 <label>Color</label>
                 <div class="swatch-list">
                   <input type="radio" name="color" id="swatch-11">
-                  <label class="swatch swatch-color js-swatch" for="swatch-11" aria-label="Black" data-bs-toggle="tooltip" data-bs-placement="top" title="Black" style="color: #222"></label>
+                  <label class="swatch swatch-color js-swatch" for="swatch-11" aria-label="Black" data-bs-toggle="tooltip" data-bs-placement="top" title="Black" style="width:18px; height:18px; color: #222; background:#222"; ></label>
                   <input type="radio" name="color" id="swatch-12" checked>
-                  <label class="swatch swatch-color js-swatch" for="swatch-12" aria-label="Red" data-bs-toggle="tooltip" data-bs-placement="top" title="Red" style="color: #C93A3E"></label>
+                  <label class="swatch swatch-color js-swatch" for="swatch-12" aria-label="Red" data-bs-toggle="tooltip" data-bs-placement="top" title="Red" style="width:18px; height:18px; color: #C93A3E; background:#C93A3E"></label>
                   <input type="radio" name="color" id="swatch-13">
-                  <label class="swatch swatch-color js-swatch" for="swatch-13" aria-label="Grey" data-bs-toggle="tooltip" data-bs-placement="top" title="Grey" style="color: #E4E4E4"></label>
+                  <label class="swatch swatch-color js-swatch" for="swatch-13" aria-label="Grey" data-bs-toggle="tooltip" data-bs-placement="top" title="Grey" style="width:18px; height:18px; color: #E4E4E4; background:#E4E4E4"></label>
                 </div>
               </div>
             </div>

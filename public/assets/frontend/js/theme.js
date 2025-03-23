@@ -463,41 +463,41 @@ function pureFadeOut(e) {
     return ShopViewChange;
   })();
 
-  UomoElements.Filters = (function () {
-    function Filters() {
-      this.selectors = {
-        element: '.js-filter',
-        activeClass: 'swatch_active',
-      }
+  // UomoElements.Filters = (function () {
+  //   function Filters() {
+  //     this.selectors = {
+  //       element: '.js-filter',
+  //       activeClass: 'swatch_active',
+  //     }
 
-      this.$buttons = document.querySelectorAll(this.selectors.element);
+  //     this.$buttons = document.querySelectorAll(this.selectors.element);
 
-      this._init();
-    }
+  //     this._init();
+  //   }
 
-    Filters.prototype = Object.assign({}, Filters.prototype, {
-      _init: function () {
-        const _this = this;
-        this.$buttons.forEach(function ($btn) {
-          $btn.addEventListener('click', function (event) {
-            event.preventDefault();
-            _this._toggleActive($btn);
-          });
-        });
-      },
+  //   Filters.prototype = Object.assign({}, Filters.prototype, {
+  //     _init: function () {
+  //       const _this = this;
+  //       this.$buttons.forEach(function ($btn) {
+  //         $btn.addEventListener('click', function (event) {
+  //           event.preventDefault();
+  //           _this._toggleActive($btn);
+  //         });
+  //       });
+  //     },
 
-      _toggleActive($btn) {
-        if ($btn.classList.contains(this.selectors.activeClass)) {
-          $btn.classList.remove(this.selectors.activeClass);
-        } else {
-          $btn.classList.add(this.selectors.activeClass);
-        }
-      }
-    });
+  //     _toggleActive($btn) {
+  //       if ($btn.classList.contains(this.selectors.activeClass)) {
+  //         $btn.classList.remove(this.selectors.activeClass);
+  //       } else {
+  //         $btn.classList.add(this.selectors.activeClass);
+  //       }
+  //     }
+  //   });
 
 
-    return Filters;
-  })();
+  //   return Filters;
+  // })();
 
   UomoElements.StickyElement = (function () {
     function StickyElement() {
@@ -1150,7 +1150,7 @@ function pureFadeOut(e) {
       new UomoElements.ScrollToTop();
       new UomoElements.Countdown();
       new UomoElements.ShopViewChange();
-      new UomoElements.Filters();
+      // new UomoElements.Filters();
       new UomoElements.StickyElement();
       new UomoElements.StarRating();
 
