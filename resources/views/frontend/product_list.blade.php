@@ -22,10 +22,10 @@
             <li class="me-3 me-xl-4 pe-1"><a href="shop3.html" class="menu-link menu-link_us-s">Accessories</a></li>
             <li class="me-3 me-xl-4 pe-1"><a href="#" class="menu-link menu-link_us-s">Shoes</a></li>
           </ul>
-        </div><!-- /.shop-banner__content -->
-      </div><!-- /.shop-banner position-relative -->
-    </div><!-- /.full-width_border -->
-  </section><!-- /.full-width_padding-->
+        </div>
+      </div>
+    </div>
+  </section>
 
   <div class="mb-4 pb-lg-3"></div>
 
@@ -38,6 +38,7 @@
 
       <div class="pt-4 pt-lg-0"></div>
 
+      <!-- Product Categories with Multi-Select -->
       <div class="accordion" id="categories-list">
         <div class="accordion-item mb-4 pb-3">
           <h5 class="accordion-header" id="accordion-heading-11">
@@ -52,58 +53,54 @@
           </h5>
           <div id="accordion-filter-1" class="accordion-collapse collapse show border-0" aria-labelledby="accordion-heading-11" data-bs-parent="#categories-list">
             <div class="accordion-body px-0 pb-0 pt-3">
-              <ul class="list list-inline mb-0">
-                <!-- Nested Accordion -->
-                <div class="accordion" id="nestedAccordion1">
-                  @if(count($categories) > 0)
-                  @foreach($categories as $category)
-                  <!-- Dresses -->
-                  <div class="accordion-item pb-2">
-                    <h2 class="accordion-header" id="nestedHeading_{{ $category->slug ?? '' }}">
-                      <button class="accordion-button p-0 border-0 fs-5 text-uppercase" type="button" data-bs-toggle="collapse" data-bs-target="#nestedCollapse_{{ $category->slug ?? '' }}" aria-expanded="true" aria-controls="nestedCollapse_{{ $category->slug ?? '' }}">
-                        {{ $category->name ?? ''}}
-                        <svg class="accordion-button__icon type2" viewBox="0 0 10 6" xmlns="http://www.w3.org/2000/svg">
-                          <g aria-hidden="true" stroke="none" fill-rule="evenodd">
-                            <path d="M5.35668 0.159286C5.16235 -0.053094 4.83769 -0.0530941 4.64287 0.159286L0.147611 5.05963C-0.0492049 5.27473 -0.049205 5.62357 0.147611 5.83813C0.344427 6.05323 0.664108 6.05323 0.860924 5.83813L5 1.32706L9.13858 5.83867C9.33589 6.05378 9.65507 6.05378 9.85239 5.83867C10.0492 5.62357 10.0492 5.27473 9.85239 5.06018L5.35668 0.159286Z" />
-                          </g>
-                        </svg>
-                      </button>
-                    </h2>
-                    <div id="nestedCollapse_{{ $category->slug ?? '' }}" class="accordion-collapse collapse {{ $sub_category->getMainCategory?->slug == $category->slug ? 'show':'' }}" aria-labelledby="nestedHeading_{{ $category->slug ?? '' }}" data-bs-parent="#nestedAccordion1">
-                      <div class="accordion-body">
-                        @if(count($category->subCategories) > 0)
-                        <ul class="list-group">
-                          @foreach($category->subCategories as $subCategory)
-                          <li class="list-group-item">
-                            <a href="{{ route('frontent.product_list', [$subCategory->slug ?? "" ]) }}" class="menu-link py-1">{{ $subCategory->name ?? '' }}</a>
-                          </li> 
-                          @endforeach
-                        </ul>
-                        @endif
-                      </div>
+              <!-- Search Field for Categories -->
+              <div class="search-field__input-wrapper mb-3">
+                <input type="text" name="category_search" class="search-field__input form-control form-control-sm border-light border-2" placeholder="Search Categories">
+              </div>
+              <!-- Nested Accordion with Checkbox Multi-Select -->
+              <div class="accordion" id="nestedAccordion1">
+                @if(count($categories) > 0)
+                @foreach($categories as $category)
+                <div class="accordion-item pb-2">
+                  <h2 class="accordion-header" id="nestedHeading_{{ $category->slug ?? '' }}">
+                    <button class="accordion-button p-0 border-0 fs-5 text-uppercase" type="button" data-bs-toggle="collapse" data-bs-target="#nestedCollapse_{{ $category->slug ?? '' }}" aria-expanded="true" aria-controls="nestedCollapse_{{ $category->slug ?? '' }}">
+                      {{ $category->name ?? '' }}
+                      <svg class="accordion-button__icon type2" viewBox="0 0 10 6" xmlns="http://www.w3.org/2000/svg">
+                        <g aria-hidden="true" stroke="none" fill-rule="evenodd">
+                          <path d="M5.35668 0.159286C5.16235 -0.053094 4.83769 -0.0530941 4.64287 0.159286L0.147611 5.05963C-0.0492049 5.27473 -0.049205 5.62357 0.147611 5.83813C0.344427 6.05323 0.664108 6.05323 0.860924 5.83813L5 1.32706L9.13858 5.83867C9.33589 6.05378 9.65507 6.05378 9.85239 5.83867C10.0492 5.62357 10.0492 5.27473 9.85239 5.06018L5.35668 0.159286Z" />
+                        </g>
+                      </svg>
+                    </button>
+                  </h2>
+                  <div id="nestedCollapse_{{ $category->slug ?? '' }}" class="accordion-collapse collapse {{ $sub_category->getMainCategory?->slug == $category->slug ? 'show':'' }}" aria-labelledby="nestedHeading_{{ $category->slug ?? '' }}" data-bs-parent="#nestedAccordion1">
+                    <div class="accordion-body">
+                      @if(count($category->subCategories) > 0)
+                      <ul class="list-group">
+                        @foreach($category->subCategories as $subCategory)
+                        <li class="list-group-item">
+                          <label>
+                            <input type="checkbox" name="category[]" value="{{ $subCategory->slug ?? '' }}"> {{ $subCategory->name ?? '' }}
+                          </label>
+                        </li>
+                        @endforeach
+                      </ul>
+                      @endif
                     </div>
                   </div>
-                  @endforeach
-                  @endif
-
-                   
-                   
-
-
-                </div> <!-- Nested Accordion Ends -->
-
-              </ul>
+                </div>
+                @endforeach
+                @endif
+              </div>
             </div>
           </div>
-        </div><!-- /.accordion-item -->
-      </div><!-- /.accordion-item -->
-
-
+        </div>
+      </div>
+      <!-- Color Filter  -->
       @if(count($colors) > 0)
       <div class="accordion" id="color-filters">
         <div class="accordion-item mb-4 pb-3">
-          <h5 class="accordion-header" id="accordion-heading-1">
-            <button class="accordion-button p-0 border-0 fs-5 text-uppercase" type="button" data-bs-toggle="collapse" data-bs-target="#accordion-filter-2" aria-expanded="true" aria-controls="accordion-filter-2">
+          <h5 class="accordion-header" id="accordion-heading-colors">
+            <button class="accordion-button p-0 border-0 fs-5 text-uppercase" type="button" data-bs-toggle="collapse" data-bs-target="#accordion-filter-colors" aria-expanded="true" aria-controls="accordion-filter-colors">
               Colors
               <svg class="accordion-button__icon type2" viewBox="0 0 10 6" xmlns="http://www.w3.org/2000/svg">
                 <g aria-hidden="true" stroke="none" fill-rule="evenodd">
@@ -112,27 +109,31 @@
               </svg>
             </button>
           </h5>
-          
-
-          <div id="accordion-filter-2" class="accordion-collapse collapse show border-0" aria-labelledby="accordion-heading-1" data-bs-parent="#color-filters">
+          <div id="accordion-filter-colors" class="accordion-collapse collapse show border-0" aria-labelledby="accordion-heading-colors" data-bs-parent="#color-filters">
             <div class="accordion-body px-0 pb-0">
-              <div class="d-flex flex-wrap">
+              <ul class="list-group d-flex flex-wrap flex-row">
                 @foreach($colors as $color)
-                <a href="{{ route('frontent.product_list', [$sub_category->slug ?? "" ]) }}?color={{ $color->color_code ?? $color->name}}" class="swatch-color js-filter" style="color: {{ $color->name ?? '' }}"></a>
-                @endforeach 
-              </div>
+                <li class="list-group-item border-0 p-1">
+                  <!-- Label styled as swatch, hidden checkbox inside -->
+                  <label class="swatch-color js-filter" style="cursor:pointer; display:inline-block; width:18px; height:18px; color:{{ $color->name ?? '' }}; background: {{ $color->name ?? '' }}; border:1px solid #ddd; margin:2px;">
+                    <input type="checkbox" name="color[]" value="{{ $color->color_code ?? $color->name }}" style="display:none;">
+                  </label>
+                </li>
+                @endforeach
+              </ul>
             </div>
           </div>
-        </div><!-- /.accordion-item -->
-      </div><!-- /.accordion -->
+        </div>
+      </div>
       @endif
-      
+    
 
+      <!-- Sizes Filter  -->
       @if(count($sizes) > 0)
       <div class="accordion" id="size-filters">
         <div class="accordion-item mb-4 pb-3">
-          <h5 class="accordion-header" id="accordion-heading-size">
-            <button class="accordion-button p-0 border-0 fs-5 text-uppercase" type="button" data-bs-toggle="collapse" data-bs-target="#accordion-filter-size" aria-expanded="true" aria-controls="accordion-filter-size">
+          <h5 class="accordion-header" id="accordion-heading-sizes">
+            <button class="accordion-button p-0 border-0 fs-5 text-uppercase" type="button" data-bs-toggle="collapse" data-bs-target="#accordion-filter-sizes" aria-expanded="true" aria-controls="accordion-filter-sizes">
               Sizes
               <svg class="accordion-button__icon type2" viewBox="0 0 10 6" xmlns="http://www.w3.org/2000/svg">
                 <g aria-hidden="true" stroke="none" fill-rule="evenodd">
@@ -141,18 +142,27 @@
               </svg>
             </button>
           </h5>
-          <div id="accordion-filter-size" class="accordion-collapse collapse show border-0" aria-labelledby="accordion-heading-size" data-bs-parent="#size-filters">
+          <div id="accordion-filter-sizes" class="accordion-collapse collapse show border-0" aria-labelledby="accordion-heading-sizes" data-bs-parent="#size-filters">
             <div class="accordion-body px-0 pb-0">
-              <div class="d-flex flex-wrap">
+              <ul class="list-group d-flex flex-wrap flex-row">
                 @foreach($sizes as $size)
-                <a href="#" class="swatch-size btn btn-sm btn-outline-light mb-3 me-3 js-filter">{{ $size->name ?? '' }}</a>
-                @endforeach 
-              </div>
+                <li class="list-group-item border-0 p-1 d-inline-block">
+                  <!-- Label styled as button, hidden checkbox inside -->
+                  <label class="swatch-size btn btn-sm btn-outline-light mb-3 me-3 js-filter" style="cursor:pointer;">
+                    <input type="checkbox" name="size[]" value="{{ $size->name ?? '' }}" style="display:none;">
+                    {{ $size->name ?? '' }}
+                  </label>
+                </li>
+                @endforeach
+              </ul>
             </div>
           </div>
-        </div><!-- /.accordion-item -->
-      </div><!-- /.accordion -->
+        </div>
+      </div>
       @endif
+
+
+
 
       <div class="accordion" id="price-filters">
         <div class="accordion-item mb-4">
@@ -179,9 +189,10 @@
               </div>
             </div>
           </div>
-        </div><!-- /.accordion-item -->
-      </div><!-- /.accordion -->
-    </div><!-- /.shop-sidebar -->
+        </div>
+      </div>
+    </div>
+
 
     <div class="shop-list flex-grow-1">
       <div class="d-flex justify-content-between mb-4 pb-md-2">
@@ -191,7 +202,7 @@
           <a href="#" class="menu-link menu-link_us-s text-uppercase fw-medium">{{ $sub_category->getMainCategory?->name ?? '' }}</a>
           <span class="breadcrumb-separator menu-link fw-medium ps-1 pe-1">/</span>
           <span class="text-uppercase fw-medium">{{ $sub_category->name ?? '' }}</span>
-        </div><!-- /.breadcrumb -->
+        </div>
 
         <div class="shop-acs d-flex align-items-center justify-content-between justify-content-md-end flex-grow-1">
           <select class="shop-acs__select form-select w-auto border-0 py-0 order-1 order-md-0" aria-label="Sort Items" name="total-number">
@@ -210,7 +221,7 @@
             <button class="btn-link fw-medium me-2 js-cols-size" data-target="products-grid" data-cols="2">2</button>
             <button class="btn-link fw-medium me-2 js-cols-size" data-target="products-grid" data-cols="3">3</button>
             <button class="btn-link fw-medium js-cols-size" data-target="products-grid" data-cols="4">4</button>
-          </div><!-- /.col-size -->
+          </div>
 
           <div class="shop-filter d-flex align-items-center order-0 order-md-3 d-lg-none">
             <button class="btn-link btn-link_f d-flex align-items-center ps-0 js-open-aside" data-aside="shopFilter">
@@ -219,9 +230,9 @@
               </svg>
               <span class="text-uppercase fw-medium d-inline-block align-middle">Filter</span>
             </button>
-          </div><!-- /.col-size d-flex align-items-center ms-auto ms-md-3 -->
-        </div><!-- /.shop-acs -->
-      </div><!-- /.d-flex justify-content-between -->
+          </div>
+        </div>
+      </div>
 
       <div class="products-grid row row-cols-2 row-cols-md-3" id="products-grid">
          
@@ -296,8 +307,8 @@
         @endforeach
 
 
-         
-         
+
+
       </div><!-- /.products-grid row -->
 
       <nav class="shop-pages d-flex justify-content-between mt-3" aria-label="Page navigation">
@@ -323,14 +334,51 @@
 
       @else
       <div class="alert alert-danger col-md-12" role="alert">
-       <center>No Products Found</center> 
+        <center>No Products Found</center>
       </div>
       @endif
     </div>
-  </section><!-- /.shop-main container -->
+  </section>
 </main>
 
 
 @section('javascript-section')
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const buttons = document.querySelectorAll(".js-filter");
+
+    buttons.forEach((btn) => {
+        btn.addEventListener("click", function () {
+            btn.classList.add("swatch_active");
+        });
+    });
+});
+
+document.addEventListener("DOMContentLoaded", function () {
+  let selectedFilters = {
+    category: [],
+    color: [],
+    size: []
+  };
+
+  function updateFilters() {
+    selectedFilters = {
+      category: Array.from(document.querySelectorAll('input[name="category[]"]:checked')).map(cb => cb.value),
+      color: Array.from(document.querySelectorAll('input[name="color[]"]:checked')).map(cb => cb.value),
+      size: Array.from(document.querySelectorAll('input[name="size[]"]:checked')).map(cb => cb.value),
+    };
+
+    console.log("Updated Filters:", selectedFilters);
+  }
+
+  // Remove existing event listeners
+  document.querySelectorAll('input[name="category[]"], input[name="color[]"], input[name="size[]"]').forEach(cb => {
+    cb.removeEventListener("change", updateFilters); 
+    cb.addEventListener("change", updateFilters);
+  });
+});
+
+
+</script>
 @endsection
 @endsection

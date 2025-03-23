@@ -106,10 +106,10 @@
               <div class="product-swatch color-swatches">
                 <label>Color</label>
                 <div class="swatch-list">
-                @foreach($colors as $color)
+                @foreach($colors as $color) 
                   <input type="radio" name="color" id="swatch-11" {{ $color->color_id == $selected_color_id ? "checked":"" }}>
-                  <label class="swatch swatch-color js-swatch" for="swatch-11" aria-label="Black" data-bs-toggle="tooltip" data-bs-placement="top" title="Black" style="color: {{ $color->color }}"></label>
-                @endforeach
+                  <label class="swatch swatch-color js-swatch" for="swatch-11"  aria-label="Black" data-bs-toggle="tooltip" data-bs-placement="top" title="Black" style="width:18px; height:18px; color: {{ $color->color }}; background:{{ $color->color }}"; ></label>
+                  @endforeach 
                 </div>
               </div>
               @endif
