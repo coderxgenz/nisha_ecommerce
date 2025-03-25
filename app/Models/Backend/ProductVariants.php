@@ -16,6 +16,8 @@ class ProductVariants extends Model
         'color',
         'price',
         'sale_price',
+        'stock',
+        'stock_status',
         'status',
     ];
     

@@ -21,7 +21,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-             $sub_categories = SubCategory::where("is_active",1)->get(); // Fetch all subcategories
+             $sub_categories = SubCategory::with('getMainCategory')->where("is_active",1)->get(); // Fetch all subcategories
             
             
 

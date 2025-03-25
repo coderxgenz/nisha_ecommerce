@@ -10,7 +10,7 @@
         </div>
 
         <div class="shop-banner__content container position-absolute start-50 top-50 translate-middle">
-          <h2 class="h1 text-uppercase text-center fw-bold mb-3 mb-xl-4 mb-xl-5">{{ $sub_category->name ?? '' }}</h2>
+          <!-- <h2 class="h1 text-uppercase text-center fw-bold mb-3 mb-xl-4 mb-xl-5">{{ $sub_category->name ?? '' }}</h2> -->
           <ul class="d-flex justify-content-center flex-wrap list-unstyled text-uppercase h6">
             <li class="me-3 me-xl-4 pe-1"><a href="#" class="menu-link menu-link_us-s menu-link_active">StayHome</a></li>
             <li class="me-3 me-xl-4 pe-1"><a href="#" class="menu-link menu-link_us-s">New In</a></li>
@@ -57,6 +57,9 @@
               <div class="search-field__input-wrapper mb-3">
                 <input type="text" name="category_search" class="search-field__input form-control form-control-sm border-light border-2" placeholder="Search Categories">
               </div>
+
+              <form action="{{ route('frontent.product_list', [$main_category_slug]) }}" method="GET" id="category_form">
+
               <!-- Nested Accordion with Checkbox Multi-Select -->
               <div class="accordion" id="nestedAccordion1">
                 @if(count($categories) > 0)
@@ -72,15 +75,23 @@
                       </svg>
                     </button>
                   </h2>
-                  <div id="nestedCollapse_{{ $category->slug ?? '' }}" class="accordion-collapse collapse {{ $sub_category->getMainCategory?->slug == $category->slug ? 'show':'' }}" aria-labelledby="nestedHeading_{{ $category->slug ?? '' }}" data-bs-parent="#nestedAccordion1">
+                  
+                  {{-- <div id="nestedCollapse_{{ $category->slug ?? '' }}" class="accordion-collapse collapse {{ $sub_category->getMainCategory?->slug == $category->slug ? 'show':'' }}" aria-labelledby="nestedHeading_{{ $category->slug ?? '' }}" data-bs-parent="#nestedAccordion1"> --}}
+                  <div id="nestedCollapse_{{ $category->slug ?? '' }}" class="accordion-collapse collapse 
+                  show"   aria-labelledby="nestedHeading_{{ $category->slug ?? '' }}" data-bs-parent="#nestedAccordion1">
                     <div class="accordion-body">
                       @if(count($category->subCategories) > 0)
                       <ul class="list-group">
                         @foreach($category->subCategories as $subCategory)
                         <li class="list-group-item">
-                          <label>
-                            <input type="checkbox" name="category[]" value="{{ $subCategory->slug ?? '' }}"> {{ $subCategory->name ?? '' }}
-                          </label>
+                        <label>
+                        <input type="checkbox" class="filter_checkbox" 
+                        name="category[]" 
+                        value="{{ $subCategory->slug ?? '' }}" 
+                        {{ isset($_GET['category']) && is_array($_GET['category']) && in_array($subCategory->slug, $_GET['category']) ? "checked" : "" }} 
+                        >
+                        {{ $subCategory->name ?? '' }}
+                        </label>
                         </li>
                         @endforeach
                       </ul>
@@ -89,6 +100,7 @@
                   </div>
                 </div>
                 @endforeach
+                
                 @endif
               </div>
             </div>
@@ -115,8 +127,10 @@
                 @foreach($colors as $color)
                 <li class="list-group-item border-0 p-1">
                   <!-- Label styled as swatch, hidden checkbox inside -->
-                  <label class="swatch-color js-filter" style="cursor:pointer; display:inline-block; width:18px; height:18px; color:{{ $color->name ?? '' }}; background: {{ $color->name ?? '' }}; border:1px solid #ddd; margin:2px;">
-                    <input type="checkbox" name="color[]" value="{{ $color->color_code ?? $color->name }}" style="display:none;">
+                  <label class="swatch-color js-filter {{ isset($_GET['colors']) && is_array($_GET['colors']) && in_array($color->name, $_GET['colors']) ? "swatch_active" : "" }}" style="cursor:pointer; display:inline-block; width:18px; height:18px; color:{{ $color->name ?? '' }}; background: {{ $color->name ?? '' }}; border:1px solid #ddd; margin:2px;">
+                    <input type="checkbox" class="filter_checkbox" name="colors[]" value="{{$color->name ?? '' }}" style="display:none;"
+                    {{ isset($_GET['colors']) && is_array($_GET['colors']) && in_array($color->name, $_GET['colors']) ? "checked" : "" }} 
+                    >
                   </label>
                 </li>
                 @endforeach
@@ -125,9 +139,7 @@
           </div>
         </div>
       </div>
-      @endif
-    
-
+      @endif 
       <!-- Sizes Filter  -->
       @if(count($sizes) > 0)
       <div class="accordion" id="size-filters">
@@ -148,8 +160,12 @@
                 @foreach($sizes as $size)
                 <li class="list-group-item border-0 p-1 d-inline-block">
                   <!-- Label styled as button, hidden checkbox inside -->
-                  <label class="swatch-size btn btn-sm btn-outline-light mb-3 me-3 js-filter" style="cursor:pointer;">
-                    <input type="checkbox" name="size[]" value="{{ $size->name ?? '' }}" style="display:none;">
+                  <label style="cursor:pointer;"
+                  class="swatch-size btn btn-sm btn-outline-light mb-3 me-3 js-filter {{ isset($_GET['size']) && is_array($_GET['size']) && in_array($size->name, $_GET['size']) ? "swatch_active" : "" }}"
+                  >
+                    <input type="checkbox" class="filter_checkbox"  name="size[]" value="{{ $size->name ?? '' }}" style="display:none;"
+                    {{ isset($_GET['size']) && is_array($_GET['size']) && in_array($size->name, $_GET['size']) ? "checked" : "" }} 
+                    >
                     {{ $size->name ?? '' }}
                   </label>
                 </li>
@@ -159,11 +175,7 @@
           </div>
         </div>
       </div>
-      @endif
-
-
-
-
+      @endif 
       <div class="accordion" id="price-filters">
         <div class="accordion-item mb-4">
           <h5 class="accordion-header mb-2" id="accordion-heading-price">
@@ -177,7 +189,7 @@
             </button>
           </h5>
           <div id="accordion-filter-price" class="accordion-collapse collapse show border-0" aria-labelledby="accordion-heading-price" data-bs-parent="#price-filters">
-            <input class="price-range-slider" type="text" name="price_range" value="" data-slider-min="10" data-slider-max="1000" data-slider-step="5" data-slider-value="[250,450]" data-currency="₹">
+            <input class="price-range-slider filter_checkbox" type="text" name="price_range" value="" data-slider-min="10" data-slider-max="1000" data-slider-step="5" data-slider-value="[250,450]" data-currency="₹">
             <div class="price-range__info d-flex align-items-center mt-2">
               <div class="me-auto">
                 <span class="text-secondary">Min Price: </span>
@@ -191,18 +203,19 @@
           </div>
         </div>
       </div>
-    </div>
+      </form>
 
+    </div> 
 
     <div class="shop-list flex-grow-1">
       <div class="d-flex justify-content-between mb-4 pb-md-2">
-        <div class="breadcrumb mb-0 d-none d-md-block flex-grow-1">
+        <!-- <div class="breadcrumb mb-0 d-none d-md-block flex-grow-1">
           <a href="#" class="menu-link menu-link_us-s text-uppercase fw-medium">Home</a>
           <span class="breadcrumb-separator menu-link fw-medium ps-1 pe-1">/</span>
           <a href="#" class="menu-link menu-link_us-s text-uppercase fw-medium">{{ $sub_category->getMainCategory?->name ?? '' }}</a>
           <span class="breadcrumb-separator menu-link fw-medium ps-1 pe-1">/</span>
           <span class="text-uppercase fw-medium">{{ $sub_category->name ?? '' }}</span>
-        </div>
+        </div> -->
 
         <div class="shop-acs d-flex align-items-center justify-content-between justify-content-md-end flex-grow-1">
           <select class="shop-acs__select form-select w-auto border-0 py-0 order-1 order-md-0" aria-label="Sort Items" name="total-number">
@@ -237,9 +250,7 @@
       <div class="products-grid row row-cols-2 row-cols-md-3" id="products-grid">
          
       @if(count($product_list) > 0)
-      @foreach($product_list as $product)
-
-
+      @foreach($product_list as $product) 
         <div class="product-card-wrapper">
           <div class="product-card mb-3 mb-md-4 mb-xxl-5">
             <div class="pc__img-wrapper">
@@ -270,10 +281,10 @@
             </div>
 
             <div class="pc__info position-relative">
-              <p class="pc__category">{{ strtoupper($sub_category->getMainCategory?->name) ?? '' }}</p>
+              <!-- <p class="pc__category">sdfsdf</p> -->
               <h6 class="pc__title"><a href="{{ route('frontent.product_details', [$product['id'], $product['size_id'], $product['color_id']]) }}">{{  ucwords($product['p_name']) ?? '' }} - {{ ucwords($product['color']) }} Color</a></h6>
               <div class="product-card__price d-flex">
-                <span class="money price">₹{{ $product['sale_price'] }}</span>
+                <span class="money price">₹{{ $product['sale_price'] ?? $product['price']}}</span>
               </div>
               <div class="product-card__review d-flex align-items-center">
                 <div class="reviews-group d-flex">
@@ -304,12 +315,8 @@
             </div>
           </div>
         </div>
-        @endforeach
-
-
-
-
-      </div><!-- /.products-grid row -->
+        @endforeach 
+      </div>
 
       <nav class="shop-pages d-flex justify-content-between mt-3" aria-label="Page navigation">
         <a href="#" class="btn-link d-inline-flex align-items-center">
@@ -344,6 +351,31 @@
 
 @section('javascript-section')
 <script>
+  $(document).on("change", ".filter_checkbox", function(){
+    $("#category_form").submit();
+  });
+</script>
+
+<!-- <script>
+    document.addEventListener("DOMContentLoaded", function () {
+        document.querySelectorAll(".category-checkbox").forEach(function (checkbox) {
+            checkbox.addEventListener("change", function () {
+                let selected = [];
+                document.querySelectorAll(".category-checkbox:checked").forEach(function (checkedBox) {
+                    selected.push(checkedBox.value);
+                });
+
+                // Reload page with selected checkboxes as query parameters
+                let url = new URL(window.location.href);
+                 
+                url.searchParams.set("category", selected.join(",")); // Store selected values as a comma-separated list
+                window.location.href = url.toString();
+            });
+        });
+    });
+</script> -->
+
+<script>
   document.addEventListener("DOMContentLoaded", function () {
     const buttons = document.querySelectorAll(".js-filter");
 
@@ -354,29 +386,33 @@
     });
 });
 
-document.addEventListener("DOMContentLoaded", function () {
-  let selectedFilters = {
-    category: [],
-    color: [],
-    size: []
-  };
 
-  function updateFilters() {
-    selectedFilters = {
-      category: Array.from(document.querySelectorAll('input[name="category[]"]:checked')).map(cb => cb.value),
-      color: Array.from(document.querySelectorAll('input[name="color[]"]:checked')).map(cb => cb.value),
-      size: Array.from(document.querySelectorAll('input[name="size[]"]:checked')).map(cb => cb.value),
-    };
 
-    console.log("Updated Filters:", selectedFilters);
-  }
 
-  // Remove existing event listeners
-  document.querySelectorAll('input[name="category[]"], input[name="color[]"], input[name="size[]"]').forEach(cb => {
-    cb.removeEventListener("change", updateFilters); 
-    cb.addEventListener("change", updateFilters);
-  });
-});
+
+// document.addEventListener("DOMContentLoaded", function () {
+//   let selectedFilters = {
+//     category: [],
+//     color: [],
+//     size: []
+//   };
+
+//   function updateFilters() {
+//     selectedFilters = {
+//       category: Array.from(document.querySelectorAll('input[name="category[]"]:checked')).map(cb => cb.value),
+//       color: Array.from(document.querySelectorAll('input[name="color[]"]:checked')).map(cb => cb.value),
+//       size: Array.from(document.querySelectorAll('input[name="size[]"]:checked')).map(cb => cb.value),
+//     };
+
+//     console.log("Updated Filters:", selectedFilters);
+//   }
+
+//   // Remove existing event listeners
+//   document.querySelectorAll('input[name="category[]"], input[name="color[]"], input[name="size[]"]').forEach(cb => {
+//     cb.removeEventListener("change", updateFilters); 
+//     cb.addEventListener("change", updateFilters);
+//   });
+// });
 
 
 </script>

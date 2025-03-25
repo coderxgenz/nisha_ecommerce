@@ -41,7 +41,7 @@ Route::controller(CartController::class)->group(function(){
  });
  Route::controller(ProductController::class)->group(function(){
     // Route::get('/products', 'productList')->name('frontent.product_list');
-    Route::get('/products/{category_slug}', 'productList')->name('frontent.product_list');
+    Route::get('/products/{main_category_slug}', 'productList')->name('frontent.product_list');
     Route::get('/product-details/{p_id}/{selected_size_id}/{selected_color_id}', 'productDetails')->name('frontent.product_details');
 });
 

@@ -221,20 +221,44 @@ class ProductController extends Controller
         }
     }
 
-    public function productList(Request $request, $category_slug){
-        try{ 
+    public function productList(Request $request, $main_category_slug){
+        // try{ 
             $color = $request->color;
             $size = $request->size;
             $price = $request->price; 
-            $sub_category = SubCategory::with('getMainCategory')->where('slug', $category_slug)->first();    
-            $categories = MainCategory::with(['subCategories'])->where('is_active', '1')->get();
+            // $category = $request->category; 
+            $selectedCategories = $request->input('category', []);
+            $selectedSizes = $request->input('size', []);
+            $selectedColors = $request->input('colors', []);
+            $priceRange = $request->price_range;
+            // return $priceRange;
+            $main_category = MainCategory::where('slug', $main_category_slug)->first();
+            $sub_category = SubCategory::with('getMainCategory');
+            if(!empty($selectedCategories)){
+                $sub_category = $sub_category->whereIn('slug', $selectedCategories);
+            }else{
+                $sub_category = $sub_category->where('main_category_id', $main_category->id);
+            }
+            $sub_category = $sub_category->get()->pluck('id')->toArray();
+            
+            
+            $categories = MainCategory::with(['subCategories'])->where('slug', $main_category_slug)->where('is_active', '1')->get();
+            // return $categories;
             $colors = Color::where('is_active', '1')->get();
             $sizes = Size::where('is_active', '1')->get();
-            $products = Product::where('sub_category_id', $sub_category->id)->get();
+
+
+            $products = Product::whereIn('sub_category_id', $sub_category)->get();
             $product_list = [];
             foreach ($products as $product) {
-                $product_variants = ProductVariants::where('product_id', $product->id)
-                    ->get()
+                $product_variants = ProductVariants::where('product_id', $product->id);
+                    if(!empty($selectedSizes)){
+                        $product_variants = $product_variants->whereIn('name', $selectedSizes);
+                    } 
+                    if(!empty($selectedColors)){
+                        $product_variants = $product_variants->whereIn('color', $selectedColors);
+                    } 
+                   $product_variants = $product_variants->get()
                     ->unique('color_id');
                 foreach ($product_variants as $variant) {
                     $product_image = [];       
@@ -259,30 +283,37 @@ class ProductController extends Controller
                     ];
                 }
             } 
-             return view('frontend.product_list', compact('product_list', 'categories', 'category_slug', 
-             'sub_category', 'colors', 'sizes'));
-        }catch(\Exception $e){
-            return "Something went wrong";
-        }
+             return view('frontend.product_list', compact('product_list', 'categories', 
+             'sub_category', 'colors', 'sizes', 'main_category_slug'));
+        // }catch(\Exception $e){
+        //     return "Something went wrong";
+        // }
     }
     public function productDetails($p_id, $selected_size_id, $selected_color_id){
         try{ 
             $product = Product::where('id', $p_id)->first();
+            $main_category = MainCategory::where('id', $product->main_category_id)->first();
+            $sub_category = SubCategory::where('id', $product->sub_category_id)->first();
             $sizes = ProductVariants::where('product_id', $p_id)
             ->get()
             ->unique('variant_id');
 
             $colors = ProductVariants::where('product_id', $p_id)
             ->where('variant_id', $selected_size_id)
+            ->get(); 
+
+            $selected_variant_detail = ProductVariants::where('product_id', $p_id)
+            ->where('variant_id', $selected_size_id)
+            ->where('color_id', $selected_color_id)
+            ->first();
+
+            $selected_product_images = ProductImage::where('product_id', $p_id)
+            ->where('product_variant_id', $selected_variant_detail->id)
             ->get();
-
-            // $selected_variant_detail = ProductVariants::where('id', $selected_size_id)->first();
-
-
-
-
-            // return $colors; 
-             return view('frontend.product_details', compact('product', 'selected_size_id', 'selected_color_id', 'sizes', 'colors'));
+            // return $selected_product_images; 
+             return view('frontend.product_details', compact('product', 'selected_size_id', 
+             'selected_color_id', 'sizes', 'colors', 'selected_variant_detail', 'main_category', 'sub_category',
+            'selected_product_images'));
         }catch(\Exception $e){
             return "Something went wrong";
         }

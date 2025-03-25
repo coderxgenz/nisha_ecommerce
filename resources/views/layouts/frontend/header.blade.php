@@ -498,7 +498,7 @@
               @if(count($sub_categories) > 0)
                   @foreach($sub_categories as $sub_category)
                   <li class="navigation__item">
-                <a href="{{ route('frontent.product_list', [$sub_category->slug ?? "" ]) }}" class="navigation__link color-body">{{ $sub_category->name }}</a>
+                <a href="{{ route('frontent.product_list', [$sub_category->getMainCategory?->slug]) }}?category[]={{ $sub_category->slug ?? "" }}" class="navigation__link color-body">{{ $sub_category->name }}</a>
               </li>
                    @endforeach
                   @endif

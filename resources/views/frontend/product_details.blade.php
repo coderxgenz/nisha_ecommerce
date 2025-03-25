@@ -9,30 +9,24 @@
             <div class="product-single__image">
               <div class="swiper-container">
                 <div class="swiper-wrapper">
+                @if(count($selected_product_images) > 0)
+                @foreach($selected_product_images as $p_image)
                   <div class="swiper-slide product-single__image-item">
-                    <img loading="lazy" class="h-auto" src="{{url('assets/frontend/images/shop/1.jpg')}}" width="674" height="674" alt="">
-                    <a data-fancybox="gallery" href="{{url('assets/frontend/images/shop/1.jpg')}}" data-bs-toggle="tooltip" data-bs-placement="left" title="Zoom">
+                    <img loading="lazy" class="h-auto" src="{{url($p_image->image ?? '')}}" width="674" height="674" alt="">
+                    <a data-fancybox="gallery" href="{{url($p_image->image ?? '')}}" data-bs-toggle="tooltip" data-bs-placement="left" title="Zoom">
                       <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><use href="#icon_zoom" /></svg>
                     </a>
                   </div>
+                  @endforeach
+                  @else
                   <div class="swiper-slide product-single__image-item">
-                    <img loading="lazy" class="h-auto" src="{{url('assets/frontend/images/shop/1.jpg')}}" width="674" height="674" alt="">
-                    <a data-fancybox="gallery" href="{{url('assets/frontend/images/shop/1.jpg')}}" data-bs-toggle="tooltip" data-bs-placement="left" title="Zoom">
+                    <img loading="lazy" class="h-auto" src="{{url('upload/images/product_images/default_product.jpg')}}" width="674" height="674" alt="">
+                    <a data-fancybox="gallery" href="{{url('upload/images/product_images/default_product.jpg')}}" data-bs-toggle="tooltip" data-bs-placement="left" title="Zoom">
                       <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><use href="#icon_zoom" /></svg>
                     </a>
                   </div>
-                  <div class="swiper-slide product-single__image-item">
-                    <img loading="lazy" class="h-auto" src="{{url('assets/frontend/images/shop/1.jpg')}}" width="674" height="674" alt="">
-                    <a data-fancybox="gallery" href="{{url('assets/frontend/images/shop/1.jpg')}}" data-bs-toggle="tooltip" data-bs-placement="left" title="Zoom">
-                      <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><use href="#icon_zoom" /></svg>
-                    </a>
-                  </div>
-                  <div class="swiper-slide product-single__image-item">
-                    <img loading="lazy" class="h-auto" src="{{url('assets/frontend/images/shop/1.jpg')}}" width="674" height="674" alt="">
-                    <a data-fancybox="gallery" href="{{url('assets/frontend/images/shop/1.jpg')}}" data-bs-toggle="tooltip" data-bs-placement="left" title="Zoom">
-                      <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><use href="#icon_zoom" /></svg>
-                    </a>
-                  </div>
+                  @endif
+                   
                 </div>
                 <div class="swiper-button-prev"><svg width="7" height="11" viewBox="0 0 7 11" xmlns="http://www.w3.org/2000/svg"><use href="#icon_prev_sm" /></svg></div>
                 <div class="swiper-button-next"><svg width="7" height="11" viewBox="0 0 7 11" xmlns="http://www.w3.org/2000/svg"><use href="#icon_next_sm" /></svg></div>
@@ -41,16 +35,21 @@
             <div class="product-single__thumbnail">
               <div class="swiper-container">
                 <div class="swiper-wrapper">
-                  <div class="swiper-slide product-single__image-item"><img loading="lazy" class="h-auto" src="{{url('assets/frontend/images/shop/1.jpg')}}" width="104" height="104" alt=""></div>
-                  <div class="swiper-slide product-single__image-item"><img loading="lazy" class="h-auto" src="{{url('assets/frontend/images/shop/1.jpg')}}" width="104" height="104" alt=""></div>
-                  <div class="swiper-slide product-single__image-item"><img loading="lazy" class="h-auto" src="{{url('assets/frontend/images/shop/1.jpg')}}" width="104" height="104" alt=""></div>
-                  <div class="swiper-slide product-single__image-item"><img loading="lazy" class="h-auto" src="{{url('assets/frontend/images/shop/1.jpg')}}" width="104" height="104" alt=""></div>
+                  @if(count($selected_product_images) > 0)
+                  @foreach($selected_product_images as $p_image)
+                  <div class="swiper-slide product-single__image-item"><img loading="lazy" class="h-auto" src="{{url($p_image->image ?? '')}}" width="104" height="104" alt=""></div> 
+                  @endforeach
+                  @else
+                  <div class="swiper-slide product-single__image-item"><img loading="lazy" class="h-auto" src="{{url('upload/images/product_images/default_product.jpg')}}" width="104" height="104" alt=""></div> 
+                  @endif
                 </div>
               </div>
             </div>
+            @if($selected_variant_detail->sale_price != '') 
             <div class="product-label sale-label">
               <span>On Sale!</span>
             </div>
+            @endif
           </div>
         </div>
         <div class="col-lg-5">
@@ -58,13 +57,15 @@
             <div class="breadcrumb mb-0 d-none d-md-block flex-grow-1">
               <a href="#" class="menu-link menu-link_us-s text-uppercase fw-medium">Home</a>
               <span class="breadcrumb-separator menu-link fw-medium ps-1 pe-1">/</span>
-              <a href="#" class="menu-link menu-link_us-s text-uppercase fw-medium">The Shop</a>
-            </div><!-- /.breadcrumb -->
+              <a href="{{ route('frontent.product_list', [$sub_category->slug ?? "" ]) }}" class="menu-link menu-link_us-s text-uppercase fw-medium">{{ $main_category->name }}</a>
+              <span class="breadcrumb-separator menu-link fw-medium ps-1 pe-1">/</span>
+              <a href="{{ route('frontent.product_list', [$sub_category->slug ?? "" ]) }}" class="menu-link menu-link_us-s text-uppercase fw-medium">{{ $sub_category->name }}</a>
+            </div>
     
-            <div class="product-single__prev-next d-flex align-items-center justify-content-between justify-content-md-end flex-grow-1">
-              <a href="product1_simple.html" class="text-uppercase fw-medium"><svg class="mb-1px" width="10" height="10" viewBox="0 0 25 25" xmlns="http://www.w3.org/2000/svg"><use href="#icon_prev_md" /></svg><span class="menu-link menu-link_us-s">Prev</span></a>
-              <a href="product3_external.html" class="text-uppercase fw-medium"><span class="menu-link menu-link_us-s">Next</span><svg class="mb-1px" width="10" height="10" viewBox="0 0 25 25" xmlns="http://www.w3.org/2000/svg"><use href="#icon_next_md" /></svg></a>
-            </div><!-- /.shop-acs -->
+            <!-- <div class="product-single__prev-next d-flex align-items-center justify-content-between justify-content-md-end flex-grow-1">
+              <a href="javascript:void(0)" class="text-uppercase fw-medium"><svg class="mb-1px" width="10" height="10" viewBox="0 0 25 25" xmlns="http://www.w3.org/2000/svg"><use href="#icon_prev_md" /></svg><span class="menu-link menu-link_us-s">Prev</span></a>
+              <a href="javascript:void(0)" class="text-uppercase fw-medium"><span class="menu-link menu-link_us-s">Next</span><svg class="mb-1px" width="10" height="10" viewBox="0 0 25 25" xmlns="http://www.w3.org/2000/svg"><use href="#icon_next_md" /></svg></a>
+            </div> -->
           </div>
           <h1 class="product-single__name">{{ $product->name ?? '' }}</h1>
           <div class="product-single__rating">
@@ -76,16 +77,22 @@
               <svg class="review-star" viewBox="0 0 9 9" xmlns="http://www.w3.org/2000/svg"><use href="#icon_star" /></svg>
             </div>
             <span class="reviews-note text-lowercase text-secondary ms-1">8k+ reviews</span>
-          </div>
+          </div> 
+          @if($selected_variant_detail->sale_price == '')
           <div class="product-single__price">
-            <span class="current-price">$449</span>
+            <span class="current-price">Rs. {{ $selected_variant_detail->price ?? '' }}</span>
           </div>
+          @else
           <div class="product-single__price">
-            <span class="old-price">$769</span>
-            <span class="special-price">$249</span>
+            <span class="old-price">Rs. {{ $selected_variant_detail->price ?? '' }}</span>
+            <span class="special-price">Rs. {{ $selected_variant_detail->sale_price ?? '' }}</span>
           </div>
+          @endif
+          
+
+            
           <div class="product-single__short-desc">
-            <p>Phasellus sed volutpat orci. Fusce eget lore mauris vehicula elementum gravida nec dui. Aenean aliquam varius ipsum, non ultricies tellus sodales eu. Donec dignissim viverra nunc, ut aliquet magna posuere eget.</p>
+            <p>{{ $product->short_description ?? '' }}</p>
           </div>
           <form name="addtocart-form" method="post">
             <div class="product-single__swatches">
@@ -116,6 +123,8 @@
 
 
             </div>
+
+            @if($selected_variant_detail->stock > 0 && $selected_variant_detail->stock_status == 1)
             <div class="product-single__addtocart">
               <div class="qty-control position-relative">
                 <input type="number" name="quantity" value="1" min="1" class="qty-control__number text-center">
@@ -124,11 +133,12 @@
               </div>
               <button type="submit" class="btn btn-primary btn-addtocart js-open-aside" data-aside="cartDrawer">Add to Cart</button>
             </div>
-          </form>
-          <form name="addtocart-form" method="post">
+            @else 
             <div class="product-single__addtocart">
               <button type="submit" class="btn btn-primary btn-addtocart btn-outofstock">Out of Stock</button>
             </div>
+            @endif
+            
           </form>
           <div class="product-single__addtolinks">
             <a href="#" class="menu-link menu-link_us-s add-to-wishlist"><svg width="16" height="16" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><use href="#icon_heart" /></svg><span>Add to Wishlist</span></a>
@@ -159,16 +169,16 @@
           <div class="product-single__meta-info">
             <div class="meta-item">
               <label>SKU:</label>
-              <span>N/A</span>
+              <span>{{ $product->sku ?? '' }}</span>
             </div>
-            <div class="meta-item">
+            <!-- <div class="meta-item">
               <label>Categories:</label>
               <span>Casual & Urban Wear, Jackets, Men</span>
             </div>
             <div class="meta-item">
               <label>Tags:</label>
               <span>biker, black, bomber, leather</span>
-            </div>
+            </div> -->
           </div>
         </div>
       </div>
@@ -177,41 +187,20 @@
           <li class="nav-item" role="presentation">
             <a class="nav-link nav-link_underscore active" id="tab-description-tab" data-bs-toggle="tab" href="#tab-description" role="tab" aria-controls="tab-description" aria-selected="true">Description</a>
           </li>
-          <li class="nav-item" role="presentation">
+          <!-- <li class="nav-item" role="presentation">
             <a class="nav-link nav-link_underscore" id="tab-additional-info-tab" data-bs-toggle="tab" href="#tab-additional-info" role="tab" aria-controls="tab-additional-info" aria-selected="false">Additional Information</a>
-          </li>
+          </li> -->
           <li class="nav-item" role="presentation">
             <a class="nav-link nav-link_underscore" id="tab-reviews-tab" data-bs-toggle="tab" href="#tab-reviews" role="tab" aria-controls="tab-reviews" aria-selected="false">Reviews (2)</a>
           </li>
         </ul>
         <div class="tab-content">
           <div class="tab-pane fade show active" id="tab-description" role="tabpanel" aria-labelledby="tab-description-tab">
-            <div class="product-single__description">
-              <h3 class="block-title mb-4">Sed do eiusmod tempor incididunt ut labore</h3>
-              <p class="content">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.</p>
-              <div class="row">
-                <div class="col-lg-6">
-                  <h3 class="block-title">Why choose product?</h3>
-                  <ul class="list text-list">
-                    <li>Creat by cotton fibric with soft and smooth</li>
-                    <li>Simple, Configurable (e.g. size, color, etc.), bundled</li>
-                    <li>Downloadable/Digital Products, Virtual Products</li>
-                  </ul>
-                </div>
-                <div class="col-lg-6">
-                  <h3 class="block-title">Sample Number List</h3>
-                  <ol class="list text-list">
-                    <li>Create Store-specific attrittbutes on the fly</li>
-                    <li>Simple, Configurable (e.g. size, color, etc.), bundled</li>
-                    <li>Downloadable/Digital Products, Virtual Products</li>
-                  </ol>
-                </div>
-              </div>
-              <h3 class="block-title mb-0">Lining</h3>
-              <p class="content">100% Polyester, Main: 100% Polyester.</p>
-            </div>
+            <div class="product-single__description"> 
+               {!! $product->full_description ?? '' !!} 
+            </div> 
           </div>
-          <div class="tab-pane fade" id="tab-additional-info" role="tabpanel" aria-labelledby="tab-additional-info-tab">
+          <!-- <div class="tab-pane fade" id="tab-additional-info" role="tabpanel" aria-labelledby="tab-additional-info-tab">
             <div class="product-single__addtional-info">
               <div class="item">
                 <label class="h6">Weight</label>
@@ -234,7 +223,7 @@
                 <span>Relaxed fit shirt-style dress with a rugged</span>
               </div>
             </div>
-          </div>
+          </div> -->
           <div class="tab-pane fade" id="tab-reviews" role="tabpanel" aria-labelledby="tab-reviews-tab">
             <h2 class="product-single__reviews-title">Reviews</h2>
             <div class="product-single__reviews-list">
