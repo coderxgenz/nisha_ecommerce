@@ -224,7 +224,7 @@ class ProductController extends Controller
     public function productList(Request $request, $main_category_slug){
         // try{ 
             $color = $request->color;
-            $size = $request->size;
+            $size = $request->size; 
             $price = $request->price; 
             // $category = $request->category; 
             $selectedCategories = $request->input('category', []);
