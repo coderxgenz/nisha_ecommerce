@@ -226,12 +226,23 @@ class ProductController extends Controller
             $color = $request->color;
             $size = $request->size; 
             $price = $request->price; 
+            $minPrice = 0;
+            $maxPrice = 0;
             // $category = $request->category; 
             $selectedCategories = $request->input('category', []);
             $selectedSizes = $request->input('size', []);
             $selectedColors = $request->input('colors', []);
-            $priceRange = $request->price_range;
-            // return $priceRange;
+            $selectedPriceRange = $request->price_range;
+ 
+            if(!empty($selectedPriceRange)){ 
+                list($minPrice, $maxPrice) = explode(',', $selectedPriceRange);
+                
+                $minPrice = (int) trim($minPrice);
+                $maxPrice = (int) trim($maxPrice);
+            }
+
+
+            // return $selectedPriceRange;
             $main_category = MainCategory::where('slug', $main_category_slug)->first();
             $sub_category = SubCategory::with('getMainCategory');
             if(!empty($selectedCategories)){
@@ -258,6 +269,9 @@ class ProductController extends Controller
                     if(!empty($selectedColors)){
                         $product_variants = $product_variants->whereIn('color', $selectedColors);
                     } 
+                    if(!empty($selectedPriceRange)){
+                        $product_variants = $product_variants->whereBetween('sale_price', [$minPrice, $maxPrice]);
+                    }
                    $product_variants = $product_variants->get()
                     ->unique('color_id');
                 foreach ($product_variants as $variant) {
@@ -284,7 +298,7 @@ class ProductController extends Controller
                 }
             } 
              return view('frontend.product_list', compact('product_list', 'categories', 
-             'sub_category', 'colors', 'sizes', 'main_category_slug'));
+             'sub_category', 'colors', 'sizes', 'main_category_slug', 'minPrice', 'maxPrice'));
         // }catch(\Exception $e){
         //     return "Something went wrong";
         // }
