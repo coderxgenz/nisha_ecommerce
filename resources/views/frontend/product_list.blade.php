@@ -352,6 +352,7 @@
 @section('javascript-section')
 <script>
   $(document).on("change", ".filter_checkbox", function(){
+  
     $("#category_form").submit();
   });
 </script>
