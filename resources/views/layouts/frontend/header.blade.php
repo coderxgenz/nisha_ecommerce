@@ -5,6 +5,7 @@
 
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
   <meta name="author" content="flexkit">
+  <meta name="csrf-token" content="{{ csrf_token() }}">
 
   <link rel="shortcut icon" href="{{url('assets/frontend/images/favicon.ico')}}" type="image/x-icon">
   <link rel="preconnect" href="https://fonts.gstatic.com/">
@@ -475,14 +476,11 @@
         <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
             <use href="#icon_heart" />
         </svg>
-    </a>
-
-    <a href="#" class="header-tools__item header-tools__cart js-open-aside" data-aside="cartDrawer">
-        <svg class="d-block" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <use href="#icon_cart" />
-        </svg>
-        <span class="cart-amount d-block position-absolute js-cart-items-count">3</span>
-    </a>
+    </a> 
+   <!-- drawer cart code -->
+    <div id="drawer_cart_section">
+    @include('frontend.drawer_cart')
+    </div>
 </div>
 <!-- /.header__tools -->
         </div>

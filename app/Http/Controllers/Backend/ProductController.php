@@ -136,22 +136,7 @@ class ProductController extends Controller
         }
     }
 
-    public function store(Request $request){
-        // return $request; 
-          // $validate = $request->validate([
-            //     'name' => ['required'], 
-            //     'main_category' => ['required'], 
-            //     'sub_category' => ['required'], 
-            //     'size' => ['required'], 
-            //     'color' => ['required'], 
-            //     'images' => ['required'], 
-            //     'price' => ['required'], 
-            //     'sale_price' => ['required'], 
-            //     'stock' => ['required'], 
-            //     'short_description' => ['required'], 
-            //     'full_description' => ['required'], 
-            //     'thumbnail' => ['required'], 
-        // ]);
+    public function store(Request $request){ 
         try{ 
             $slug = empty($request->slug) ? Str::slug($request->name) : Str::slug($request->slug); 
             $product = Product::create([
@@ -159,9 +144,8 @@ class ProductController extends Controller
                 'sku' => $request->sku ?? $request->name,
                 'slug' => $slug,
                 'main_category_id' => $request->main_category,
-                'sub_category_id' => $request->sub_category, 
-                'stock' => $request->stock,
-                'stock_status' => $request->stock_status > 0 ? '1' : '0',
+                'sub_category_id' => $request->sub_category,  
+                'stock_status' => 1,
                 'short_description' => $request->short_description,
                 'full_description' => $request->full_description,
                 'meta_title' => $request->meta_title,
@@ -190,8 +174,9 @@ class ProductController extends Controller
                     $selected_color = Color::where('name', $color)->first();
                     $priceKey = "price_{$size}_{$color}";
                     $salePriceKey = "sale_price_{$size}_{$color}";
+                    $stockKey = "stock_{$size}_{$color}";
                     $imageKey = "image_{$size}_{$color}"; 
-                    ProductVariants::create([
+                    $product_variant = ProductVariants::create([
                         'product_id' => $product->id, 
                         'variant_id' => $selected_size->id, 
                         'color_id' => $selected_color->id, 
@@ -199,6 +184,7 @@ class ProductController extends Controller
                         'color' => $selected_color->name,
                         'price' => $request->$priceKey ?? 0,
                         'sale_price' => $request->$salePriceKey ?? 0,
+                        'stock' => $request->$stockKey ?? 0,
                     ]);
                     if($request->has($imageKey)){
                         $images = $request->file($imageKey);
@@ -208,7 +194,7 @@ class ProductController extends Controller
                             ProductImage::create([
                                 'product_id' => $product->id,
                                 "product_variant_name" => $selected_size->name,
-                                "product_variant_id" => $selected_size->id,
+                                "product_variant_id" => $product_variant->id,
                                 'image' => 'upload/images/product_images/' . $image_name,
                             ]);
                         }  
@@ -278,7 +264,7 @@ class ProductController extends Controller
                     $product_image = [];       
                             $product_images = ProductImage::select('image')
                                 ->where('product_id', $product->id)
-                                ->where('product_variant_id', $variant->variant_id)
+                                ->where('product_variant_id', $variant->id)
                                 ->get();
                      foreach($product_images as $p_image){
                         $product_image[] = $p_image->image;
@@ -297,6 +283,7 @@ class ProductController extends Controller
                     ];
                 }
             } 
+            // return $product_list;
              return view('frontend.product_list', compact('product_list', 'categories', 
              'sub_category', 'colors', 'sizes', 'main_category_slug', 'minPrice', 'maxPrice'));
         // }catch(\Exception $e){
@@ -304,7 +291,8 @@ class ProductController extends Controller
         // }
     }
     public function productDetails($p_id, $selected_size_id, $selected_color_id){
-        try{ 
+        
+        // try{  
             $product = Product::where('id', $p_id)->first();
             $main_category = MainCategory::where('id', $product->main_category_id)->first();
             $sub_category = SubCategory::where('id', $product->sub_category_id)->first();
@@ -315,7 +303,10 @@ class ProductController extends Controller
             $colors = ProductVariants::where('product_id', $p_id)
             ->where('variant_id', $selected_size_id)
             ->get(); 
-
+            if($selected_color_id == ''){
+                $selected_color_id = $colors[0]->color_id;
+            }
+            
             $selected_variant_detail = ProductVariants::where('product_id', $p_id)
             ->where('variant_id', $selected_size_id)
             ->where('color_id', $selected_color_id)
@@ -328,9 +319,11 @@ class ProductController extends Controller
              return view('frontend.product_details', compact('product', 'selected_size_id', 
              'selected_color_id', 'sizes', 'colors', 'selected_variant_detail', 'main_category', 'sub_category',
             'selected_product_images'));
-        }catch(\Exception $e){
-            return "Something went wrong";
-        }
+        // }catch(\Exception $e){
+        //     return "Something went wrong";
+        // }
     }
+
+    
 
 }

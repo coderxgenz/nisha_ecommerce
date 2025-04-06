@@ -77,7 +77,7 @@
                                     </div>
  
                                     <div class="row">
-                                        <div class="col-md-6 mb-4">
+                                        <!-- <div class="col-md-6 mb-4">
                                             <label for="stock" class="form-label">Stock</label>
                                             <input type="number" name="stock" class="form-control" id="stock" placeholder="Enter stock quantity">
                                         </div> 
@@ -87,7 +87,7 @@
                                                 <option value="1">In Stock</option>
                                                 <option value="0">Out Of Stock</option>
                                             </select>
-                                        </div> 
+                                        </div>  -->
                                         <div class="col-md-12 mb-4 ">
                                             <label for="shortDescription" class="form-label">Short Description</label>
                                             <textarea class="form-control" name="short_description" id="shortDescription" rows="2" placeholder="Enter short description"></textarea>
@@ -97,20 +97,15 @@
                                             <label for="description" class="form-label">Product Description</label>
                                             <textarea class="form-control" name="full_description" id="editor" rows="4" placeholder="Enter full product description"></textarea>
                                         </div>
-
-
-
-
+ 
                                         <div class="form-group mb-3">
                                         <label>Thumbnail Image</label>
                                         <input name="thumbnail_images" class="form-control image-input" type="file" accept="image/png, image/jpeg, image/jpg, image/webp">
-                                    @error('image')
-                                            <p style="color:red;"><b>{{ $message }}</b></p>
-                                            @enderror     
+                                            @error('image')
+                                                <p style="color:red;"><b>{{ $message }}</b></p>
+                                            @enderror
                                     </div>
-                                        
                                          
-
                                     </div>
 
                                     <button type="submit" class="btn btn-success">Submit</button>
@@ -125,52 +120,162 @@
     </div>
 </div>
 @section('javascript-section')
-  <script>
-      const choicesInstances = new Map();
-    $(document).ready(function() {
-    let sizeSelector = new Choices("#variant_size", { removeItemButton: false });
-    let colors = @json($colors);  
-    // let colorChoices = '';
+<script>
+let selectedFilesMap = {}; // Object to store files for each input field
+document.addEventListener("DOMContentLoaded", function (){
+    document.body.addEventListener('change', function (event){ 
+        if(event.target.classList.contains('image-input')){
+            let input = event.target;
+            let size = input.dataset.size;
+            let color = input.dataset.color;
+            let previewContainer = document.querySelector(`.image-preview[data-size="${size}"][data-color="${color}"]`);
+            // Ensure unique storage for each input field
+            if (!selectedFilesMap[size]) selectedFilesMap[size] = {};
+            if (!selectedFilesMap[size][color]) selectedFilesMap[size][color] = [];
 
-    $(document).on("change", "#variant_size", function () {
-    let sizes = $(this).val();   
-    let size = sizes[sizes.length - 1];
-    let append_to_html = ''; 
-    let color_options = '';
-    colors.forEach((color) => {
-        color_options += `<option value="${color.name}">${color.name}</option>`;
+            let fileList = selectedFilesMap[size][color];
+
+            // Store new images while keeping existing ones
+            Array.from(input.files).forEach(file => {
+                if (file.type.startsWith('image/')) {
+                    fileList.push(file); // Add to array
+                    let reader = new FileReader();
+                    reader.onload = function (e) {
+                        let previewWrapper = document.createElement('div');
+                        previewWrapper.classList.add("preview-item");
+                        previewWrapper.style.display = 'inline-block';
+                        previewWrapper.style.position = 'relative';
+                        previewWrapper.style.margin = '5px';
+                        let img = document.createElement('img');
+                        img.src = e.target.result;
+                        img.style.width = '80px';
+                        img.style.height = '80px';
+                        img.style.borderRadius = '5px';
+                        img.style.objectFit = 'cover';
+                        // Close button to remove image
+                        let closeBtn = document.createElement('span');
+                        closeBtn.innerHTML = '&times;';
+                        closeBtn.style.position = 'absolute';
+                        closeBtn.style.top = '2px';
+                        closeBtn.style.right = '5px';
+                        closeBtn.style.background = 'rgba(0,0,0,0.7)';
+                        closeBtn.style.color = '#fff';
+                        closeBtn.style.borderRadius = '50%';
+                        closeBtn.style.width = '18px';
+                        closeBtn.style.height = '18px';
+                        closeBtn.style.display = 'flex';
+                        closeBtn.style.alignItems = 'center';
+                        closeBtn.style.justifyContent = 'center';
+                        closeBtn.style.cursor = 'pointer';
+                        closeBtn.style.fontSize = '14px';
+                        // Remove image event
+                        closeBtn.addEventListener('click', function () {
+                            let indexToRemove = fileList.indexOf(file);
+                            if (indexToRemove > -1) {
+                                fileList.splice(indexToRemove, 1); // Remove from array
+                                updateFileInput(input, fileList);
+                            }
+                            previewWrapper.remove();
+                        });
+                        previewWrapper.appendChild(img);
+                        previewWrapper.appendChild(closeBtn);
+                        previewContainer.appendChild(previewWrapper);
+                    };
+                    reader.readAsDataURL(file);
+                }
+            });
+            updateFileInput(input, fileList);
+        }
     });
-    // $(".variant_section").html(""); 
-    // sizes.forEach((size) => {        
-    //         append_to_html = `             
-    //             <div class="row variant-item" data-size="${size}">                 
-    //                 <div class="col-md-12 mb-12">                     
-    //                     <label for="color" class="form-label">Select Color for Size ${size}</label>                     
-    //                     <select class="form-control color-selector" id="variant_color" name="variant_color_${size}[]" data-size="${size}" multiple>                         
-    //                         ${color_options}                     
-    //                     </select>                     
-    //                     <div id="variant_color_data_${size}"></div>                     
-    //                     <button type="button" class="btn btn-danger remove-variant" data-size="${size}">Remove</button>
-    //                 </div>              
-    //             </div>`; 
-    // sizes.forEach((size) => {        
-            append_to_html = `             
+    // Function to update the input field with selected images
+    function updateFileInput(input, fileList) {
+        let dataTransfer = new DataTransfer(); // Create a new file list
+        fileList.forEach(file => dataTransfer.items.add(file));
+        input.files = dataTransfer.files; // Assign updated file list to input
+    }
+    // Reset the selected files when an input field is removed and re-added
+    document.body.addEventListener('click', function (event) {
+        if (event.target.classList.contains('remove-input')) {
+            let inputField = event.target.closest('.variant-row');
+            let input = inputField.querySelector('.image-input');
+            if (input) {
+                let size = input.dataset.size;
+                let color = input.dataset.color;
+                // Clear stored images for this specific input field
+                if (selectedFilesMap[size] && selectedFilesMap[size][color]) {
+                    delete selectedFilesMap[size][color];
+                }
+                // Reset input field value
+                input.value = "";
+            }
+            // Remove input field from DOM
+            inputField.remove();
+        }
+    });
+});
+// Reset image storage when adding a new input field
+function resetImageStorage(size, color) {
+    if(selectedFilesMap[size] && selectedFilesMap[size][color]){
+        selectedFilesMap[size][color] = [];
+    }
+}
+function resetImageFromSizeStorage(size) {
+    if(selectedFilesMap[size]){
+        selectedFilesMap[size] = [];
+    }
+}
+</script>
+
+<script>
+    const choicesInstances = new Map();
+    $(document).ready(function(){
+        let sizeSelector = new Choices("#variant_size", { removeItemButton: false });
+        let colors = @json($colors);  
+        // let colorChoices = '';
+        $(document).on("change", "#variant_size", function () {
+        let sizes = $(this).val();   
+        let size = sizes[sizes.length - 1];
+        let append_to_html = ''; 
+        let color_options = '';
+        colors.forEach((color) => {
+            color_options += `<option value="${color.name}">${color.name}</option>`;
+        });
+        // $(".variant_section").html(""); 
+        // sizes.forEach((size) => {        
+        //         append_to_html = `             
+        //             <div class="row variant-item" data-size="${size}">                 
+        //                 <div class="col-md-12 mb-12">                     
+        //                     <label for="color" class="form-label">Select Color for Size ${size}</label>                     
+        //                     <select class="form-control color-selector" id="variant_color" name="variant_color_${size}[]" data-size="${size}" multiple>                         
+        //                         ${color_options}                     
+        //                     </select>                     
+        //                     <div id="variant_color_data_${size}"></div>                     
+        //                     <button type="button" class="btn btn-danger remove-variant" data-size="${size}">Remove</button>
+        //                 </div>              
+        //             </div>`; 
+        // sizes.forEach((size) => {        
+            append_to_html = `
                 <div class="row variant-item" data-size="${size}">                 
-                    <div class="col-md-12 mb-12">                     
+                    <div class="col-md-11">                     
                         <label for="color" class="form-label">Select Color for Size ${size}</label>                     
                         <select class="form-control color-selector" id="variant_color" name="variant_color_${size}[]" data-size="${size}" multiple>                         
                             ${color_options}                     
-                        </select>                     
+                        </select>   
+                        </div>
+                         <div class="col-md-1">  
+                         <br>                 
+                        <button type="button" class="btn btn-danger remove-variant" data-size="${size}"><i class="fas fa-trash"></i></button>
+                        </div> 
+                        <div class="col-md-12 mb-12">
                         <div id="variant_color_data_${size}"></div>                     
-                        <button type="button" class="btn btn-danger remove-variant" data-size="${size}">Remove</button>
-                    </div>              
+                     </div>             
                 </div>`;     
             $(".variant_section").append(append_to_html);       
             let colorSelect = document.querySelector(`.color-selector[data-size="${size}"]`);        
             let choicesInstance = new Choices(colorSelect, { removeItemButton: false });    
 
-        // Store the Choices.js instance in the map
-        choicesInstances.set(size, choicesInstance);  
+            // Store the Choices.js instance in the map
+            choicesInstances.set(size, choicesInstance);  
             // let colorSelect = document.querySelector(`.color-selector[data-size="${size}"]`);        
             //  new Choices(colorSelect, { removeItemButton: false });    
         // }); 
@@ -181,6 +286,7 @@
             $(this).closest(".variant-item").remove(); // Remove the section 
             // Remove the selected item from Choices.js multi-select
             sizeSelector.removeActiveItemsByValue(sizeToRemove); 
+            resetImageFromSizeStorage(sizeToRemove);
             // Optional: If needed, remove from available options as well
             // sizeSelector.removeChoicesByValue(sizeToRemove);
         }); 
@@ -194,54 +300,51 @@ $(document).on("change", "#variant_color", function () {
     colors.forEach((color) => {
         append_to_html = `
      <div class="row variant-row variant_color_item" data-color="${color}" data-size="${size}">
-                        <div class="col-md-3 mb-4">
-                            <label class="form-label">Color: ${color}</label> 
-                        </div>
-                        <div class="col-md-3 mb-4">
+                        <div class="col-md-1">
+                            <label class="form-label">Color</label> 
+                            <p>${color}</p>
+                         </div>
+                        <div class="col-md-4">
                             <label class="form-label">Upload Image</label>
-                            <input type="file" class="form-control" name="image_${size}_${color}[]" data-size="${color}" data-color="${color}" multiple accept=".jpg, .jpeg, .png, .webp">
+                            <input type="file" class="form-control image-input" name="image_${size}_${color}[]" data-size="${size}" data-color="${color}" multiple accept=".jpg, .jpeg, .png, .webp">
+                        <div class="image-preview mt-2" data-size="${size}" data-color="${color}"></div>
+                            </div>
+                        <div class="col-md-2">
+                            <label class="form-label">Stock</label>
+                            <input type="number" class="form-control" name="stock_${size}_${color}" data-size="${color}" data-color="${color}" placeholder="Enter Stock">
                         </div>
-                        <div class="col-md-2 mb-4">
+                        <div class="col-md-2">
                             <label class="form-label">Price (₹)</label>
                             <input type="number" class="form-control" name="price_${size}_${color}" data-size="${color}" data-color="${color}" placeholder="Enter price">
                         </div>
-                        <div class="col-md-2 mb-4">
+                        <div class="col-md-2">
                             <label class="form-label">Sale Price (₹)</label>
                             <input type="number" class="form-control" name="sale_price_${size}_${color}" data-size="${color}" data-color="${color}" placeholder="Enter Sale price">
                         </div>
-                        <div class="col-md-2 mb-4">
-                            <button type="button" class="btn btn-danger remove-color-variant" data-color="${color}" data-size="${size}">Remove</button>
+                        <div class="col-md-1">
+                        <br>
+                            <button type="button" class="btn btn-danger remove-color-variant" data-color="${color}" data-size="${size}"><i class="fas fa-trash"></i></button>
                         </div>
-                    </div>`;
+                    </div><hr>`;
                 });
                 $("#variant_color_data_"+size).append(append_to_html); 
         });
         
         $(document).on("click", ".remove-color-variant", function () {
-    let colorToRemove = $(this).data("color");
-    let size = $(this).data("size");
-    console.log('colorToRemove:', colorToRemove);
-    console.log('size:', size);
+            let colorToRemove = $(this).data("color");
+            let size = $(this).data("size");
+            let image_inpute_field = document.querySelector(`.image-input[data-size="${size}"][data-color="${colorToRemove}"]`);
+            resetImageStorage(size, colorToRemove);
+            image_inpute_field.value = '';
+            $(this).closest(".variant_color_item").remove(); 
+            let colorSelector = choicesInstances.get(size);
 
-    // Remove the color variant row from UI
-    $(this).closest(".variant_color_item").remove();
-
-    // Retrieve the Choices.js instance from the map
-    let colorSelector = choicesInstances.get(size);
-
-    if (colorSelector) {
-        // Remove the selected item from Choices.js multi-select
-        colorSelector.removeActiveItemsByValue(colorToRemove);
-
-        // Optional: If needed, remove the option from the dropdown
-        // let currentChoices = colorSelector.config.choices.filter(choice => choice.value !== colorToRemove);
-        // colorSelector.setChoices(currentChoices, 'value', 'label', true);
-    } else {
-        console.error(`Choices.js instance not found for size: ${size}`);
-    }
-});
-
-
+            if (colorSelector) { 
+                colorSelector.removeActiveItemsByValue(colorToRemove); 
+            } else {
+                console.error(`Choices.js instance not found for size: ${size}`);
+            }
+        });
  
 
         $(document).on("change", "#main_category", async function() {
@@ -408,6 +511,8 @@ $(document).on("change", "#variant_color", function () {
         });
     });
 </script>
+
+   
 
 @endsection
 @endsection

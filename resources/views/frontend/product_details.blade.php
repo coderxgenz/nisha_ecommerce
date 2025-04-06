@@ -1,5 +1,22 @@
 @extends('layouts/frontend/main')
 @section('main-section')
+@php
+use App\Models\Cart;
+if(Auth::check()){
+    $user_id = Auth::user()->id; 
+    $cart_item_check = Cart::where('product_id', $product->id)->where('user_id', $user_id)->exists();
+  }else{
+    if(!Session::has('temp_user_id')) {
+      $temp_user_id = bin2hex(random_bytes(10)); 
+      Session::put('temp_user_id', $temp_user_id);
+    }else{
+      $temp_user_id = Session::get('temp_user_id');
+    }
+    $cart_item_check = Cart::where('product_id', $product->id)->where('temp_id', $temp_user_id)->exists();
+
+  }
+
+@endphp
 <main>
     <div class="mb-md-1 pb-md-3"></div>
     <section class="product-single container">
@@ -94,15 +111,15 @@
           <div class="product-single__short-desc">
             <p>{{ $product->short_description ?? '' }}</p>
           </div>
-          <form name="addtocart-form" method="post">
+           
             <div class="product-single__swatches">
               <div class="product-swatch text-swatches">
                 @if(count($sizes) > 0)
                 <label>Sizes</label>
                 <div class="swatch-list">
-                  @foreach($sizes as $size)
-                  <input type="radio" name="size" id="swatch-1" {{ $size->variant_id == $selected_size_id ? "checked":"" }}>
-                  <label class="swatch js-swatch" for="swatch-1" aria-label="Extra Small" data-bs-toggle="tooltip" data-bs-placement="top" title="Extra Small">{{ strtoupper($size->name) }}</label>
+                  @foreach($sizes as $index => $size)
+                  <input type="radio" name="size" id="swatch-{{ $index+1 }}" {{ $size->variant_id == $selected_size_id ? "checked":"" }} value="{{ route('frontent.product_details', [$product->id, $size->variant_id, $selected_color_id]) }}"  onchange="updateProductVariant(this)">
+                  <label class="swatch js-filter" for="swatch-{{ $index+1 }}" aria-label="Extra Small" data-bs-toggle="tooltip" data-bs-placement="top" title="Extra Small">{{ strtoupper($size->name) }}</label>
                   @endforeach
                 </div>
                 @endif
@@ -115,7 +132,7 @@
                 <div class="swatch-list">
                 @foreach($colors as $color) 
                   <input type="radio" name="color" id="swatch-11" {{ $color->color_id == $selected_color_id ? "checked":"" }}>
-                  <label class="swatch swatch-color js-swatch" for="swatch-11"  aria-label="Black" data-bs-toggle="tooltip" data-bs-placement="top" title="Black" style="width:18px; height:18px; color: {{ $color->color }}; background:{{ $color->color }}"; ></label>
+                  <label class=" swatch-color  js-filter" for="swatch-11"  aria-label="Black" data-bs-toggle="tooltip" data-bs-placement="top" title="Black" style="width:18px; height:18px; color: {{ $color->color }}; background:{{ $color->color }}"; ></label>
                   @endforeach 
                 </div>
               </div>
@@ -126,13 +143,28 @@
 
             @if($selected_variant_detail->stock > 0 && $selected_variant_detail->stock_status == 1)
             <div class="product-single__addtocart">
-              <div class="qty-control position-relative">
-                <input type="number" name="quantity" value="1" min="1" class="qty-control__number text-center">
+            <form action="{{ route('frontend.add_to_cart') }}" method="POST" id="add_to_cart_form">
+              @csrf  
+            <div class="qty-control position-relative">
+                <input type="number" name="product_quantity" value="1" min="1" class="qty-control__number text-center">
                 <div class="qty-control__reduce">-</div>
                 <div class="qty-control__increase">+</div>
-              </div>
-              <button type="submit" class="btn btn-primary btn-addtocart js-open-aside" data-aside="cartDrawer">Add to Cart</button>
-            </div>
+              </div> 
+                <input type="text" name="product_name" value="{{ $product->name ?? '' }}" hidden>
+                <input type="text" name="product_id" value="{{ $product->id ?? '' }}" hidden>
+                <input type="text" name="product_variant_id" value="{{ $selected_variant_detail->id ?? '' }}" hidden> 
+                <input type="text" name="product_price" value="{{ $selected_variant_detail->price ?? '' }}" hidden>
+                <input type="text" name="product_sale_price" value="{{ $selected_variant_detail->sale_price ?? '' }}" hidden> 
+                <input type="text" name="product_color" value="{{ $selected_variant_detail->color ?? '' }}" hidden>
+                <input type="text" name="product_size" value="{{ $selected_variant_detail->name ?? '' }}"hidden>
+                <input type="text" name="product_color_id" value="{{ $selected_variant_detail->color_id ?? '' }}" hidden>
+                <input type="text" name="product_size_id" value="{{ $selected_variant_detail->variant_id ?? '' }}" hidden>
+                <input type="text" name="color_name" value="{{ $selected_variant_detail->color ?? '' }}" hidden>
+                <button type="submit" class="btn btn-primary" id="add_to_cart_btn" data-url="{{ route('frontend.add_to_cart') }}" {{ $cart_item_check ? 'disabled' : '' }}  >
+                {{ $cart_item_check ? 'Added' : 'Add to Cart' }}  
+                  </button>
+                </form>
+                </div>
             @else 
             <div class="product-single__addtocart">
               <button type="submit" class="btn btn-primary btn-addtocart btn-outofstock">Out of Stock</button>
@@ -323,7 +355,6 @@
     </section>
     <section class="products-carousel container">
       <h2 class="h3 text-uppercase mb-4 pb-xl-2 mb-xl-4">Related <strong>Products</strong></h2>
-
       <div id="related_products" class="position-relative">
         <div class="swiper-container js-swiper-slider"
           data-settings='{
@@ -483,5 +514,24 @@
   </main>
 
   @section('javascript-section')
+  <script>
+     document.addEventListener("DOMContentLoaded", function () {
+    const buttons = document.querySelectorAll(".js-filter");
+
+    buttons.forEach((btn) => {
+        btn.addEventListener("click", function () {
+            btn.classList.add("swatch_active");
+        });
+    });
+});
+
+function updateProductVariant(element){  
+             const selectedUrl = element.value;
+             console.log(selectedUrl);
+            if (selectedUrl) {
+              window.location.href = selectedUrl;
+            }  
+    }
+  </script>
 @endsection
 @endsection
