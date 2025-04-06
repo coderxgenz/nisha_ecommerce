@@ -20,5 +20,9 @@ class ProductVariants extends Model
         'stock_status',
         'status',
     ];
+
+    public function getProductImages(){
+        return $this->hasMany(ProductImage::class, 'product_variant_id');
+    }
     
 }
