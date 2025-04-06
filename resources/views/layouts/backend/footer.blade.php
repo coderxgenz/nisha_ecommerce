@@ -35,6 +35,7 @@
 <!-- dropzone js -->
 <script src="{{url('assets/backend/libs/dropzone/min/dropzone.min.js')}}"></script>
 
+<script src="{{url('assets/backend/libs/flatpickr/flatpickr.min.js')}}"></script>
 
 <!-- choices js -->
 <script src="{{url('assets/backend/libs/choices.js/public/assets/scripts/choices.min.js')}}"></script>
@@ -50,7 +51,7 @@
 <!-- Sweet Alerts js -->
 <script src="{{url('assets/backend/libs/sweetalert2/sweetalert2.min.js')}}"></script>
 <!-- Sweet alert init js-->
-<!-- <script src="{{url('assets/backend/js/pages/form-advanced.init.js')}}"></script> -->
+<script src="{{url('assets/backend/js/pages/form-advanced.init.js')}}"></script>
 <script src="{{url('assets/backend/libs/%40ckeditor/ckeditor5-build-classic/build/ckeditor.js')}}"></script>
 
 

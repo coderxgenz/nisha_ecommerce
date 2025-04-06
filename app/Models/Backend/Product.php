@@ -39,7 +39,7 @@ class Product extends Model
     }
 
     public function getProductSizeVariants(){
-        return $this->hasMany(ProductVariants::class, 'product_id', 'id');
+        return $this->hasMany(ProductVariants::class, 'product_id', 'id')->with('getProductImages');
     }
    
 }

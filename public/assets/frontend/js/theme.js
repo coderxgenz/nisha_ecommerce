@@ -1470,3 +1470,19 @@ window.addEventListener('load', () => {
 
   }
 });
+
+
+
+window.addEventListener("load", function () {
+  setTimeout(() => {
+      document.getElementById("loader").style.display = "none";
+  }, 1000); // 1 second tak chalega phir hide ho jayega
+});
+
+    $(document).ready(function(){
+        $('#datepicker-datetime').datepicker({
+            format: 'yyyy-mm-dd', // Format set karo
+            autoclose: true, // Auto close kare
+            todayHighlight: true // Aaj ka date highlight kare
+        });
+    });

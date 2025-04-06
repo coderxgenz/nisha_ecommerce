@@ -46,7 +46,8 @@ class ProductController extends Controller
             $sub_categories = SubCategory::where('is_active', '1')->get();
             $product = Product::with([
                 'getProductSizeVariants'
-            ])->where('id', $id)->first();  
+            ])->where('id', $id)->first(); 
+            // return $product; 
               
             $selected_size_variants = $product->getProductSizeVariants->unique('variant_id')->pluck('variant_id')->toArray();
             // $selected_color_variants = $product->getProductSizeVariants->unique('color_id')->pluck('color_id')->toArray();

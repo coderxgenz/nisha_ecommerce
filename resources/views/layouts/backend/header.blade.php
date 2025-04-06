@@ -28,6 +28,8 @@
     <link href="{{url('assets/backend/css/icons.min.css')}}" rel="stylesheet" type="text/css" />
   <!-- dropzone css -->
     <link href="{{url('assets/backend/libs/dropzone/min/dropzone.min.css')}}" rel="stylesheet" type="text/css" />
+    <!-- flatepickr css -->
+    <link rel="stylesheet" href="{{url('assets/backend/libs/flatpickr/flatpickr.min.css')}}">
     <!-- Sweet Alert-->
     <link href="{{url('assets/backend/libs/sweetalert2/sweetalert2.min.css')}}" rel="stylesheet" type="text/css" />
     <!-- App Css-->
