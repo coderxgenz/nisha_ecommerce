@@ -28,11 +28,11 @@
 </head>
 
 <body>
-<div class="loader" id="loader">
+<!-- <div class="loader" id="loader">
     <span class="element"></span>
     <span class="element"></span>
     <span class="element"></span>
-</div>
+</div> -->
   <svg class="d-none">
     <symbol id="icon_nav" viewBox="0 0 25 18">
       <rect width="25" height="2" />

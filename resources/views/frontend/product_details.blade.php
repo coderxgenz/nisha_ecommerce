@@ -4,7 +4,11 @@
 use App\Models\Cart;
 if(Auth::check()){
     $user_id = Auth::user()->id; 
-    $cart_item_check = Cart::where('product_id', $product->id)->where('user_id', $user_id)->exists();
+    $cart_item_check = Cart::where('product_id', $product->id)
+    ->where('user_id', $user_id)
+    ->where('color_id', $selected_color_id)
+    ->where('size_id', $selected_size_id) 
+    ->exists();
   }else{
     if(!Session::has('temp_user_id')) {
       $temp_user_id = bin2hex(random_bytes(10)); 
@@ -12,12 +16,16 @@ if(Auth::check()){
     }else{
       $temp_user_id = Session::get('temp_user_id');
     }
-    $cart_item_check = Cart::where('product_id', $product->id)->where('temp_id', $temp_user_id)->exists();
-
+    $cart_item_check = Cart::where('product_id', $product->id)
+    ->where('temp_id', $temp_user_id)
+    ->where('color_id', $selected_color_id)
+    ->where('size_id', $selected_size_id) 
+    ->exists();
   }
 
 @endphp
 <main>
+  
     <div class="mb-md-1 pb-md-3"></div>
     <section class="product-single container">
       <div class="row">
@@ -106,8 +114,7 @@ if(Auth::check()){
           </div>
           @endif
           
-
-            
+ 
           <div class="product-single__short-desc">
             <p>{{ $product->short_description ?? '' }}</p>
           </div>
@@ -118,8 +125,9 @@ if(Auth::check()){
                 <label>Sizes</label>
                 <div class="swatch-list">
                   @foreach($sizes as $index => $size)
-                  <input type="radio" name="size" id="swatch-{{ $index+1 }}" {{ $size->variant_id == $selected_size_id ? "checked":"" }} value="{{ route('frontent.product_details', [$product->id, $size->variant_id, $selected_color_id]) }}"  onchange="updateProductVariant(this)">
-                  <label class="swatch js-filter" for="swatch-{{ $index+1 }}" aria-label="Extra Small" data-bs-toggle="tooltip" data-bs-placement="top" title="Extra Small">{{ strtoupper($size->name) }}</label>
+                  <input type="radio" name="size" data-size="{{ $size->variant_id }}" id="swatch-{{ $index }}" {{ $size->variant_id == $selected_size_id ? "checked":"" }} 
+                   onchange="changeSize(this, {{ $product->id }}, {{ $selected_color_id }})">
+                  <label class="swatch js-filter-size" for="swatch-{{ $index }}" aria-label="{{ strtoupper($size->name) }}" data-bs-toggle="tooltip" data-bs-placement="top" title="{{ strtoupper($size->name) }}">{{ strtoupper($size->name) }}</label>
                   @endforeach
                 </div>
                 @endif
@@ -130,9 +138,9 @@ if(Auth::check()){
               <div class="product-swatch color-swatches">
                 <label>Color</label>
                 <div class="swatch-list">
-                @foreach($colors as $color) 
-                  <input type="radio" name="color" id="swatch-11" {{ $color->color_id == $selected_color_id ? "checked":"" }}>
-                  <label class=" swatch-color  js-filter" for="swatch-11"  aria-label="Black" data-bs-toggle="tooltip" data-bs-placement="top" title="Black" style="width:18px; height:18px; color: {{ $color->color }}; background:{{ $color->color }}"; ></label>
+                @foreach($colors as $index => $color) 
+                  <input type="radio" name="color" id="swatch_{{ $index }}" data-color-id="{{ $color->color_id }}" {{ $color->color_id == $selected_color_id ? "checked":"" }}>
+                  <label class=" swatch-color  js-filter-color" for="swatch_{{ $index }}"  aria-label="{{ $color->color }}" data-bs-toggle="tooltip" data-bs-placement="top" title="{{ $color->color }}" style="width:18px; height:18px; color: {{ $color->color }}; background:{{ $color->color }};" ></label>
                   @endforeach 
                 </div>
               </div>
@@ -152,13 +160,13 @@ if(Auth::check()){
               </div> 
                 <input type="text" name="product_name" value="{{ $product->name ?? '' }}" hidden>
                 <input type="text" name="product_id" value="{{ $product->id ?? '' }}" hidden>
+                <input type="text" name="product_size_id" value="{{ $selected_variant_detail->variant_id ?? '' }}" hidden>
+                <input type="text" name="product_color_id" value="{{ $selected_variant_detail->color_id ?? '' }}" hidden>
+                <input type="text" name="product_color" value="{{ $selected_variant_detail->color ?? '' }}" hidden>
                 <input type="text" name="product_variant_id" value="{{ $selected_variant_detail->id ?? '' }}" hidden> 
                 <input type="text" name="product_price" value="{{ $selected_variant_detail->price ?? '' }}" hidden>
                 <input type="text" name="product_sale_price" value="{{ $selected_variant_detail->sale_price ?? '' }}" hidden> 
-                <input type="text" name="product_color" value="{{ $selected_variant_detail->color ?? '' }}" hidden>
-                <input type="text" name="product_size" value="{{ $selected_variant_detail->name ?? '' }}"hidden>
-                <input type="text" name="product_color_id" value="{{ $selected_variant_detail->color_id ?? '' }}" hidden>
-                <input type="text" name="product_size_id" value="{{ $selected_variant_detail->variant_id ?? '' }}" hidden>
+                <input type="text" name="product_size" value="{{ $selected_variant_detail->name ?? '' }}" hidden>
                 <input type="text" name="color_name" value="{{ $selected_variant_detail->color ?? '' }}" hidden>
                 <button type="submit" class="btn btn-primary" id="add_to_cart_btn" data-url="{{ route('frontend.add_to_cart') }}" {{ $cart_item_check ? 'disabled' : '' }}  >
                 {{ $cart_item_check ? 'Added' : 'Add to Cart' }}  
@@ -515,23 +523,90 @@ if(Auth::check()){
 
   @section('javascript-section')
   <script>
-     document.addEventListener("DOMContentLoaded", function () {
-    const buttons = document.querySelectorAll(".js-filter");
 
-    buttons.forEach((btn) => {
-        btn.addEventListener("click", function () {
-            btn.classList.add("swatch_active");
+function changeSize(element, product_id, selected_color_id){
+    const selected_size = $(element).data('size'); 
+    let url = "{{ route('frontent.change_product_size') }}";
+    let new_page_url = "{{ route('frontent.product_details', [':p_id', ':size_id', ':color_id']) }}";
+    fetch(url, {
+        method:"POST",
+        headers:{
+             'Content-Type': 'application/json',
+            "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr('content'),
+        },
+        body:JSON.stringify({size_id:selected_size, product_id:product_id, selected_color_id:selected_color_id}),
+        
+     }).then(response => response.json())
+     .then(responseData => { 
+      new_page_url = new_page_url.replace(':p_id', product_id);
+      new_page_url = new_page_url.replace(':size_id', selected_size);
+      new_page_url = new_page_url.replace(':color_id', responseData.new_selected_color_id); 
+      window.location.href = new_page_url;         
+     }).catch(error => console.error('Error:', error));
+}
+
+
+function changeProductColor(element, product_id, selected_size_id){
+    const selected_color = $(element).data('color-id');  
+    console.log('product_id:- ', product_id);
+    console.log('selected_color:- ', selected_color);
+    console.log('selected_size_id:- ', selected_size_id);
+    // return false;
+    let url = "{{ route('frontent.change_product_color') }}";
+    let new_page_url = "{{ route('frontent.product_details', [':p_id', ':size_id', ':color_id']) }}";
+    fetch(url, {
+        method:"POST",
+        headers:{
+             'Content-Type': 'application/json',
+            "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr('content'),
+        },
+        body:JSON.stringify({color_id:selected_color, product_id:product_id, size_id:selected_size_id}),
+        
+     }).then(response => response.json())
+     .then(responseData => { 
+      console.log(responseData);
+      new_page_url = new_page_url.replace(':p_id', product_id);
+      new_page_url = new_page_url.replace(':size_id', selected_size_id);
+      new_page_url = new_page_url.replace(':color_id', selected_color); 
+      window.location.href = new_page_url;         
+     }).catch(error => console.error('Error:', error));
+
+}
+
+//      document.addEventListener("DOMContentLoaded", function () {
+//     const buttons = document.querySelectorAll(".js-filter"); 
+//     buttons.forEach((btn) => {
+//         btn.addEventListener("click", function () {
+//           console.log(btn);
+//             btn.classList.add("swatch_active");
+//         });
+//     });
+// });
+
+document.addEventListener("DOMContentLoaded", function () {
+    const radioButtons = document.querySelectorAll("input[name='color']");
+    radioButtons.forEach((radio) => {
+        radio.addEventListener("change", function () {
+            // Remove 'swatch_active' from all labels
+            document.querySelectorAll(".js-filter-color").forEach(label => {
+                label.classList.remove("swatch_active");
+            }); 
+            // Find the label associated with this radio input and add 'swatch_active'
+            const label = document.querySelector("label[for='" + this.id + "']");
+            if (label) {
+                label.classList.add("swatch_active");
+            } 
+            // Trigger color change logic
+            const productId = {{ $product->id }};
+            const sizeId = {{ $selected_size_id }};
+            changeProductColor(this, productId, sizeId);
         });
     });
 });
 
-function updateProductVariant(element){  
-             const selectedUrl = element.value;
-             console.log(selectedUrl);
-            if (selectedUrl) {
-              window.location.href = selectedUrl;
-            }  
-    }
+
+
+ 
   </script>
 @endsection
 @endsection

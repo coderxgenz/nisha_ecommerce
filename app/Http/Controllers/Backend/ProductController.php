@@ -325,6 +325,60 @@ class ProductController extends Controller
         // }
     }
 
+    public function changeProductSize(Request $request){
+        try{
+            $size_id = $request->size_id;
+            $product_id = $request->product_id;
+            $selected_color_id = $request->selected_color_id;
+            $product_colors = ProductVariants::where('product_id', $product_id)
+            ->where('variant_id', $size_id)
+            ->pluck('color_id')
+            ->toArray();
+            if(in_array($selected_color_id, $product_colors)){
+                $new_selected_color_id = $selected_color_id;
+            }else{
+                $new_selected_color_id = $product_colors[0];
+            }  
+            return response()->json([
+                'status' => 200,
+                'product_colors' => $product_colors,
+                'new_selected_color_id' => $new_selected_color_id,
+            ]);
+        }catch(\Exception $e){
+            return response()->json([
+                'status' => 503,
+                'error' => $e->getMessage(),
+            ]);
+        }
+    }
+
+    public function changeProductColor(Request $request){
+        try{
+            $size_id = $request->size_id;
+            $product_id = $request->product_id;
+            $selected_color_id = $request->color_id;
+            $product_sizes = ProductVariants::where('product_id', $product_id)
+            ->where('color_id', $selected_color_id)
+            ->pluck('variant_id')
+            ->toArray();
+            if(in_array($size_id, $product_sizes)){
+                $new_selected_size_id = $size_id;
+            }else{
+                $new_selected_size_id = $product_sizes[0];
+            }  
+            return response()->json([
+                'status' => 200,
+                'product_sizes' => $product_sizes,
+                'new_selected_size_id' => $new_selected_size_id,
+            ]);
+        }catch(\Exception $e){
+            return response()->json([
+                'status' => 503,
+                'error' => $e->getMessage(),
+                'selected_color_id' => $selected_color_id
+            ]);
+        }
+    }
     
 
 }

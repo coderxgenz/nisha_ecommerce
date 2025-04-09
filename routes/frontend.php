@@ -45,6 +45,9 @@ Route::controller(CartController::class)->group(function(){
     Route::get('/products/{main_category_slug}', 'productList')->name('frontent.product_list');
     Route::get('/product-details/{p_id}/{selected_size_id?}/{selected_color_id?}', action: 'productDetails')->name('frontent.product_details');
     Route::get('/update-variant', 'updateVariant')->name('frontent.update_variant');
+
+    Route::post('/change-product-size', 'changeProductSize')->name('frontent.change_product_size');
+    Route::post('/change-product-color', 'changeProductColor')->name('frontent.change_product_color');
 });
 
 
