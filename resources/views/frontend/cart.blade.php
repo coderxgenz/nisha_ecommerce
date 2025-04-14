@@ -1,6 +1,21 @@
 @extends('layouts/frontend/main')
 @section('main-section')
-
+@php
+use App\Models\Cart;
+  if(Auth::check()){
+    $user_id = Auth::user()->id; 
+    $cart = Cart::with(['getProductImages', 'getSize'])->where('user_id', $user_id)->get();
+  }else{
+    if(!Session::has('temp_user_id')) {
+      $temp_user_id = bin2hex(random_bytes(10)); 
+      Session::put('temp_user_id', $temp_user_id);
+    }else{
+      $temp_user_id = Session::get('temp_user_id');
+    }
+    $cart = Cart::with(['getSize'])->where('temp_id', $temp_user_id)->get();
+  }
+   
+@endphp
 <main>
     <div class="mb-4 pb-4"></div>
     <section class="shop-checkout container">
@@ -42,35 +57,41 @@
               </tr>
             </thead>
             <tbody>
+            @foreach($cart as $item)
+            @php 
+              $product_image = App\Models\Backend\ProductImage::where('product_id', $item->product_id)
+              ->where('product_variant_id', $item->product_variant_id)
+              ->first();
+            @endphp
               <tr>
                 <td>
                   <div class="shopping-cart__product-item">
                     <a href="product1_simple.html">
-                      <img loading="lazy" src="../images/cart-item-1.jpg" width="120" height="120" alt="">
+                      <img loading="lazy" src="{{ url($product_image->image) }}" width="120" height="120" alt="">
                     </a>
                   </div>
                 </td>
                 <td>
                   <div class="shopping-cart__product-item__detail">
-                    <h4><a href="product1_simple.html">Zessi Dresses</a></h4>
+                    <h4><a href="product1_simple.html">{{$item->name}}</a></h4>
                     <ul class="shopping-cart__product-item__options">
-                      <li>Color: Yellow</li>
-                      <li>Size: L</li>
+                      <li>Color: {{ $item->getColor->name }}</li>
+                      <li>Size: {{ $item->getSize->name }}</li>
                     </ul>
                   </div>
                 </td>
                 <td>
-                  <span class="shopping-cart__product-price">$99</span>
+                  <span class="shopping-cart__product-price">Rs.{{$item->sale_price ?? $item->price}}</span>
                 </td>
                 <td>
                   <div class="qty-control position-relative">
-                    <input type="number" name="quantity" value="3" min="1" class="qty-control__number text-center">
+                    <input type="number" name="quantity" value="{{$item->quantity}}" min="1" class="qty-control__number text-center">
                     <div class="qty-control__reduce">-</div>
                     <div class="qty-control__increase">+</div>
                   </div><!-- .qty-control -->
                 </td>
                 <td>
-                  <span class="shopping-cart__subtotal">$297</span>
+                  <span class="shopping-cart__subtotal">Rs.{{$item->total_amount ?? 0.00}}</span>
                 </td>
                 <td>
                   <a href="#" class="remove-cart">
@@ -81,93 +102,17 @@
                   </a>
                 </td>
               </tr>
-              <tr>
-                <td>
-                  <div class="shopping-cart__product-item">
-                    <a href="product1_simple.html">
-                      <img loading="lazy" src="../images/cart-item-2.jpg" width="120" height="120" alt="">
-                    </a>
-                  </div>
-                </td>
-                <td>
-                  <div class="shopping-cart__product-item__detail">
-                    <h4><a href="product1_simple.html">Kirby T-Shirt</a></h4>
-                    <ul class="shopping-cart__product-item__options">
-                      <li>Color: Yellow</li>
-                      <li>Size: L</li>
-                    </ul>
-                  </div>
-                </td>
-                <td>
-                  <span class="shopping-cart__product-price">$99</span>
-                </td>
-                <td>
-                  <div class="qty-control position-relative">
-                    <input type="number" name="quantity" value="3" min="1" class="qty-control__number text-center">
-                    <div class="qty-control__reduce">-</div>
-                    <div class="qty-control__increase">+</div>
-                  </div><!-- .qty-control -->
-                </td>
-                <td>
-                  <span class="shopping-cart__subtotal">$297</span>
-                </td>
-                <td>
-                  <a href="#" class="remove-cart">
-                    <svg width="10" height="10" viewBox="0 0 10 10" fill="#767676" xmlns="http://www.w3.org/2000/svg">
-                      <path d="M0.259435 8.85506L9.11449 0L10 0.885506L1.14494 9.74056L0.259435 8.85506Z"/>
-                      <path d="M0.885506 0.0889838L9.74057 8.94404L8.85506 9.82955L0 0.97449L0.885506 0.0889838Z"/>
-                    </svg>                  
-                  </a>
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  <div class="shopping-cart__product-item">
-                    <a href="product1_simple.html">
-                      <img loading="lazy" src="../images/cart-item-3.jpg" width="120" height="120" alt="">
-                    </a>
-                  </div>
-                </td>
-                <td>
-                  <div class="shopping-cart__product-item__detail">
-                    <h4><a href="product1_simple.html">Cobleknit Shawl</a></h4>
-                    <ul class="shopping-cart__product-item__options">
-                      <li>Color: Yellow</li>
-                      <li>Size: L</li>
-                    </ul>
-                  </div>
-                </td>
-                <td>
-                  <span class="shopping-cart__product-price">$99</span>
-                </td>
-                <td>
-                  <div class="qty-control position-relative">
-                    <input type="number" name="quantity" value="3" min="1" class="qty-control__number text-center">
-                    <div class="qty-control__reduce">-</div>
-                    <div class="qty-control__increase">+</div>
-                  </div><!-- .qty-control -->
-                </td>
-                <td>
-                  <span class="shopping-cart__subtotal">$297</span>
-                </td>
-                <td>
-                  <a href="#" class="remove-cart">
-                    <svg width="10" height="10" viewBox="0 0 10 10" fill="#767676" xmlns="http://www.w3.org/2000/svg">
-                      <path d="M0.259435 8.85506L9.11449 0L10 0.885506L1.14494 9.74056L0.259435 8.85506Z"/>
-                      <path d="M0.885506 0.0889838L9.74057 8.94404L8.85506 9.82955L0 0.97449L0.885506 0.0889838Z"/>
-                    </svg>                  
-                  </a>
-                </td>
-              </tr>
+               @endforeach
+               
             </tbody>
           </table>
-          <div class="cart-table-footer">
+          <!-- <div class="cart-table-footer">
             <form action="https://uomo-html.flexkitux.com/Demo22/" class="position-relative bg-body">
               <input class="form-control" type="text" name="coupon_code" placeholder="Coupon Code">
               <input class="btn-link fw-medium position-absolute top-0 end-0 h-100 px-4" type="submit" value="APPLY COUPON">
             </form>
             <button class="btn btn-light">UPDATE CART</button>
-          </div>
+          </div> -->
         </div>
         <div class="shopping-cart__totals-wrapper">
           <div class="sticky-content">
@@ -177,43 +122,40 @@
                 <tbody>
                   <tr>
                     <th>Subtotal</th>
-                    <td>$1300</td>
+                    <td>Rs.{{$item->total_amount ?? 0.00}}</td>
                   </tr>
                   <tr>
                     <th>Shipping</th>
                     <td>
                       <div class="form-check">
-                        <input class="form-check-input form-check-input_fill" type="checkbox" value="" id="free_shipping">
+                        <input class="form-check-input form-check-input_fill" type="checkbox" value="0" id="free_shipping" checked>
                         <label class="form-check-label" for="free_shipping">Free shipping</label>
                       </div>
-                      <div class="form-check">
-                        <input class="form-check-input form-check-input_fill" type="checkbox" value="" id="flat_rate">
+                      <!-- <div class="form-check">
+                        <input class="form-check-input form-check-input_fill" type="checkbox" value="" id="flat_rate" checked>
                         <label class="form-check-label" for="flat_rate">Flat rate: $49</label>
-                      </div>
-                      <div class="form-check">
-                        <input class="form-check-input form-check-input_fill" type="checkbox" value="" id="local_pickup">
-                        <label class="form-check-label" for="local_pickup">Local pickup: $8</label>
-                      </div>
-                      <div>Shipping to AL.</div>
+                      </div> -->
+                       
+                      <!-- <div>Shipping to AL.</div>
                       <div>
                         <a href="#" class="menu-link menu-link_us-s">CHANGE ADDRESS</a>
-                      </div>
+                      </div> -->
                     </td>
                   </tr>
-                  <tr>
-                    <th>VAT</th>
+                  <!-- <tr>
+                    <th>TAX</th>
                     <td>$19</td>
-                  </tr>
+                  </tr> -->
                   <tr>
                     <th>Total</th>
-                    <td>$1319</td>
+                    <td>Rs.{{$item->total_amount ?? 0.00}}</td>
                   </tr>
                 </tbody>
               </table>
             </div>
             <div class="mobile_fixed-btn_wrapper">
               <div class="button-wrapper container">
-                <button class="btn btn-primary btn-checkout">PROCEED TO CHECKOUT</button>
+                <a href="{{ route('frontend.view_checkout') }}" class="btn btn-primary btn-checkout">PROCEED TO CHECKOUT</a>
               </div>
             </div>
           </div>

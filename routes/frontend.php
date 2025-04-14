@@ -31,14 +31,16 @@ Route::middleware(['auth'])->group(function(){
     });
     Route::controller(OrderController::class)->group(function(){
         Route::get('/orders', 'viewAllOrder')->name('frontend.view_all_order');
-        Route::get('/order-single', 'viewSingleOrder')->name('frontend.view_single_order');
+        Route::get('/order-detail/{id}', 'viewSingleOrder')->name('frontend.view_single_order');
         Route::get('/order-complete', 'viewOrderComplete')->name('frontend.view_order_complete');
+        Route::post('place-order', 'placeOrder')->name('frontend.place_order');
     });
  
 });
 Route::controller(CartController::class)->group(function(){
         Route::get('/cart', 'viewCart')->name('frontend.view_cart');
         Route::post('/add-to-cart', 'addToCart')->name('frontend.add_to_cart');
+        Route::post('/update-product-quantity', 'updateProductQuantity')->name('frontend.update_product_quantity');
  });
  Route::controller(ProductController::class)->group(function(){
     // Route::get('/products', 'productList')->name('frontent.product_list');

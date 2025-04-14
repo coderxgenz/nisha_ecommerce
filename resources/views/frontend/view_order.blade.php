@@ -8,9 +8,7 @@
         justify-content: space-between;
         position: relative;
         margin-bottom: 1.25rem;
-
     }
-
     .progress-container::before {
         content: "";
         position: absolute;
@@ -22,7 +20,6 @@
         transform: translateY(-50%);
         z-index: -1;
     }
-
     .progress {
         position: absolute;
         top: 40%;
@@ -33,7 +30,6 @@
         transform: translateY(-50%);
         transition: width 1s ease-in-out;
     }
-
     .step {
         display: flex;
         flex-direction: column;
@@ -41,7 +37,6 @@
         position: relative;
         z-index: 1;
     }
-
     .step svg {
         font-size: 24px;
         background: #ccc;
@@ -50,11 +45,9 @@
         color: #fff;
         transition: background 0.3s;
     }
-
-    .step.active svg {
+    .active svg {
         background: #28a745;
     }
-
     .step span {
         margin-top: 5px;
         font-size: 14px;
@@ -72,30 +65,29 @@
                 <div class="shop-checkout">
                     <div class="checkout__totals-wrapper">
                         <div class="progress-container">
-                            <div class="progress"></div>
-
-                            <div class="step" data-step="1">
+                            <div class="progress"></div> 
+                            <div class="step {{ in_array($order->delivery_status, ['ordered', 'shipped', 'out_for_delivery', 'delivered']) ? 'active':'' }}" data-step="1">
                                 <svg width="53" height="52">
                                     <use href="#icon_shipping"></use>
                                 </svg>
                                 <span>Order Placed</span>
                             </div>
 
-                            <div class="step" data-step="2">
+                            <div class="step {{ in_array($order->delivery_status, ['shipped', 'out_for_delivery', 'delivered']) ? 'active':'' }}" data-step="2">
                                 <svg width="53" height="52">
                                     <use href="#icon_cart"></use>
                                 </svg>
                                 <span>Shipped</span>
                             </div>
 
-                            <div class="step" data-step="3">
+                            <div class="step {{ in_array($order->delivery_status, ['out_for_delivery', 'delivered']) ? 'active':'' }}" data-step="3">
                                 <svg width="53" height="52">
                                     <use href="#icon_truck"></use>
                                 </svg>
                                 <span>Out for Delivery</span>
                             </div>
 
-                            <div class="step" data-step="4">
+                            <div class="step {{ in_array($order->delivery_status, ['delivered']) ? 'active':'' }}" data-step="4">
                                 <svg width="53" height="52">
                                     <use href="#icon_gift"></use>
                                 </svg>
@@ -106,28 +98,36 @@
                             <h3>Order Summary</h3>
                             <div class="row">
                                 <div class="col-lg-6">
-                                    <div class="product_details"><span class="product_inquery">Name:</span> <span class="product_answers">Naveen Rajput</span></div>
+                                    <div class="product_details"><span class="product_inquery">Name:</span> <span class="product_answers">{{ $order->getUser?->name ?? '' }}</span></div>
                                 </div>
                                 <div class="col-lg-6">
-                                    <div class="product_details"><span class="product_inquery">Order Id:</span> <span class="product_answers">#596146</span></div>
+                                    <div class="product_details"><span class="product_inquery">Order Id:</span> <span class="product_answers">#{{ $order->order_number ?? '' }}</span></div>
                                 </div>
                                 <div class="col-lg-6">
-                                    <div class="product_details"><span class="product_inquery">Number:</span> <span class="product_answers">+91 9599616735</span></div>
+                                    <div class="product_details"><span class="product_inquery">Number:</span> <span class="product_answers">+91 {{ $order->getUser?->phone ?? '' }}</span></div>
                                 </div>
                                 <div class="col-lg-6">
-                                    <div class="product_details"><span class="product_inquery">SubTotal Amount:</span> <span class="product_answers">₹884.00/-</span></div>
+                                    <div class="product_details"><span class="product_inquery">SubTotal Amount:</span> <span class="product_answers">Rs. {{ $order->total_amount ?? '' }}</span></div>
                                 </div>
                                 <div class="col-lg-6">
-                                    <div class="product_details"><span class="product_inquery">Email:</span> <span class="product_answers">naveentanwar3011@gmail.com</span></div>
+                                    <div class="product_details"><span class="product_inquery">Email:</span> <span class="product_answers">{{ $order->getUser?->email ?? '' }}</span></div>
                                 </div>
                                 <div class="col-lg-6">
-                                    <div class="product_details"><span class="product_inquery">Payment Method:</span> <span class="product_answers">Cash On Delivery</span></div>
+                                    <div class="product_details"><span class="product_inquery">Payment Method:</span> <span class="product_answers">
+                                        @if($order->payment_mode == 'cash_on_delivery')
+                                            Cash on Delivery
+                                        @elseif($order->payment_mode == 'online')
+                                            Online
+                                        @else
+                                            N/A
+                                        @endif
+                                    </span></div>
                                 </div>
                                 <div class="col-lg-6">
-                                    <div class="product_details"><span class="product_inquery">Shipping Address:</span> <span class="product_answers">1st Floor, 331B, C4B Block, JANAKPURI New Delhi 110058</span></div>
+                                    <div class="product_details"><span class="product_inquery">Shipping Address:</span> <span class="product_answers">{{ $order->getShippingAddress?->address ?? '' }}</span></div>
                                 </div>
                                 <div class="col-lg-6">
-                                    <div class="product_details"><span class="product_inquery">Billing Address:</span> <span class="product_answers">#1st Floor, 331B, C4B Block, JANAKPURI New Delhi 110058 India</span></div>
+                                    <div class="product_details"><span class="product_inquery">Billing Address:</span> <span class="product_answers">{{ $order->getBillingAddress?->address ?? '' }}</span></div>
                                 </div>
                             </div>
 
@@ -145,44 +145,40 @@
                                         <th>Total Price</th>
                                     </tr>
                                 </thead>
-                                <tbody>
+                                <tbody> 
+                                    @foreach($order->getOrderProducts as $item)
+                                    @php 
+                                    $product_image = App\Models\Backend\ProductImage::where('product_id', $item->product_id)
+                                    ->where('product_variant_id', $item->product_variant_id)
+                                    ->first();
+                                    @endphp
                                     <tr>
-                                        <td> <img loading="lazy" src="{{url('assets/frontend/images/products/product_8-1.jpg')}}" alt="Cropped Faux leather Jacket" class="dashboard_order_img"> <span>Elephant Kalamkari Kurta Pant Set</span> </td>
+                                        <td><img loading="lazy" src="{{url($product_image->image)}}" alt="Cropped Faux leather Jacket" class="dashboard_order_img"> <span>Elephant Kalamkari Kurta Pant Set</span> </td>
                                         <td>
-                                            1
+                                            {{ $item->quantity }}
                                         </td>
                                         <td>
-                                            ₹32.50
+                                            Rs. {{ $item->price }}
                                         </td>
                                         <td>
-                                            ₹32.50
+                                            Rs.{{ $item->total_amount}}
                                         </td>
                                     </tr>
-                                    <tr>
-                                        <td> <img loading="lazy" src="{{url('assets/frontend/images/products/product_8-1.jpg')}}" alt="Cropped Faux leather Jacket" class="dashboard_order_img"> <span>Elephant Kalamkari Kurta Pant Set</span> </td>
-                                        <td>
-                                            2
-                                        </td>
-                                        <td>
-                                            ₹58.90
-                                        </td>
-                                        <td>
-                                            ₹58.90
-                                        </td>
-                                    </tr>
+                                    @endforeach
+                                     
                                 </tbody>
                             </table>
                             <table class="checkout-totals">
                                 <tbody>
                                     <tr>
-                                        <th>SUBTOTAL</th>
-                                        <td>₹62.40</td>
-                                    </tr>
-                                    <tr>
                                         <th>SHIPPING</th>
                                         <td>Free shipping</td>
                                     </tr>
                                     <tr>
+                                        <th>SUBTOTAL</th>
+                                        <td>Rs. {{ $order->total_amount ?? '' }}</td>
+                                    </tr>
+                                    <!-- <tr>
                                         <th>GST</th>
                                         <td>₹39</td>
                                     </tr>
@@ -193,7 +189,7 @@
                                     <tr>
                                         <th>IGST</th>
                                         <td>₹0</td>
-                                    </tr>
+                                    </tr> -->
                                 </tbody>
                             </table>
                         </div>

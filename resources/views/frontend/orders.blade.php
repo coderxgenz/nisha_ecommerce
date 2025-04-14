@@ -27,7 +27,7 @@
                   <td>October 1, 2023</td>
                   <td>On hold</td>
                   <td>$1,200.65 for 3 items</td>
-                  <td><a href="{{ route('frontend.view_single_order') }}" class="btn btn-primary">VIEW</a></td>
+                  <td><a href="" class="btn btn-primary">VIEW</a></td>
 
                 </tr>
                 <tr>
@@ -35,7 +35,7 @@
                   <td>October 2, 2023</td>
                   <td>On hold</td>
                   <td>$1,200.65 for 3 items</td>
-                  <td><a href="{{ route('frontend.view_single_order') }}" class="btn btn-primary">VIEW</a></td>
+                  <td><a href="" class="btn btn-primary">VIEW</a></td>
 
                 </tr>
                 <tr>
@@ -43,7 +43,7 @@
                   <td>October 3, 2023</td>
                   <td>On hold</td>
                   <td>$1,200.65 for 3 items</td>
-                  <td><a href="{{ route('frontend.view_single_order') }}" class="btn btn-primary">VIEW</a></td>
+                  <td><a href="" class="btn btn-primary">VIEW</a></td>
 
                 </tr>
                 <tr>
@@ -51,7 +51,7 @@
                   <td>October 4, 2023</td>
                   <td>On hold</td>
                   <td>$1,200.65 for 3 items</td>
-                  <td><a href="{{ route('frontend.view_single_order') }}" class="btn btn-primary">VIEW</a></td>
+                  <td><a href="" class="btn btn-primary">VIEW</a></td>
                 </tr>
               </tbody>
             </table>

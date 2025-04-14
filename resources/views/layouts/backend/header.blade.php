@@ -307,8 +307,20 @@
         </a>
         <ul class="sub-menu" aria-expanded="false">
             <li><a href="{{ route('backend.order.index') }}">Orders List</a></li>
-            <li><a href="{{ route('backend.order.view_order') }}">Order Details</a></li>
-        </ul>
+         </ul>
+    </li>
+    
+    <li>
+        <a href="{{ route('backend.shipping_method') }}">
+            <i data-feather="rotate-ccw"></i>
+            <span>Shipping Method</span>
+        </a>
+    </li>
+    <li>
+        <a href="{{ route('backend.tax_method') }}">
+            <i data-feather="rotate-ccw"></i>
+            <span>Tax</span>
+        </a>
     </li>
 
     <!-- Refund & Returns -->

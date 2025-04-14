@@ -8,6 +8,7 @@ use App\Http\Controllers\Backend\CustomerController;
 use App\Http\Controllers\Backend\MainCategoryController;
 use App\Http\Controllers\Backend\OrderController;
 use App\Http\Controllers\Backend\ProductController;
+use App\Http\Controllers\Backend\SettingController;
 use App\Http\Controllers\Backend\SizeController;
 use App\Http\Controllers\Backend\SubCategoryController;
 use App\Http\Controllers\Backend\WebsiteManagementController;
@@ -74,7 +75,9 @@ Route::middleware(['auth', 'web', 'verified', 'admin.check'])->group(function(){
      Route::controller(OrderController::class)->group(function(){
         Route::prefix('/admin')->group(function(){
             Route::get('/order', 'index')->name('backend.order.index');
-            Route::get('/order/view-order', 'viewOrder')->name('backend.order.view_order');
+            Route::get('/order/view-order/{id}', 'viewOrder')->name('backend.order.view_order');
+            Route::get('/order/edit/{id}', 'edit')->name('backend.order.edit');
+            Route::post('/order/update', 'update')->name('backend.order.update');
             Route::get('/order/delete/{id}', 'destroy')->name('backend.order.destroy');
         });
      });
@@ -114,4 +117,11 @@ Route::middleware(['auth', 'web', 'verified', 'admin.check'])->group(function(){
         Route::get('pages-management', [CmsController::class, 'pagesManagement'])->name('backend.cms.pages_management');
         Route::get('blog-management', [CmsController::class, 'blogManagement'])->name('backend.cms.blog_management');
 
+
+        Route::controller(SettingController::class)->group(function(){
+            Route::prefix('/admin')->group(function(){
+                Route::get('/shipping-method', 'shippingMethod')->name('backend.shipping_method');
+                Route::get('/tax-method', 'taxMethod')->name('backend.tax_method');
+            });
+        });
 });

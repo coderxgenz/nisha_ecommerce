@@ -63,7 +63,15 @@
                     <div class="d-flex justify-content-between invoice-header">
                         <div>
                             <h1 class="invoice-title">Invoice</h1>
-                            <p class="text-muted">Status: <span class="badge bg-warning text-dark">Processing</span></p>
+                            <p class="text-muted">Status: 
+                            @if($order->payment_status == 'paid')
+                            <span class="badge bg-warning text-dark">Paid</span>
+                            @elseif($order->payment_status == 'unpaid')
+                            <span class="badge bg-warning text-dark">Unpaid</span>
+                            @else
+                            <span class="badge bg-warning text-dark">N/A</span> 
+                            @endif 
+                            </p>
                         </div>
                         <div>
                             <img src="{{url('assets/frontend/images/logo.jpg')}}" alt="Logo" width="100">
@@ -73,20 +81,20 @@
                     <!-- Customer Details -->
                     <div class="customer_details mt-4">
                         <h5 class="fw-bold">Customer Details</h5>
-                        <p><strong>Name:</strong> John Doe</p>
-                        <p><strong>Email:</strong> john@example.com</p>
-                        <p><strong>Phone:</strong> +1 234 567 890</p>
+                        <p><strong>Name:</strong> {{ $order->getUser?->name ?? '' }}</p>
+                        <p><strong>Email:</strong> {{ $order->getUser?->email ?? '' }}</p>
+                        <p><strong>Phone:</strong> +91 {{ $order->getUser?->phone ?? '' }}</p>
                     </div>
 
                     <!-- Billing & Shipping -->
                     <div class="row mt-4">
                         <div class="col-md-6">
                             <h5 class="fw-bold">Billing Address</h5>
-                            <p>123 Main Street, New York, NY</p>
+                            <p>{{ $order->getShippingAddress?->address ?? '' }}</p>
                         </div>
                         <div class="col-md-6 text-md-end">
                             <h5 class="fw-bold">Shipping Address</h5>
-                            <p>456 Elm Street, Los Angeles, CA</p>
+                            <p>{{ $order->getShippingAddress?->address ?? '' }}</p>
                         </div>
                     </div>
                     
@@ -102,18 +110,20 @@
                                 </tr>
                             </thead>
                             <tbody>
+                            @foreach($order->getOrderProducts as $item)
+                                    @php 
+                                    $product_image = App\Models\Backend\ProductImage::where('product_id', $item->product_id)
+                                    ->where('product_variant_id', $item->product_variant_id)
+                                    ->first();
+                                    @endphp
                                 <tr>
-                                    <td>Luxury Bag</td>
-                                    <td>1</td>
-                                    <td>₹100</td>
-                                    <td>₹100</td>
+                                    <td>{{ $item?->getProduct->name ?? '' }}</td>
+                                    <td>{{ $item->quantity ?? 0 }}</td>
+                                    <td>Rs. {{ $item->price ?? '' }}</td>
+                                    <td>Rs. {{ $item->total_amount ?? '' }}</td>
                                 </tr>
-                                <tr>
-                                    <td>Silk Scarf</td>
-                                    <td>2</td>
-                                    <td>₹13</td>
-                                    <td>₹26</td>
-                                </tr>
+                                @endforeach
+                                 
                             </tbody>
                         </table>
                     </div>
@@ -122,14 +132,20 @@
                     <div class="row mt-4">
                         <div class="col-md-6">
                             <h5 class="fw-bold">Payment Method</h5>
-                            <p>Credit Card (Visa)</p>
+                            @if($order->payment_mode == 'cash_on_delivery')
+                            <p>Cash on Delivery</p>
+                            @elseif($order->payment_mode == 'online')
+                            <p>Online Payment</p>
+                            @else
+                            <p>N/A</p>
+                            @endif 
                         </div>
                         <div class="col-md-6 text-md-end">
                             <h5 class="fw-bold">Summary</h5>
-                            <p><strong>Subtotal:</strong> ₹126.00</p>
-                            <p><strong>Shipping Cost:</strong> ₹20.00</p>
-                            <p><strong>Discount:</strong> ₹0.00</p>
-                            <p class="fs-5 fw-bold text-success">Total: ₹146.00</p>
+                            <p><strong>Subtotal:</strong> Rs. {{ $order->total_amount ?? '' }}</p>
+                            <p><strong>Shipping Cost:</strong> Free</p>
+                            <!-- <p><strong>Discount:</strong> ₹0.00</p> -->
+                            <p class="fs-5 fw-bold text-success">Total: ₹{{ $order->total_amount ?? '' }}</p>
                         </div>
                     </div>
                     

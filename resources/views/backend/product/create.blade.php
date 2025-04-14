@@ -70,11 +70,12 @@
                                             </select>
                                         </div> 
                                     </div>
+
                                     <div class="row">
-                                    <div class="variant_section mb-4">
-                                        
-                                </div>
+                                    <div class="variant_section mb-4"> 
                                     </div>
+                                    </div>
+
  
                                     <div class="row">
                                         <!-- <div class="col-md-6 mb-4">
@@ -121,9 +122,9 @@
 </div>
 @section('javascript-section')
 <script>
-let selectedFilesMap = {}; // Object to store files for each input field
-document.addEventListener("DOMContentLoaded", function (){
-    document.body.addEventListener('change', function (event){ 
+    let selectedFilesMap = {}; // Object to store files for each input field
+    document.addEventListener("DOMContentLoaded", function (){
+        document.body.addEventListener('change', function (event){ 
         if(event.target.classList.contains('image-input')){
             let input = event.target;
             let size = input.dataset.size;
@@ -132,9 +133,7 @@ document.addEventListener("DOMContentLoaded", function (){
             // Ensure unique storage for each input field
             if (!selectedFilesMap[size]) selectedFilesMap[size] = {};
             if (!selectedFilesMap[size][color]) selectedFilesMap[size][color] = [];
-
             let fileList = selectedFilesMap[size][color];
-
             // Store new images while keeping existing ones
             Array.from(input.files).forEach(file => {
                 if (file.type.startsWith('image/')) {
@@ -213,17 +212,17 @@ document.addEventListener("DOMContentLoaded", function (){
         }
     });
 });
-// Reset image storage when adding a new input field
-function resetImageStorage(size, color) {
-    if(selectedFilesMap[size] && selectedFilesMap[size][color]){
-        selectedFilesMap[size][color] = [];
+    // Reset image storage when adding a new input field
+    function resetImageStorage(size, color) {
+        if(selectedFilesMap[size] && selectedFilesMap[size][color]){
+            selectedFilesMap[size][color] = [];
+        }
     }
-}
-function resetImageFromSizeStorage(size) {
-    if(selectedFilesMap[size]){
-        selectedFilesMap[size] = [];
+    function resetImageFromSizeStorage(size) {
+        if(selectedFilesMap[size]){
+            selectedFilesMap[size] = [];
+        }
     }
-}
 </script>
 
 <script>
@@ -239,21 +238,7 @@ function resetImageFromSizeStorage(size) {
         let color_options = '';
         colors.forEach((color) => {
             color_options += `<option value="${color.name}">${color.name}</option>`;
-        });
-        // $(".variant_section").html(""); 
-        // sizes.forEach((size) => {        
-        //         append_to_html = `             
-        //             <div class="row variant-item" data-size="${size}">                 
-        //                 <div class="col-md-12 mb-12">                     
-        //                     <label for="color" class="form-label">Select Color for Size ${size}</label>                     
-        //                     <select class="form-control color-selector" id="variant_color" name="variant_color_${size}[]" data-size="${size}" multiple>                         
-        //                         ${color_options}                     
-        //                     </select>                     
-        //                     <div id="variant_color_data_${size}"></div>                     
-        //                     <button type="button" class="btn btn-danger remove-variant" data-size="${size}">Remove</button>
-        //                 </div>              
-        //             </div>`; 
-        // sizes.forEach((size) => {        
+        });        
             append_to_html = `
                 <div class="row variant-item" data-size="${size}">                 
                     <div class="col-md-11">                     
@@ -275,10 +260,7 @@ function resetImageFromSizeStorage(size) {
             let choicesInstance = new Choices(colorSelect, { removeItemButton: false });    
 
             // Store the Choices.js instance in the map
-            choicesInstances.set(size, choicesInstance);  
-            // let colorSelect = document.querySelector(`.color-selector[data-size="${size}"]`);        
-            //  new Choices(colorSelect, { removeItemButton: false });    
-        // }); 
+            choicesInstances.set(size, choicesInstance); 
     });
 
         $(document).on("click", ".remove-variant", function () {
@@ -364,23 +346,23 @@ $(document).on("change", "#variant_color", function () {
 
 
 <script>
-    Dropzone.autoDiscover = false;
-    document.addEventListener("DOMContentLoaded", function() {
-        var myDropzone = new Dropzone(".dropzone", {
-            url: "/upload",
-            maxFilesize: 2, // 2MB max size
-            acceptedFiles: "image/png, image/jpeg, image/jpg, image/webp",
-            addRemoveLinks: true
-        });
-    });
-    document.addEventListener("DOMContentLoaded", function() {
-        var myDropzone = new Dropzone(".dropzone2", {
-            url: "/upload",
-            maxFilesize: 2, // 2MB max size
-            acceptedFiles: "image/png, image/jpeg, image/jpg, image/webp",
-            addRemoveLinks: true
-        });
-    });
+    // Dropzone.autoDiscover = false;
+    // document.addEventListener("DOMContentLoaded", function() {
+    //     var myDropzone = new Dropzone(".dropzone", {
+    //         url: "/upload",
+    //         maxFilesize: 2, // 2MB max size
+    //         acceptedFiles: "image/png, image/jpeg, image/jpg, image/webp",
+    //         addRemoveLinks: true
+    //     });
+    // });
+    // document.addEventListener("DOMContentLoaded", function() {
+    //     var myDropzone = new Dropzone(".dropzone2", {
+    //         url: "/upload",
+    //         maxFilesize: 2, // 2MB max size
+    //         acceptedFiles: "image/png, image/jpeg, image/jpg, image/webp",
+    //         addRemoveLinks: true
+    //     });
+    // });
 
     ClassicEditor
         .create(document.querySelector('#editor'))

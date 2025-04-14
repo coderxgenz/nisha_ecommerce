@@ -23,7 +23,7 @@
                         </div>
                         <div class="col-lg-4 col-4">
                             <div class="dashboard_card">
-                                <span>05</span>
+                                <span>{{ $total_product_in_cart }}</span>
                                 <p>
                                     Total Products in Your Cart
                                 </p>
@@ -31,9 +31,9 @@
                         </div>
                         <div class="col-lg-4 col-4">
                             <div class="dashboard_card">
-                                <span>05</span>
+                                <span>{{ $total_order }}</span>
                                 <p>
-                                    Total Products in Your Order List
+                                    Total Orders
                                 </p>
                             </div>
                         </div>
@@ -41,6 +41,7 @@
                     <div class="row">
                         <div class="col-lg-12">
                         <div class="page-content my-account__orders-list">
+                          @if(count($orders) > 0)
             <table class="orders-table">
               <thead>
                 <tr>
@@ -52,40 +53,24 @@
                 </tr>
               </thead>
               <tbody>
+                @foreach($orders as $order) 
                 <tr>
-                  <td>#2416</td>
-                  <td>October 1, 2023</td>
-                  <td>On hold</td>
-                  <td>$1,200.65 for 3 items</td>
-                  <td><a href="{{ route('frontend.view_single_order') }}" class="btn btn-primary">VIEW</a></td>
-
+                  <td>#{{ $order->order_number }}</td>
+                  <td>{{ Carbon\Carbon::parse($order->order_date)->format('d M, Y') }}</td>
+                  <td>{{ strtoupper($order->delivery_status) }}</td>
+                  <td>Rs. {{ $order->total_amount }} for {{ count($order->getOrderProducts) ?? 0 }} items</td>
+                  <td><a href="{{ route('frontend.view_single_order', [Crypt::encrypt($order->id)]) }}" class="btn btn-primary">VIEW</a></td>
                 </tr>
-                <tr>
-                  <td>#2417</td>
-                  <td>October 2, 2023</td>
-                  <td>On hold</td>
-                  <td>$1,200.65 for 3 items</td>
-                  <td><a href="{{ route('frontend.view_single_order') }}" class="btn btn-primary">VIEW</a></td>
-
-                </tr>
-                <tr>
-                  <td>#2418</td>
-                  <td>October 3, 2023</td>
-                  <td>On hold</td>
-                  <td>$1,200.65 for 3 items</td>
-                  <td><a href="{{ route('frontend.view_single_order') }}" class="btn btn-primary">VIEW</a></td>
-
-                </tr>
-                <tr>
-                  <td>#2419</td>
-                  <td>October 4, 2023</td>
-                  <td>On hold</td>
-                  <td>$1,200.65 for 3 items</td>
-                  <td><a href="{{ route('frontend.view_single_order') }}" class="btn btn-primary">VIEW</a></td>
-
-                </tr>
+                @endforeach
+                 
+                  
               </tbody>
             </table>
+            @else
+            <div class="alert alert-info">
+                <strong>Info!</strong> No orders found.
+                </div>
+                @endif
           </div>
                         </div>
                     </div>

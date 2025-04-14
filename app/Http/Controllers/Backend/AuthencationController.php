@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Backend;
 
 use App\Http\Controllers\Controller;
+use App\Models\Cart;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -10,6 +11,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules;
 use Illuminate\Auth\Events\Registered;
 use App\Http\Requests\Auth\LoginRequest;
+use Session;
 
 class AuthencationController extends Controller
 {
@@ -45,6 +47,13 @@ class AuthencationController extends Controller
         $request->authenticate(); 
         try{
         $request->session()->regenerate();
+        if(Session::has('temp_user_id')) {
+            $temp_user_id = Session::get('temp_user_id');
+            Cart::where('temp_id', $temp_user_id)
+                ->update(['user_id' => Auth::user()->id]);
+            Session::forget('temp_user_id');    
+        }
+        
         if(Auth::user()->role_id == 1){
             return redirect('/admin/dashboard');
         }elseif(Auth::user()->role_id == 2){

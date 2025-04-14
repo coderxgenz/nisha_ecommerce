@@ -1,6 +1,8 @@
 @extends('layouts/frontend/main')
 @section('main-section')
-
+@php
+$sub_total = 0;
+@endphp
 <main>
     <div class="mb-4 pb-4"></div>
     <section class="shop-checkout container">
@@ -40,19 +42,19 @@
         <div class="order-info">
           <div class="order-info__item">
             <label>Order Number</label>
-            <span>13119</span>
+            <span>{{ $new_order->order_number ?? '' }}</span>
           </div>
           <div class="order-info__item">
             <label>Date</label>
-            <span>27/10/2023</span>
+            <span>{{ Carbon\Carbon::parse($new_order->order_date)->format('d M, Y') }}</span>
           </div>
           <div class="order-info__item">
             <label>Total</label>
-            <span>$81.40</span>
+            <span>Rs. {{ $new_order->total_amount }}</span>
           </div>
           <div class="order-info__item">
             <label>Paymetn Method</label>
-            <span>Direct Bank Transfer</span>
+            <span>{{ strtoupper($new_order->payment_mode) }}</span>
           </div>
         </div>
         <div class="checkout__totals-wrapper">
@@ -66,41 +68,43 @@
                 </tr>
               </thead>
               <tbody>
+                @foreach($order_items as $item)
+                @php
+                $sub_total += $item->total_amount; 
+                @endphp
                 <tr>
                   <td>
-                    Zessi Dresses x 2
+                    <div class="checkout-cart-item"> 
+                      <div class="checkout-cart-item__info">
+                        <h4>{{ $item->getProduct->name }} x {{ $item->quantity }}</h4>  
+                      </div>
+                    </div>
                   </td>
                   <td>
-                    $32.50
-                  </td>
-                </tr>
-                <tr>
-                  <td>
-                    Kirby T-Shirt
-                  </td>
-                  <td>
-                    $29.90
-                  </td>
-                </tr>
+                    Rs. {{ $item->total_amount }}
+                  </td> 
+                  </tr>
+
+                @endforeach
               </tbody>
             </table>
             <table class="checkout-totals">
               <tbody>
                 <tr>
                   <th>SUBTOTAL</th>
-                  <td>$62.40</td>
+                  <td>Rs. {{ $sub_total }}</td>
                 </tr>
                 <tr>
                   <th>SHIPPING</th>
                   <td>Free shipping</td>
                 </tr>
-                <tr>
+                <!-- <tr>
                   <th>VAT</th>
                   <td>$19</td>
-                </tr>
+                </tr> -->
                 <tr>
                   <th>TOTAL</th>
-                  <td>$81.40</td>
+                  <td>Rs. {{ $new_order->total_amount }}</td>
                 </tr>
               </tbody>
             </table>
