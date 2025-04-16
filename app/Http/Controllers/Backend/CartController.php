@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Backend;
 
 use App\Http\Controllers\Controller;
+use App\Models\Backend\ProductVariants;
 use App\Models\Cart;
 use Auth;
 use Illuminate\Http\Request;
@@ -77,28 +78,53 @@ class CartController extends Controller
 
     public function updateProductQuantity(Request $request){
         try{
-            $product_id = $request->product_id;
-            $size_id = $request->size_id;
-            $color_id = $request->color_id;
-            $product_quantity = $request->product_quantity;
-
-            if(Auth::check()){
-                $user_id = Auth::user()->id; 
-                $cart = Cart::where('user_id', $user_id)->where('product_id', $product_id)->where('size_id', $size_id)->where('color_id', $color_id)->exists();  
-            }else{
-                $temp_user_id = Session::get('temp_user_id');
-                $cart = Cart::where('temp_id', $temp_user_id)->where('product_id', $product_id)->where('size_id', $size_id)->where('color_id', $color_id)->exists();  
-            }
-            if($cart){
-                $cart = Cart::where('product_id', $product_id)->where('size_id', $size_id)->where('color_id', $color_id)->first();
-                $cart->quantity = $product_quantity;
-                $cart->total_amount = (int)$product_quantity * (float)$cart->price;
-                $cart->save(); 
+            $product_id = (int)$request->product_id;
+            $size_id = (int)$request->product_size_id;
+            $color_id = (int)$request->product_color_id;
+            $product_quantity = (int)$request->product_quantity;
+            $user_column = '';
+            $user_id = '';
+            $check_stock = ProductVariants::where('product_id', $product_id)
+            ->where('variant_id', $size_id)
+            ->where('color_id', $color_id)
+            ->where('stock', '>=', $product_quantity)->exists();
+            if(!$check_stock){
                 return response()->json([
-                    "status" => "success",
-                    "message" => "Cart updated successfully", 
+                    "status" => "failed",
+                    "message" => "product_quantity_exceeded", 
                 ], 200);
+            }   
+            if(Auth::check()){
+                $user_column = 'user_id';
+                $user_id = Auth::user()->id;
+            }else{
+                $user_column = 'temp_id';
+                $user_id = Session::get('temp_user_id');
             }
+             
+                $cart = Cart::where($user_column, $user_id)
+                ->where('product_id', $product_id)
+                ->where('size_id', $size_id)
+                ->where('color_id', $color_id)->first(); 
+                if($cart){
+                    $cart = Cart::where('id', $cart->id)->update([
+                        'quantity' => $product_quantity,
+                        'total_amount' => (int)$product_quantity * (float)$cart->price
+                    ]);
+                    
+                    return response()->json([
+                        "status" => "success",
+                        "message" => "quantity_increased", 
+                    ], 200);
+                }else{
+                    return response()->json([
+                        "status" => "success",
+                        "message" => "product_not_in_cart", 
+                    ], 200);
+                }
+
+             
+           
         }catch(\Exception $e){
             return response()->json([
                 "status" => "failed",

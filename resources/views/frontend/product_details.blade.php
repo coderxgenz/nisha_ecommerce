@@ -2,13 +2,14 @@
 @section('main-section')
 @php
 use App\Models\Cart;
+$product_quantity = 1;
 if(Auth::check()){
     $user_id = Auth::user()->id; 
     $cart_item_check = Cart::where('product_id', $product->id)
     ->where('user_id', $user_id)
     ->where('color_id', $selected_color_id)
     ->where('size_id', $selected_size_id) 
-    ->exists();
+    ->first();
   }else{
     if(!Session::has('temp_user_id')) {
       $temp_user_id = bin2hex(random_bytes(10)); 
@@ -20,8 +21,12 @@ if(Auth::check()){
     ->where('temp_id', $temp_user_id)
     ->where('color_id', $selected_color_id)
     ->where('size_id', $selected_size_id) 
-    ->exists();
+    ->first();
   }
+  if($cart_item_check){
+  $product_quantity = $cart_item_check->quantity;
+  }
+  
 
 @endphp
 <main>
@@ -150,18 +155,20 @@ if(Auth::check()){
             </div>
 
             @if($selected_variant_detail->stock > 0 && $selected_variant_detail->stock_status == 1)
-            <div class="product-single__addtocart">
+            <div class="product-single__addtocart" id="add_to_cart_section">
             <form action="{{ route('frontend.add_to_cart') }}" method="POST" id="add_to_cart_form">
               @csrf  
             <div class="qty-control position-relative">
-                <input type="number" name="product_quantity" value="1" min="1" class="qty-control__number text-center">
-                <div class="qty-control__reduce">-</div>
-                <div class="qty-control__increase">+</div>
+                <input type="number" name="product_quantity" id="product_quantity_{{ $product->id }}_{{ $selected_variant_detail->variant_id }}_{{ $selected_variant_detail->color_id }}" value="{{ $product_quantity }}" min="1"
+                 class="product_quantity_{{ $product->id }}_{{ $selected_variant_detail->variant_id }}_{{ $selected_variant_detail->color_id }} qty-control__number text-center">
+                <div class="qty-control__reduce" onclick="updateQuantity('decrease', {{ $product->id}}, {{ $selected_variant_detail->variant_id }}, {{ $selected_variant_detail->color_id }})">-</div>
+                <div class="qty-control__increase" onclick="updateQuantity('increase', {{ $product->id}}, {{ $selected_variant_detail->variant_id }}, {{ $selected_variant_detail->color_id }})">+</div>
+                <input type="text" id="update_qty_url" value="{{ route('frontend.update_product_quantity') }}" hidden>
               </div> 
                 <input type="text" name="product_name" value="{{ $product->name ?? '' }}" hidden>
                 <input type="text" name="product_id" value="{{ $product->id ?? '' }}" hidden>
-                <input type="text" name="product_size_id" value="{{ $selected_variant_detail->variant_id ?? '' }}" hidden>
-                <input type="text" name="product_color_id" value="{{ $selected_variant_detail->color_id ?? '' }}" hidden>
+                <input type="text" name="product_size_id" id="product_size_id" value="{{ $selected_variant_detail->variant_id ?? '' }}" hidden>
+                <input type="text" name="product_color_id" id="product_color_id" value="{{ $selected_variant_detail->color_id ?? '' }}" hidden>
                 <input type="text" name="product_color" value="{{ $selected_variant_detail->color ?? '' }}" hidden>
                 <input type="text" name="product_variant_id" value="{{ $selected_variant_detail->id ?? '' }}" hidden> 
                 <input type="text" name="product_price" value="{{ $selected_variant_detail->price ?? '' }}" hidden>
@@ -174,9 +181,9 @@ if(Auth::check()){
                 {{ $cart_item_check ? 'Added' : 'Add to Cart' }}  
                   </button>
                 </form>
-                </div>
+              </div>
             @else 
-            <div class="product-single__addtocart">
+            <div class="product-single__addtocart" id="out_of_stock_section">
               <button type="submit" class="btn btn-primary btn-addtocart btn-outofstock">Out of Stock</button>
             </div>
             @endif
@@ -212,15 +219,7 @@ if(Auth::check()){
             <div class="meta-item">
               <label>SKU:</label>
               <span>{{ $product->sku ?? '' }}</span>
-            </div>
-            <!-- <div class="meta-item">
-              <label>Categories:</label>
-              <span>Casual & Urban Wear, Jackets, Men</span>
-            </div>
-            <div class="meta-item">
-              <label>Tags:</label>
-              <span>biker, black, bomber, leather</span>
-            </div> -->
+            </div> 
           </div>
         </div>
       </div>
@@ -228,10 +227,7 @@ if(Auth::check()){
         <ul class="nav nav-tabs" id="myTab1" role="tablist">
           <li class="nav-item" role="presentation">
             <a class="nav-link nav-link_underscore active" id="tab-description-tab" data-bs-toggle="tab" href="#tab-description" role="tab" aria-controls="tab-description" aria-selected="true">Description</a>
-          </li>
-          <!-- <li class="nav-item" role="presentation">
-            <a class="nav-link nav-link_underscore" id="tab-additional-info-tab" data-bs-toggle="tab" href="#tab-additional-info" role="tab" aria-controls="tab-additional-info" aria-selected="false">Additional Information</a>
-          </li> -->
+          </li> 
           <li class="nav-item" role="presentation">
             <a class="nav-link nav-link_underscore" id="tab-reviews-tab" data-bs-toggle="tab" href="#tab-reviews" role="tab" aria-controls="tab-reviews" aria-selected="false">Reviews (2)</a>
           </li>
@@ -242,30 +238,7 @@ if(Auth::check()){
                {!! $product->full_description ?? '' !!} 
             </div> 
           </div>
-          <!-- <div class="tab-pane fade" id="tab-additional-info" role="tabpanel" aria-labelledby="tab-additional-info-tab">
-            <div class="product-single__addtional-info">
-              <div class="item">
-                <label class="h6">Weight</label>
-                <span>1.25 kg</span>
-              </div>
-              <div class="item">
-                <label class="h6">Dimensions</label>
-                <span>90 x 60 x 90 cm</span>
-              </div>
-              <div class="item">
-                <label class="h6">Size</label>
-                <span>XS, S, M, L, XL</span>
-              </div>
-              <div class="item">
-                <label class="h6">Color</label>
-                <span>Black, Orange, White</span>
-              </div>
-              <div class="item">
-                <label class="h6">Storage</label>
-                <span>Relaxed fit shirt-style dress with a rugged</span>
-              </div>
-            </div>
-          </div> -->
+          
           <div class="tab-pane fade" id="tab-reviews" role="tabpanel" aria-labelledby="tab-reviews-tab">
             <h2 class="product-single__reviews-title">Reviews</h2>
             <div class="product-single__reviews-list">
@@ -497,15 +470,7 @@ if(Auth::check()){
                   <svg width="16" height="16" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><use href="#icon_heart" /></svg>
                 </button>
               </div>
-            </div>
-
-            
-
-            
-
-            
-
-            
+            </div> 
           </div><!-- /.swiper-wrapper -->
         </div><!-- /.swiper-container js-swiper-slider -->
 
@@ -524,9 +489,13 @@ if(Auth::check()){
   </main>
 
   @section('javascript-section')
-  <script>
 
-function changeSize(element, product_id, selected_color_id){
+  <script>
+    
+  </script>
+
+  <script> 
+  function changeSize(element, product_id, selected_color_id){
     const selected_size = $(element).data('size'); 
     let url = "{{ route('frontent.change_product_size') }}";
     let new_page_url = "{{ route('frontent.product_details', [':p_id', ':size_id', ':color_id']) }}";

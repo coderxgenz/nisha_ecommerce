@@ -48,10 +48,14 @@ use App\Models\Cart;
               <p class="cart-drawer-item__option text-secondary">Size: {{ $item->getSize->name }}</p>
               <div class="d-flex align-items-center justify-content-between mt-1">
                 <div class="qty-control position-relative">
-                  <input type="number" name="quantity" value="{{$item->quantity}}" min="1" class="qty-control__number border-0 text-center">
-                  <div class="qty-control__reduce text-start">-</div>
-                  <div class="qty-control__increase text-end">+</div>
-                </div><!-- .qty-control -->
+                  <input type="number" name="product_quantity" id="product_quantity_{{ $item->product_id }}_{{ $item->size_id }}_{{ $item->color_id }}" value="{{$item->quantity}}" min="1" 
+                  class="product_quantity_{{ $item->product_id }}_{{ $item->size_id }}_{{ $item->color_id }} qty-control__number border-0 text-center">
+                  <div class="qty-control__reduce" onclick="updateQuantity('decrease', {{ $item->product_id}}, {{ $item->size_id }}, {{ $item->color_id }})">-</div>
+                <div class="qty-control__increase" onclick="updateQuantity('increase', {{ $item->product_id}}, {{ $item->size_id }}, {{ $item->color_id }})">+</div>
+              </div><!-- .qty-control -->
+                <input type="text" id="update_qty_url" value="{{ route('frontend.update_product_quantity') }}" hidden>
+                <input type="text" name="product_size_id" id="product_size_id" value="{{ $item->size_id ?? '' }}" hidden>
+                <input type="text" name="product_color_id" id="product_color_id" value="{{ $item->color_id ?? '' }}" hidden>
                 <span class="cart-drawer-item__price money price">Rs.{{$item->total_amount ?? 0.00}}</span>
               </div>
             </div> 
