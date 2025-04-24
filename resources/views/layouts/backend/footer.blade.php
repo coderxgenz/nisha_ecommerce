@@ -54,6 +54,11 @@
 <script src="{{url('assets/backend/js/pages/form-advanced.init.js')}}"></script>
 <script src="{{url('assets/backend/libs/%40ckeditor/ckeditor5-build-classic/build/ckeditor.js')}}"></script>
 
+ <!-- Table Editable plugin -->
+ <script src="{{url('assets/backend/libs/table-edits/build/table-edits.min.js')}}"></script>
+
+<script src="{{url('assets/backend/js/pages/table-editable.int.js')}}"></script> 
+
 
 
 <script src="{{url('assets/backend/js/app.js')}}"></script>
