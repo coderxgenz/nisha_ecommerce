@@ -190,25 +190,36 @@
 
                         <!-- Editable Payment & Delivery Status -->
                         <!-- Payment Status -->
+                         <form action="{{ route('backend.order.update', [$order->id]) }}" method="POST">
+                            @csrf
                         <div class="row mt-4">
                             <div class="col-md-6">
                                 <h5 class="fw-bold">Payment Status</h5>
                                 <select class="form-select" aria-label="Payment Status" name="payment_status" id="payment_status">
+                                    <option value="">--Select--</option>
                                     <option value="paid" {{ $order->payment_status == 'paid' ? 'selected' : '' }}>Paid</option>
                                     <option value="unpaid" {{ $order->payment_status == 'unpaid' ? 'selected' : '' }}>Unpaid</option>
-                                    <option value="pending" {{ $order->payment_status == 'pending' ? 'selected' : '' }}>Pending</option>
                                 </select>
+                                @error('payment_status')
+                                <span class="text-danger">{{ $message }}</span>
+                                @enderror
                             </div>
 
                             <!-- Delivery Status -->
                             <div class="col-md-6">
                                 <h5 class="fw-bold">Delivery Status</h5>
                                 <select class="form-select" aria-label="Delivery Status" name="delivery_status" id="delivery_status">
-                                    <option value="pending" {{ $order->delivery_status == 'pending' ? 'selected' : '' }}>Pending</option>
+                                    <option value="">--Select--</option>
+                                    <option value="ordered" {{ $order->delivery_status == 'ordered' ? 'selected' : '' }}>Ordered</option>
                                     <option value="shipped" {{ $order->delivery_status == 'shipped' ? 'selected' : '' }}>Shipped</option>
+                                    <option value="out_for_delivery" {{ $order->delivery_status == 'out_for_delivery' ? 'selected' : '' }}>Out For Delivery</option>
                                     <option value="delivered" {{ $order->delivery_status == 'delivered' ? 'selected' : '' }}>Delivered</option>
                                     <option value="cancelled" {{ $order->delivery_status == 'cancelled' ? 'selected' : '' }}>Cancelled</option>
+                                    <option value="not_confirmed" {{ $order->delivery_status == 'not_confirmed' ? 'selected' : '' }}>Not Confirmed</option>
                                 </select>
+                                @error('delivery_status')
+                                <span class="text-danger">{{ $message }}</span>
+                                @enderror
                             </div>
                         </div>
 
@@ -217,6 +228,7 @@
                         <div class="mt-4">
                             <button class="btn btn-secondary"> Update</button>
                         </div>
+                        </form>
 
                     </div>
                 </div>
@@ -226,5 +238,14 @@
 </div>
 
 @section('javascript-section')
+@if(Session::has('updated'))
+<script> 
+Swal.fire({
+    icon: 'success',
+    title: 'Success',
+    text: '{{ Session::get('updated') }}', 
+});
+</script>
+@endif
 @endsection
 @endsection

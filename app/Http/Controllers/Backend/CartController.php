@@ -49,7 +49,7 @@ class CartController extends Controller
             $product_variant_id = $request->product_variant_id;
             $product_image_id = $request->product_image_id;
 
-            Cart::create([ 
+         $new_added_item = Cart::create([ 
                 "user_id" => $user_id,
                 "temp_id" => $temp_user_id,
                 "product_id" => $product_id,
@@ -70,6 +70,7 @@ class CartController extends Controller
             
             return array( 
                 'drawer_cart' => view('frontend.drawer_cart')->render(),
+                'new_added_item' => $new_added_item
              );
         }catch(\Exception $e){
             return "Somethig went wrong";
@@ -107,14 +108,22 @@ class CartController extends Controller
                 ->where('size_id', $size_id)
                 ->where('color_id', $color_id)->first(); 
                 if($cart){
+                    $total_price = (int)$product_quantity * (float)$cart->price;
                     $cart = Cart::where('id', $cart->id)->update([
                         'quantity' => $product_quantity,
-                        'total_amount' => (int)$product_quantity * (float)$cart->price
+                        'total_amount' => $total_price
                     ]);
+ 
+                    $cart_total = Cart::where($user_column, $user_id)->sum('total_amount');
+                
+                    $total_price = number_format($total_price, 2);
+                    $cart_total = number_format($cart_total, 2); 
                     
                     return response()->json([
                         "status" => "success",
                         "message" => "quantity_increased", 
+                        "total_price" => $total_price,
+                        "cart_total" => $cart_total,
                     ], 200);
                 }else{
                     return response()->json([
@@ -124,6 +133,47 @@ class CartController extends Controller
                 }
 
              
+           
+        }catch(\Exception $e){
+            return response()->json([
+                "status" => "failed",
+                "error" => $e->getMessage()
+            ], 500);
+        }
+    }
+
+ 
+    public function removeItemFromCart(Request $request){
+        try{ 
+            $item_id = $request->item_id; 
+            $user_column = '';
+            $user_id = '';
+            if(Auth::check()){
+                $user_column = 'user_id';
+                $user_id = Auth::user()->id;
+            }else{
+                $user_column = 'temp_id';
+                $user_id = Session::get('temp_user_id');
+            }
+            Cart::where('id', $item_id)->delete();
+            $cart = Cart::where($user_column, $user_id)->get();
+            if($cart){
+                $cart_total = Cart::where($user_column, $user_id)->sum('total_amount'); 
+                $cart_total = number_format($cart_total, 2); 
+                return response()->json([
+                    "status" => "success",
+                    "message" => "item_removed_from_cart", 
+                    "cart_total" => $cart_total,
+                ], 200);
+            }else{
+                return response()->json([
+                    "status" => "success",
+                    "message" => "cart_empty", 
+                ], 200);
+            }
+          
+            
+
            
         }catch(\Exception $e){
             return response()->json([

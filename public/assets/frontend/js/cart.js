@@ -12,9 +12,11 @@ $(document).ready(function() {
             },
             body:form_data
          }).then(response => response.json())
-         .then(responseData => {    
+         .then(responseData => { 
+          console.log(responseData);   
             $('#add_to_cart_btn').text("Added");
             $('#add_to_cart_btn').attr('disabled', true);
+            $(this).addClass('add_to_cart_btn_'+responseData.new_added_item.id);
             $('#drawer_cart_section').html(responseData.drawer_cart);
             Swal.fire({
                 title: "Success",
@@ -56,10 +58,12 @@ function updateQuantity(element, product_id, product_size_id, product_color_id){
         }
       ), 
    }).then(response => response.json())
-   .then(responseData => { 
+   .then(responseData => {  
     console.log(responseData);
   if(responseData.status == 'success' && responseData.message == 'quantity_increased'){
     $(".product_quantity_"+product_id+"_"+product_size_id+"_"+product_color_id).val(product_quantity); 
+    $(".total_price_"+product_id+"_"+product_size_id+"_"+product_color_id).html("Rs." + responseData.total_price); 
+    $(".cart_total").html(responseData.cart_total); 
       Swal.fire({
         title: "Success",
         text: "Item quantity successfully updated.",
@@ -78,3 +82,33 @@ function updateQuantity(element, product_id, product_size_id, product_color_id){
   }
   }
 
+
+  function removeItemFromCart(element, item_id){
+    let url = $("#remove_item_url").val(); 
+    fetch(url, {
+      method:"POST",
+      headers:{
+          'Content-Type': 'application/json',
+          "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr('content'),
+      },
+      body:JSON.stringify(
+        {
+          item_id:item_id
+        }
+      ), 
+   }).then(response => response.json())
+   .then(responseData => {   
+    console.log(responseData);
+  if(responseData.status == 'success' && responseData.message == 'item_removed_from_cart'){ 
+    $(".cart_total").html(responseData.cart_total); 
+      Swal.fire({
+        title: "Success",
+        text: "Item successfully removed from cart.",
+        icon: "success"
+    });
+    $(".cart_item_"+item_id).remove();
+    $('.add_to_cart_btn_'+item_id).text("Add to Cart");
+    $('.add_to_cart_btn_'+item_id).attr('disabled', false);
+  }
+}).catch(error => console.error('Error:', error));
+  }

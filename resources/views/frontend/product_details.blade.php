@@ -177,7 +177,7 @@ if(Auth::check()){
                 <input type="text" name="color_name" value="{{ $selected_variant_detail->color ?? '' }}" hidden>
                 <input type="text" name="product_image" value="{{ $selected_product_images[0]->id ?? '' }}" hidden>
 
-                <button type="submit" class="btn btn-primary" id="add_to_cart_btn" data-url="{{ route('frontend.add_to_cart') }}" {{ $cart_item_check ? 'disabled' : '' }}  >
+                <button type="submit" class="btn btn-primary {{ $cart_item_check ? 'add_to_cart_btn_'.$cart_item_check->id : '' }}  " id="add_to_cart_btn" data-url="{{ route('frontend.add_to_cart') }}" {{ $cart_item_check ? 'disabled' : '' }}  >
                 {{ $cart_item_check ? 'Added' : 'Add to Cart' }}  
                   </button>
                 </form>

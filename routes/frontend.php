@@ -41,6 +41,7 @@ Route::controller(CartController::class)->group(function(){
         Route::get('/cart', 'viewCart')->name('frontend.view_cart');
         Route::post('/add-to-cart', 'addToCart')->name('frontend.add_to_cart');
         Route::post('/update-product-quantity', 'updateProductQuantity')->name('frontend.update_product_quantity');
+        Route::post('/remove-item-from-cart', 'removeItemFromCart')->name('frontend.remove_item_from_cart');
  });
  Route::controller(ProductController::class)->group(function(){
     // Route::get('/products', 'productList')->name('frontent.product_list');

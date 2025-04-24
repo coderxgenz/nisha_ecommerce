@@ -77,7 +77,7 @@ Route::middleware(['auth', 'web', 'verified', 'admin.check'])->group(function(){
             Route::get('/order', 'index')->name('backend.order.index');
             Route::get('/order/view-order/{id}', 'viewOrder')->name('backend.order.view_order');
             Route::get('/order/edit/{id}', 'edit')->name('backend.order.edit');
-            Route::post('/order/update', 'update')->name('backend.order.update');
+            Route::post('/order/update/{id}', 'update')->name('backend.order.update');
             Route::get('/order/delete/{id}', 'destroy')->name('backend.order.destroy');
         });
      });

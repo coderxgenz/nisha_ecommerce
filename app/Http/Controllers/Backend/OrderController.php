@@ -24,6 +24,22 @@ class OrderController extends Controller
             return "Something went wrong";
         }
     }
+    public function update(Request $request, $id){
+        $request->validate([
+            'delivery_status' => 'required',
+            'payment_status' => 'required',
+        ]);
+        try{
+            $order = Order::where('id', $id)->update([
+                "delivery_status" => $request->delivery_status,
+                "payment_status" => $request->payment_status,
+
+            ]);
+             return redirect()->back()->with('updated', "Order has been updated successfully.");
+        }catch(\Exception $e){
+            return "Something went wrong";
+        }
+    }
     public function refundAndReturn(){
         try{
              return view('backend.returns.index');

@@ -13,10 +13,17 @@ use App\Models\Cart;
       $temp_user_id = Session::get('temp_user_id');
     }
     $cart = Cart::with(['getSize'])->where('temp_id', $temp_user_id)->get();
+    
   }
+  $total_price = 0;
+
+if (!$cart->isEmpty()) {
+    $total_price = $cart->sum('total_amount');
+}
    
 @endphp
 <main>
+  <input type="hidden" value="{{ route('frontend.remove_item_from_cart') }}" id="remove_item_url">
     <div class="mb-4 pb-4"></div>
     <section class="shop-checkout container">
       <h2 class="page-title">Cart</h2>
@@ -63,7 +70,7 @@ use App\Models\Cart;
               ->where('product_variant_id', $item->product_variant_id)
               ->first();
             @endphp
-              <tr>
+              <tr class="cart_item_{{ $item->id }}">
                 <td>
                   <div class="shopping-cart__product-item">
                     <a href="product1_simple.html">
@@ -87,7 +94,7 @@ use App\Models\Cart;
                   <div class="qty-control position-relative">
                     <input type="number" name="product_quantity" 
                     id="product_quantity_{{ $item->product_id }}_{{ $item->size_id }}_{{ $item->color_id }}" value="{{$item->quantity}}"
-                    class="qty-control__number text-center product_quantity_{{ $item->product_id }}_{{ $item->size_id }}_{{ $item->color_id }}" min="1">
+                    class="product_quantity_{{ $item->product_id }}_{{ $item->size_id }}_{{ $item->color_id }} qty-control__number text-center" min="1">
                     <div class="qty-control__reduce" onclick="updateQuantity('decrease', {{ $item->product_id}}, {{ $item->size_id }}, {{ $item->color_id }})">-</div>
                 <div class="qty-control__increase" onclick="updateQuantity('increase', {{ $item->product_id}}, {{ $item->size_id }}, {{ $item->color_id }})">+</div>
                 <input type="text" id="update_qty_url" value="{{ route('frontend.update_product_quantity') }}" hidden>
@@ -96,10 +103,10 @@ use App\Models\Cart;
                   </div><!-- .qty-control -->
                 </td>
                 <td>
-                  <span class="shopping-cart__subtotal">Rs.{{$item->total_amount ?? 0.00}}</span>
+                  <span class="shopping-cart__subtotal total_price_{{ $item->product_id }}_{{ $item->size_id }}_{{ $item->color_id }}">Rs.{{$item->total_amount ?? 0.00}}</span>
                 </td>
                 <td>
-                  <a href="#" class="remove-cart">
+                  <a href="javascript:void(0)" onclick="removeItemFromCart(this, {{ $item->id }})" class="">
                     <svg width="10" height="10" viewBox="0 0 10 10" fill="#767676" xmlns="http://www.w3.org/2000/svg">
                       <path d="M0.259435 8.85506L9.11449 0L10 0.885506L1.14494 9.74056L0.259435 8.85506Z"/>
                       <path d="M0.885506 0.0889838L9.74057 8.94404L8.85506 9.82955L0 0.97449L0.885506 0.0889838Z"/>
@@ -127,7 +134,7 @@ use App\Models\Cart;
                 <tbody>
                   <tr>
                     <th>Subtotal</th>
-                    <td>Rs.{{$item->total_amount ?? 0.00}}</td>
+                    <td>Rs.<span class="cart_total">{{$total_price ?? 0.00}}</span></td>
                   </tr>
                   <tr>
                     <th>Shipping</th>
@@ -153,7 +160,7 @@ use App\Models\Cart;
                   </tr> -->
                   <tr>
                     <th>Total</th>
-                    <td>Rs.{{$item->total_amount ?? 0.00}}</td>
+                    <td>Rs.<span class="total_amount">{{$total_price ?? 0.00}}</span></td>
                   </tr>
                 </tbody>
               </table>
