@@ -3,6 +3,7 @@
 @php
 use App\Models\Cart;
 use App\Models\Backend\Product;
+
   if(Auth::check()){
     $column_name = 'user_id';
     $user_id = Auth::user()->id; 
