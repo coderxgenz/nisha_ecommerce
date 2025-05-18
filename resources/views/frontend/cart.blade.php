@@ -25,6 +25,7 @@ use App\Models\Backend\Product;
   }
   }
    
+   
 @endphp
 <main>
   <input type="hidden" value="{{ route('frontend.remove_item_from_cart') }}" id="remove_item_url">
