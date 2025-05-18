@@ -20,7 +20,7 @@
       <div class="swiper-slide">
         <div class="overflow-hidden position-relative h-100">
           <div class="slideshow-bg">
-            <img loading="lazy" src="{{url('assets/frontend/images/home/demo15/slider1_bg.jpg')}}" width="1920" height="600" alt="Pattern" class="slideshow-bg__img object-fit-cover">
+            <img loading="lazy" src="{{url('assets/frontend/images/banner.jpg')}}" width="1920" height="600" alt="Pattern" class="slideshow-bg__img object-fit-cover">
           </div>
           <div class="slideshow-text container position-absolute start-50 top-50 translate-middle">
             <h2 class="fs-70 mb-2 mb-lg-3 animate animate_fade animate_btt animate_delay-5 text-uppercase fw-normal" style="font-family: 'Average Sans';">Natural Glow</h2>
@@ -36,7 +36,7 @@
       <div class="swiper-slide">
         <div class="overflow-hidden position-relative h-100">
           <div class="slideshow-bg">
-            <img loading="lazy" src="{{url('assets/frontend/images/home/demo15/slider2_bg.jpg')}}" width="1920" height="600" alt="Pattern" class="slideshow-bg__img object-fit-cover" style="object-position: 70% center;">
+            <img loading="lazy" src="{{url('assets/frontend/images/banner2.jpg')}}" width="1920" height="600" alt="Pattern" class="slideshow-bg__img object-fit-cover" style="object-position: 70% center;">
           </div>
           <div class="slideshow-text container position-absolute start-50 top-50 translate-middle">
             <h2 class="fs-70 mb-2 mb-lg-3 animate animate_fade animate_btt animate_delay-5 text-uppercase fw-normal" style="font-family: 'Average Sans';">Natural Glow</h2>
