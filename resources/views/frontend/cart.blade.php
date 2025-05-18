@@ -1,6 +1,7 @@
 @extends('layouts/frontend/main')
 @section('main-section')
 @php
+
 use App\Models\Cart;
 use App\Models\Backend\Product;
 
