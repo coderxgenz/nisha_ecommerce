@@ -100,6 +100,18 @@
                                         </div>
  
                                         <div class="form-group mb-3">
+                                        <label>Tax Rate</label>
+                                        <select class="form-control" name="tax_rate" id="tax_rate">
+                                                <option selected disabled>Select Tax Rate</option> 
+                                                @foreach($tax_rates as $tax_rate)
+                                                <option value="{{ $tax_rate->id }}">{{ $tax_rate->name }} ({{ $tax_rate->rate }}%)</option>
+                                                @endforeach
+                                            </select>
+                                             @error('tax_rate')
+                                                <p style="color:red;"><b>{{ $message }}</b></p>
+                                            @enderror
+                                    </div>
+                                        <div class="form-group mb-3">
                                         <label>Thumbnail Image</label>
                                         <input name="thumbnail_images" class="form-control image-input" type="file" accept="image/png, image/jpeg, image/jpg, image/webp">
                                             @error('image')

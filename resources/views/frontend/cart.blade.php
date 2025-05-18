@@ -2,24 +2,26 @@
 @section('main-section')
 @php
 use App\Models\Cart;
+use App\Models\Backend\Product;
   if(Auth::check()){
+    $column_name = 'user_id';
     $user_id = Auth::user()->id; 
-    $cart = Cart::with(['getProductImages', 'getSize'])->where('user_id', $user_id)->get();
   }else{
-    if(!Session::has('temp_user_id')) {
-      $temp_user_id = bin2hex(random_bytes(10)); 
-      Session::put('temp_user_id', $temp_user_id);
-    }else{
-      $temp_user_id = Session::get('temp_user_id');
+      $column_name = 'user_id';
+      $user_id = Session::get('temp_user_id'); 
     }
-    $cart = Cart::with(['getSize'])->where('temp_id', $temp_user_id)->get();
+    $cart = Cart::with(['getProductImages', 'getSize'])->where($column_name, $user_id)->get();
     
-  }
   $total_price = 0;
+  if (!$cart->isEmpty()) {
+      $total_price = $cart->sum('total_amount');
+    $tax_name_list = [];
+    
+  foreach($cart as $item){
+   $produt = Product::where('product_id', $item->product_id)->first();
 
-if (!$cart->isEmpty()) {
-    $total_price = $cart->sum('total_amount');
-}
+  }
+  }
    
 @endphp
 <main>
