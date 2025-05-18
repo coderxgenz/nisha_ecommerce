@@ -33,12 +33,10 @@
             <div class="row">
                 <div class="col-lg-12">
                     <div class="card">
-
                         <div class="card-header">
                         <h5 class="mb-0 fw-bold"><i class="fas fa-box-open"></i> Products List</h5>
                             <a href="{{ route('backend.product.create') }}" class="btn btn-success waves-effect waves-light">Add New Product</a>
                         </div>
-
                         <div class="card-body">
                         <div class="table-responsive">
                             @if(count($products) > 0)
@@ -109,7 +107,6 @@
         </div>
     </footer>
 </div>
-
 
 @section('javascript-section')
 @if(Session::has('created'))
