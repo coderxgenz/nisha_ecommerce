@@ -43,35 +43,25 @@
                                         <tr>
                                             <th>#</th>
                                             <th>Tax Name</th>
-                                            <th>Rate (%)</th>
-                                            <th>Applicable On</th>
-                                            <th>Status</th>
+                                            <th>Rate (%)</th> 
                                             <th>Actions</th>
                                         </tr>
                                     </thead>
+                                    @php
+                                    $sn = 1;
+                                    @endphp
                                     <tbody>
+                                        @foreach($taxes as $tax)
                                         <tr>
-                                            <td>1</td>
-                                            <td>GST</td>
-                                            <td>18%</td>
-                                            <td>All Products</td>
-                                            <td><span class="badge bg-success">Active</span></td>
+                                            <td>{{ $sn++ }}</td>
+                                            <td>{{ $tax->name }}</td>
+                                            <td>{{ $tax->rate }}%</td> 
                                             <td>
                                                 <button class="btn btn-success btn-sm"><i class="fas fa-edit"></i></button>
-                                                <button class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></button>
                                             </td>
                                         </tr>
-                                        <tr>
-                                            <td>2</td>
-                                            <td>Luxury Tax</td>
-                                            <td>28%</td>
-                                            <td>Premium Dresses</td>
-                                            <td><span class="badge bg-danger">Inactive</span></td>
-                                            <td>
-                                                <button class="btn btn-success btn-sm"><i class="fas fa-edit"></i></button>
-                                                <button class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></button>
-                                            </td>
-                                        </tr>
+                                        @endforeach
+                                         
                                     </tbody>
                                 </table>
                             </div>

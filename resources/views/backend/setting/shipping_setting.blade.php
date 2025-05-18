@@ -42,55 +42,32 @@
                                     <thead class="table-dark">
                                         <tr>
                                             <th>#</th>
-                                            <th>Shipping Zone</th>
-                                            <th>Delivery Time</th>
+                                            <th>Name</th> 
                                             <th>Charge</th>
                                             <th>Free Shipping</th>
-                                            <th>Status</th>
                                             <th>Actions</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr>
-                                            <td>1</td>
-                                            <td>Delhi / NCR</td>
-                                            <td>2-3 Days</td>
-                                            <td>₹49</td>
+                                        @php
+                                        $sn = 1;
+                                        @endphp
+                                        @foreach($shipping_methods as $s_m)
+                                    <tr>
+                                            <td>{{ $sn++ }}</td>
+                                            <td>{{ $s_m->name }}</td>
+                                            <td>₹{{ $s_m->rate }}</td>
                                             <td>
                                                 <input type="checkbox" class="toggle-switch" id="switch_1" switch="bool" 
-                                                    data-id="1" checked />
-                                                <label for="switch_1" data-on-label="Free" data-off-label="Paid"></label>
+                                                    data-id="1" {{ $s_m->status == 1 ? 'checked':'' }} />
+                                                <label for="switch_1" data-on-label="Active" data-off-label="Inactive"></label>
                                             </td>
-                                            <td><span class="badge bg-success">Active</span></td>
                                             <td>
                                                 <button class="btn btn-success btn-sm"><i class="fas fa-edit"></i></button>
-                                                <button class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></button>
-                                            </td>
+                                             </td>
                                         </tr>
-                                        <tr>
-                                            <td>2</td>
-                                            <td>Rest of India</td>
-                                            <td>4-7 Days</td>
-                                            <td>₹99</td>
-                                            <td><input type="checkbox" class="toggle-switch"></td>
-                                            <td><span class="badge bg-warning text-dark">Pending</span></td>
-                                            <td>
-                                                <button class="btn btn-success btn-sm"><i class="fas fa-edit"></i></button>
-                                                <button class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></button>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>3</td>
-                                            <td>International</td>
-                                            <td>10-15 Days</td>
-                                            <td>₹599</td>
-                                            <td><input type="checkbox" class="toggle-switch"></td>
-                                            <td><span class="badge bg-danger">Inactive</span></td>
-                                            <td>
-                                                <button class="btn btn-success btn-sm"><i class="fas fa-edit"></i></button>
-                                                <button class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></button>
-                                            </td>
-                                        </tr>
+                                        @endforeach
+                                         
                                     </tbody>
                                 </table>
                             </div>

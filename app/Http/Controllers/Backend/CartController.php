@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Backend;
 
 use App\Http\Controllers\Controller;
+use App\Models\Backend\Product;
 use App\Models\Backend\ProductVariants;
 use App\Models\Cart;
 use Auth;
@@ -48,7 +49,7 @@ class CartController extends Controller
             $product_sale_price = $request->product_sale_price; 
             $product_variant_id = $request->product_variant_id;
             $product_image_id = $request->product_image_id;
-
+            $product_detail = Product::where('id', $product_id)->first();
          $new_added_item = Cart::create([ 
                 "user_id" => $user_id,
                 "temp_id" => $temp_user_id,

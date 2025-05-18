@@ -10,6 +10,7 @@ use App\Models\Backend\ProductImage;
 use App\Models\Backend\ProductVariants;
 use App\Models\Backend\Size;
 use App\Models\Backend\SubCategory;
+use App\Models\Backend\Tax;
 use Auth;
 use Illuminate\Http\Request;
 use Str;
@@ -32,7 +33,8 @@ class ProductController extends Controller
             $colors = Color::where('is_active', '1')->get();
             $main_categories = MainCategory::where('is_active', '1')->get();
             $sub_categories = SubCategory::where('is_active', '1')->get();
-            return view('backend.product.create', compact('main_categories', 'sub_categories', 'sizes', 'colors'));
+            $tax_rates = Tax::where('status', 1)->get();
+            return view('backend.product.create', compact('main_categories', 'sub_categories', 'sizes', 'colors', 'tax_rates'));
         }catch(\Exception $e){
             return "Something went wrong";
         }
@@ -48,13 +50,14 @@ class ProductController extends Controller
                 'getProductSizeVariants'
             ])->where('id', $id)->first(); 
             // return $product; 
+            $tax_rates = Tax::where('status', 1)->get();
               
             $selected_size_variants = $product->getProductSizeVariants->unique('variant_id')->pluck('variant_id')->toArray();
             // $selected_color_variants = $product->getProductSizeVariants->unique('color_id')->pluck('color_id')->toArray();
             $already_selected_size_variants = Size::whereIn('id', $selected_size_variants)->pluck('name')->toArray();
             $selected_sub_cat_list = SubCategory::where('main_category_id', $product->main_category_id)->get(); 
             return view('backend.product.edit', compact('main_categories', 'sub_categories', 
-            'sizes', 'colors', 'product', 'selected_sub_cat_list', 'selected_size_variants', 'already_selected_size_variants'));
+            'sizes', 'colors', 'product', 'selected_sub_cat_list', 'selected_size_variants', 'already_selected_size_variants', 'tax_rates'));
         // }catch(\Exception $e){
         //     return "Something went wrong";
         // }
@@ -140,6 +143,7 @@ class ProductController extends Controller
     public function store(Request $request){ 
         try{ 
             $slug = empty($request->slug) ? Str::slug($request->name) : Str::slug($request->slug); 
+            $tax = Tax::where('id', $request->tax_rate)->first();
             $product = Product::create([
                 'name' => $request->name,
                 'sku' => $request->sku ?? $request->name,
@@ -158,6 +162,9 @@ class ProductController extends Controller
                 'is_todays_deal' => $request->is_todays_deal ?? '0',
                 'new_arrival' => $request->new_arrival ?? '0',
                 'active' => $request->status ?? '1',   
+                'tax_rate' => $tax->rate,
+                'tax_name' => $tax->name,
+                'tax_id' => $tax->id,
             ]); 
             if($request->has('thumbnail_images')){
                 $image = $request->file('thumbnail_images'); 

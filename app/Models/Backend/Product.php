@@ -28,6 +28,9 @@ class Product extends Model
         'is_todays_deal',
         'new_arrival',
         'status',
+        'tax_rate',
+        'tax_name',
+        'tax_id',
     ];
 
     public function getMainCategory(){
