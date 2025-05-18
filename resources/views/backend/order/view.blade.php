@@ -167,7 +167,6 @@
                             <button class="btn btn-secondary" id="downloadInvoice"><i class="fas fa-download"></i> Download</button>
                         </div>
 
-
                     </div>
                 </div>
             </div>

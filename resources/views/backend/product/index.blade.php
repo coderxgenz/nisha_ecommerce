@@ -108,6 +108,7 @@
     </footer>
 </div>
 
+
 @section('javascript-section')
 @if(Session::has('created'))
 <script>
